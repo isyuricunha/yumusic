@@ -37,13 +37,13 @@ jobs:
 
       - name: Build APK
         id: build
-        run: bash ./gradlew assembleTempoRelease
+        run: bash ./gradlew assembleYumusicRelease
 
       - name: Sign APK
         id: sign_apk
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/apk/tempo/release
+          releaseDirectory: app/build/outputs/apk/yumusic/release
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEY_ALIAS_GITHUB }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
