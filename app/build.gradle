@@ -1,0 +1,115 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
+
+android {
+    compileSdk 35
+    buildToolsVersion = '35.0.0'
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdk 35
+
+        versionCode 31
+        versionName '3.14.8'
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation": "$projectDir/schemas".toString(),
+                        "room.incremental"   : "true"
+                ]
+            }
+        }
+    }
+
+    flavorDimensions += "default"
+
+    productFlavors {
+        tempo {
+            dimension = "default"
+            applicationId 'com.cappielloantonio.tempo'
+        }
+
+        notquitemy {
+            dimension = "default"
+            applicationId "com.cappielloantonio.notquitemy.tempo"
+        }
+
+        play {
+            dimension = "default"
+            applicationId "com.cappielloantonio.play.tempo"
+        }
+    }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+
+    namespace 'com.cappielloantonio.tempo'
+}
+
+dependencies {
+    implementation files('../libs/lib-decoder-ffmpeg-release.aar')
+
+    // AndroidX
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.8.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.8.6'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    // Android Material
+    implementation 'com.google.android.material:material:1.10.0'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'com.github.bumptech.glide:annotations:4.16.0'
+
+    // Media3
+    implementation 'androidx.media3:media3-session:1.5.1'
+    implementation 'androidx.media3:media3-common:1.5.1'
+    implementation 'androidx.media3:media3-exoplayer:1.5.1'
+    implementation 'androidx.media3:media3-ui:1.5.1'
+    implementation 'androidx.media3:media3-exoplayer-hls:1.5.1'
+    tempoImplementation 'androidx.media3:media3-cast:1.5.1'
+    playImplementation 'androidx.media3:media3-cast:1.5.1'
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
