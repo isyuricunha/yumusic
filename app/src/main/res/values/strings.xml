@@ -28,7 +28,7 @@
     <string name="album_page_release_dates_label">Released on %1$s, originally %2$s</string>
     <string name="album_page_shuffle_button">Shuffle</string>
     <string name="album_page_tracks_count_and_duration">%1$d songs  •  %2$d minutes</string>
-    <string name="app_name">Tempo</string>
+    <string name="app_name">YuMusic</string>
     <string name="artist_adapter_radio_station_starting">Searching…</string>
     <string name="artist_bottom_sheet_instant_mix">Instant mix</string>
     <string name="artist_bottom_sheet_shuffle">Shuffle</string>

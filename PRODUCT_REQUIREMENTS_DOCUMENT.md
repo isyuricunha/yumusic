@@ -1,8 +1,8 @@
-# Tempo - Product Requirements Document (PRD)
+# YuMusic - Product Requirements Document (PRD)
 
 ## Executive Summary
 
-This PRD outlines the roadmap for improving Tempo, a Subsonic music client for Android. The focus is on modernizing the user interface, enhancing the user experience, and updating the visual identity to create a more polished and contemporary music streaming application.
+This PRD outlines the roadmap for improving YuMusic, an independent Subsonic music client for Android inspired by the Tempo project. The focus is on modernizing the user interface, enhancing the user experience, and updating the visual identity to create a more polished and contemporary music streaming application.
 
 ## Current State Analysis
 
@@ -22,7 +22,7 @@ This PRD outlines the roadmap for improving Tempo, a Subsonic music client for A
 
 ## Product Vision
 
-**"Create the most beautiful and intuitive Subsonic client that makes music discovery and playback a delightful experience."**
+**"Create the most beautiful and intuitive Subsonic client that makes music discovery and playback a delightful experience with YuMusic."**
 
 ## Priority 1: Visual Identity & Branding
 
@@ -42,7 +42,7 @@ This PRD outlines the roadmap for improving Tempo, a Subsonic music client for A
 
 ### 1.2 Logo Modernization
 **Problem**: Current horizontal logo feels dated
-**Solution**: Refresh the Tempo wordmark:
+**Solution**: Create the YuMusic wordmark:
 - Cleaner typography
 - Better color harmony
 - Scalable vector format
@@ -230,6 +230,16 @@ This PRD outlines the roadmap for improving Tempo, a Subsonic music client for A
 
 ## Conclusion
 
-This PRD outlines a comprehensive approach to modernizing Tempo while maintaining its core functionality and user base. The phased approach allows for iterative improvements and user feedback incorporation. The focus on visual identity, user interface modernization, and performance optimization will position Tempo as a leading Subsonic client in the Android ecosystem.
+This PRD outlines a comprehensive approach to modernizing Tempo while maintaining its core functionality and user base. The phased approach allows for iterative improvements and user feedback incorporation. The focus on visual identity, user interface modernization, and performance optimization will position YuMusic as a leading Subsonic client in the Android ecosystem.
 
 The success of this initiative will be measured through improved user engagement, better app store ratings, and positive community feedback. Regular user testing and feedback collection will ensure that improvements align with user needs and expectations.
+
+## Brand Identity
+
+**YuMusic** represents an independent evolution of Subsonic client technology, inspired by the excellent Tempo project foundation. This is a separate and unaffiliated project that builds upon the concepts established by the original Tempo creators while pursuing its own vision for modern music streaming.
+
+### Project Independence
+- YuMusic is completely independent from the original Tempo project and its forks
+- While inspired by Tempo's foundation, YuMusic follows its own development path
+- Full credit and respect is maintained for the original Tempo creators and contributors
+- Released under GPL v3.0 license in respect to the original work and community
