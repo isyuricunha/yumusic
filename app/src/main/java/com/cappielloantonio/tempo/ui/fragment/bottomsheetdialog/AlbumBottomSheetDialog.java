@@ -27,7 +27,7 @@ import com.cappielloantonio.tempo.interfaces.MediaCallback;
 import com.cappielloantonio.tempo.model.Download;
 import com.cappielloantonio.tempo.repository.AlbumRepository;
 import com.cappielloantonio.tempo.service.MediaManager;
-import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.subsonic.models.AlbumID3;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;

@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cappielloantonio.tempo.databinding.InnerFragmentPlayerQueueBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.service.MediaManager;
-import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.subsonic.models.Child;
 import com.cappielloantonio.tempo.ui.adapter.PlayerSongQueueAdapter;
 import com.cappielloantonio.tempo.util.Constants;

@@ -18,7 +18,7 @@ import androidx.media3.session.MediaBrowser;
 import androidx.media3.session.SessionToken;
 
 import com.cappielloantonio.tempo.service.DownloaderService;
-import com.cappielloantonio.tempo.service.MediaService;
+import com.cappielloantonio.tempo.service.MediaManager;
 import com.cappielloantonio.tempo.ui.dialog.BatteryOptimizationDialog;
 import com.cappielloantonio.tempo.util.Flavors;
 import com.cappielloantonio.tempo.util.Preferences;
