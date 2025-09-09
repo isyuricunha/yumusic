@@ -20,7 +20,7 @@ import com.cappielloantonio.tempo.databinding.FragmentHomeTabRadioBinding;
 import com.cappielloantonio.tempo.interfaces.ClickCallback;
 import com.cappielloantonio.tempo.interfaces.RadioCallback;
 import com.cappielloantonio.tempo.service.MediaManager;
-import com.cappielloantonio.tempo.service.MediaManager;
+import com.cappielloantonio.tempo.service.MediaService;
 import com.cappielloantonio.tempo.ui.activity.MainActivity;
 import com.cappielloantonio.tempo.ui.adapter.InternetRadioStationAdapter;
 import com.cappielloantonio.tempo.ui.dialog.RadioEditorDialog;
