@@ -22,13 +22,18 @@ Tempo does not rely on magic algorithms to decide what you should listen to. Ins
 
 **Use the Github version of the app for full Android Auto and Chromecast support.**
 
-## Fork  
+## Credits & Maintainership
 
-This fork is my attempt to keep development moving forward and merge in PR's that have been sitting for a while in the main repo. Thankful to @CappielloAntonio for the amazing app and hopefully we can continue to build on top of it. I will only be releasing on github and if I am not able to merge back to the main repo, I plan to rename the app to be able to publish it to fdroid and possibly google play? We will see.
+**Tempo** was originally created by [CappielloAntonio](https://github.com/CappielloAntonio/tempo) who built this amazing Subsonic client from the ground up. When the original repository became inactive, [eddyizm](https://github.com/eddyizm/tempo) created and maintained an active fork, keeping development moving forward and merging many important pull requests that enhanced the app's functionality.
 
-Moved details to [CHANGELOG.md](https://github.com/eddyizm/tempo/blob/main/CHANGELOG.md)
+This repository is now maintained by **Yuri** ([isyuricunha](https://github.com/isyuricunha)), continuing the legacy of this excellent music streaming application. The goal is to keep improving Tempo with modern UI enhancements, better user experience, and continued feature development.
 
-Fork [**sponsorship here**](https://ko-fi.com/eddyizm). 
+**Special thanks to:**
+- **[CappielloAntonio](https://github.com/CappielloAntonio/tempo)** - Original creator and developer
+- **[eddyizm](https://github.com/eddyizm/tempo)** - Fork maintainer who kept the project alive and thriving
+- All the contributors who have helped improve Tempo over time
+
+For detailed changes and updates, see [CHANGELOG.md](CHANGELOG.md). 
 
 ## Usage
 
