@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/spotify_black"
     android:paddingHorizontal="24dp">
 
     <ImageView
@@ -46,6 +47,7 @@
             style="@style/BodyLarge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +55,7 @@
 
     <Button
         android:id="@+id/sync_lyrics_tap_button"
-        style="@style/Widget.Material3.Button.TonalButton.Icon"
+        style="@style/SpotifyButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
@@ -61,10 +63,11 @@
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
-        app:cornerRadius="64dp"
-        android:alpha="0.7"
+        app:cornerRadius="24dp"
+        android:alpha="0.9"
         android:visibility="visible"
         app:icon="@drawable/ic_lyrics_sync_lock"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/now_playing_song_lyrics_sroll_view"
         app:layout_constraintBottom_toBottomOf="@+id/now_playing_song_lyrics_sroll_view" />
 

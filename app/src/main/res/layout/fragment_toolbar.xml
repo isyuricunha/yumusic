@@ -3,13 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/spotify_black">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
+        android:background="@color/spotify_black"
         app:layout_scrollFlags="scroll|enterAlways|snap">
 
         <LinearLayout
@@ -30,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:textColor="@color/white"
                 android:text="@string/app_name" />
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
