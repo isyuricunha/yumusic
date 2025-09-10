@@ -115,10 +115,10 @@
         android:layout_width="42dp"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card">
 
         <ImageView
             android:id="@+id/preferred_icon"
@@ -180,10 +180,10 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
         app:layout_constraintStart_toEndOf="@+id/rating_indicator_image_view"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card"
         tools:visibility="visible">
 
         <ImageView
@@ -198,10 +198,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_result_download_indicator_image_view"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view">
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card">
 
         <ImageView
             android:layout_width="18dp"
