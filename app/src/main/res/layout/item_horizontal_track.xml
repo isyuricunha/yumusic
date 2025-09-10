@@ -6,8 +6,10 @@
     android:background="?attr/selectableItemBackground"
     android:clipChildren="false"
     android:orientation="horizontal"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/different_disk_divider_sector"
@@ -45,64 +47,67 @@
             app:layout_constraintTop_toTopOf="@+id/disc_title_text_view"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/song_cover_image_view"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="16dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/song_cover_card"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector" />
+        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector">
+
+        <ImageView
+            android:id="@+id/song_cover_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/track_number_text_view"
-        style="@style/LabelLarge"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
+        style="@style/SpotifyTextBody"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:gravity="center"
         android:text="@string/label_placeholder"
+        android:textColor="@color/spotify_light_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector" />
 
-    <View
-        android:id="@+id/cover_image_separator"
-        android:layout_width="12dp"
-        android:layout_height="52dp"
-        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
-        app:layout_constraintEnd_toStartOf="@+id/search_result_song_title_text_view"
-        app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view" />
-
     <TextView
         android:id="@+id/search_result_song_title_text_view"
-        style="@style/LabelMedium"
+        style="@style/SpotifyTextTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:ellipsize="marquee"
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/search_result_song_subtitle_text_view"
         app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
-        app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
-        app:layout_constraintTop_toTopOf="@+id/song_cover_image_view"
+        app:layout_constraintStart_toEndOf="@+id/song_cover_card"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/search_result_song_subtitle_text_view"
-        style="@style/LabelSmall"
+        style="@style/SpotifyTextSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:ellipsize="marquee"
         android:paddingEnd="12dp"
         android:singleLine="true"
         android:text="@string/label_placeholder"
-        app:layout_constraintBottom_toBottomOf="@+id/song_cover_image_view"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
-        app:layout_constraintStart_toEndOf="@+id/cover_image_separator"
+        app:layout_constraintStart_toEndOf="@+id/song_cover_card"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
