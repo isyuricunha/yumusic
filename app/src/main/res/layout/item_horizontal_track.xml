@@ -47,40 +47,35 @@
             app:layout_constraintTop_toTopOf="@+id/disc_title_text_view"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/cover_container"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/song_cover_card"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/song_cover_card"
+        <ImageView
+            android:id="@+id/song_cover_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
+            android:scaleType="centerCrop" />
 
-            <ImageView
-                android:id="@+id/song_cover_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+    </com.google.android.material.card.MaterialCardView>
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/track_number_text_view"
-            style="@style/SpotifyTextBody"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/label_placeholder"
-            android:textColor="@color/spotify_light_gray"
-            android:visibility="gone" />
-
-    </FrameLayout>
+    <TextView
+        android:id="@+id/track_number_text_view"
+        style="@style/SpotifyTextBody"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:text="@string/label_placeholder"
+        android:textColor="@color/spotify_light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/different_disk_divider_sector" />
 
     <TextView
         android:id="@+id/search_result_song_title_text_view"
@@ -95,8 +90,8 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/search_result_song_subtitle_text_view"
         app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
-        app:layout_constraintStart_toEndOf="@+id/cover_container"
-        app:layout_constraintTop_toTopOf="@+id/cover_container"
+        app:layout_constraintStart_toEndOf="@+id/song_cover_card"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
@@ -110,9 +105,9 @@
         android:singleLine="true"
         android:text="@string/label_placeholder"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cover_container"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
-        app:layout_constraintStart_toEndOf="@+id/cover_container"
+        app:layout_constraintStart_toEndOf="@+id/song_cover_card"
         app:layout_constraintTop_toBottomOf="@+id/search_result_song_title_text_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -120,10 +115,10 @@
         android:layout_width="42dp"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cover_container"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/search_result_download_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/search_result_song_title_text_view"
-        app:layout_constraintTop_toTopOf="@+id/cover_container">
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card">
 
         <ImageView
             android:id="@+id/preferred_icon"
@@ -185,10 +180,10 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/cover_container"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toStartOf="@+id/search_result_song_more_button"
         app:layout_constraintStart_toEndOf="@+id/rating_indicator_image_view"
-        app:layout_constraintTop_toTopOf="@+id/cover_container"
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card"
         tools:visibility="visible">
 
         <ImageView
@@ -203,10 +198,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cover_container"
+        app:layout_constraintBottom_toBottomOf="@+id/song_cover_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_result_download_indicator_image_view"
-        app:layout_constraintTop_toTopOf="@+id/cover_container">
+        app:layout_constraintTop_toTopOf="@+id/song_cover_card">
 
         <ImageView
             android:layout_width="18dp"

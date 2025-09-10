@@ -2,17 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="@color/spotify_orange" />
-        </shape>
-    </item>
-    <item android:state_checked="true">
-        <shape android:shape="oval">
-            <solid android:color="@color/spotify_white" />
+            <solid android:color="@color/spotify_medium_gray" />
         </shape>
     </item>
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/spotify_white" />
+            <solid android:color="@color/spotify_dark_gray" />
         </shape>
     </item>
 </selector>
