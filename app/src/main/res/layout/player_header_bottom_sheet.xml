@@ -3,60 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
-    android:background="@drawable/spotify_card_elevated_background"
-    android:clipChildren="false"
-    android:layout_margin="8dp"
-    android:elevation="8dp">
+    android:background="?attr/colorSurface"
+    android:clipChildren="false">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/player_header_cover_card"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
+    <ImageView
+        android:id="@+id/player_header_media_cover_image"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="12dp"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/player_header_media_cover_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player_header_media_title_label"
-        style="@style/SpotifyTextTitle"
+        style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingStart="12dp"
+        android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:textSize="16sp"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
-        app:layout_constraintStart_toEndOf="@+id/player_header_cover_card"
-        app:layout_constraintTop_toTopOf="@+id/player_header_cover_card"
+        app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
+        app:layout_constraintTop_toTopOf="@+id/player_header_media_cover_image"
         app:layout_constraintBottom_toTopOf="@+id/player_header_media_artist_label"/>
 
     <TextView
         android:id="@+id/player_header_media_artist_label"
-        style="@style/SpotifyTextSubtitle"
+        style="@style/LabelSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:paddingStart="12dp"
+        android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/placeholder_left_view"
-        app:layout_constraintStart_toEndOf="@+id/player_header_cover_card"
+        app:layout_constraintStart_toEndOf="@+id/player_header_media_cover_image"
         app:layout_constraintTop_toBottomOf="@+id/player_header_media_title_label"
-        app:layout_constraintBottom_toBottomOf="@+id/player_header_cover_card"/>
+        app:layout_constraintBottom_toBottomOf="@+id/player_header_media_cover_image"/>
 
     <View
         android:id="@+id/placeholder_left_view"
@@ -106,12 +93,11 @@
 
     <ToggleButton
         android:id="@+id/player_header_button"
-        style="@style/SpotifyPlayerButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:background="@drawable/spotify_player_button_background"
+        android:background="@drawable/button_play_pause_selector"
         android:checked="false"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:text=""
@@ -123,15 +109,12 @@
 
     <ImageButton
         android:id="@+id/player_header_next_media_button"
-        style="@style/SpotifyPlayerButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/spotify_player_button_background"
-        android:src="@drawable/ic_skip_next"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ic_skip_next"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        app:tint="@color/spotify_white"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -152,11 +135,8 @@
     <SeekBar
         android:id="@+id/player_header_seek_bar"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/spotify_dark_gray"
-        android:progressTint="@color/spotify_orange"
-        android:progressBackgroundTint="@color/spotify_dark_gray"
-        android:thumbTint="@color/spotify_orange"
+        android:layout_height="2dp"
+        android:background="?attr/colorSurface"
         android:clickable="false"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"

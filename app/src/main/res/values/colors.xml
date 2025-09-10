@@ -1,90 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Spotify-inspired Pure Black Theme with Dark Orange Accents -->
-    
-    <!-- Light Theme (will be overridden by dark theme) -->
-    <color name="md_theme_light_primary">#CC5500</color>
+    <color name="md_theme_light_primary">#6750A4</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#1A1A1A</color>
-    <color name="md_theme_light_onPrimaryContainer">#FFFFFF</color>
-    <color name="md_theme_light_secondary">#B3B3B3</color>
-    <color name="md_theme_light_onSecondary">#000000</color>
-    <color name="md_theme_light_secondaryContainer">#2A2A2A</color>
-    <color name="md_theme_light_onSecondaryContainer">#FFFFFF</color>
-    <color name="md_theme_light_tertiary">#CC5500</color>
+    <color name="md_theme_light_primaryContainer">#EADDFF</color>
+    <color name="md_theme_light_onPrimaryContainer">#21005D</color>
+    <color name="md_theme_light_secondary">#625B71</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#E8DEF8</color>
+    <color name="md_theme_light_onSecondaryContainer">#1D192B</color>
+    <color name="md_theme_light_tertiary">#7D5260</color>
     <color name="md_theme_light_onTertiary">#FFFFFF</color>
-    <color name="md_theme_light_tertiaryContainer">#1A1A1A</color>
-    <color name="md_theme_light_onTertiaryContainer">#FFFFFF</color>
-    <color name="md_theme_light_error">#FF4444</color>
-    <color name="md_theme_light_errorContainer">#2A1A1A</color>
+    <color name="md_theme_light_tertiaryContainer">#FFD8E4</color>
+    <color name="md_theme_light_onTertiaryContainer">#31111D</color>
+    <color name="md_theme_light_error">#B3261E</color>
+    <color name="md_theme_light_errorContainer">#F9DEDC</color>
     <color name="md_theme_light_onError">#FFFFFF</color>
-    <color name="md_theme_light_onErrorContainer">#FF4444</color>
-    <color name="md_theme_light_background">#000000</color>
-    <color name="md_theme_light_onBackground">#FFFFFF</color>
-    <color name="md_theme_light_surface">#000000</color>
-    <color name="md_theme_light_onSurface">#FFFFFF</color>
-    <color name="md_theme_light_surfaceVariant">#1A1A1A</color>
-    <color name="md_theme_light_onSurfaceVariant">#B3B3B3</color>
-    <color name="md_theme_light_outline">#404040</color>
-    <color name="md_theme_light_inverseOnSurface">#000000</color>
-    <color name="md_theme_light_inverseSurface">#FFFFFF</color>
-    <color name="md_theme_light_primaryInverse">#CC5500</color>
+    <color name="md_theme_light_onErrorContainer">#410E0B</color>
+    <color name="md_theme_light_background">#FFFBFE</color>
+    <color name="md_theme_light_onBackground">#1C1B1F</color>
+    <color name="md_theme_light_surface">#FFFBFE</color>
+    <color name="md_theme_light_onSurface">#1C1B1F</color>
+    <color name="md_theme_light_surfaceVariant">#E7E0EC</color>
+    <color name="md_theme_light_onSurfaceVariant">#49454F</color>
+    <color name="md_theme_light_outline">#79747E</color>
+    <color name="md_theme_light_inverseOnSurface">#F4EFF4</color>
+    <color name="md_theme_light_inverseSurface">#313033</color>
+    <color name="md_theme_light_primaryInverse">#D0BCFF</color>
 
-    <!-- Dark Theme - Pure Black Spotify Style -->
-    <color name="md_theme_dark_primary">#CC5500</color>
-    <color name="md_theme_dark_onPrimary">#FFFFFF</color>
-    <color name="md_theme_dark_primaryContainer">#1A1A1A</color>
-    <color name="md_theme_dark_onPrimaryContainer">#FFFFFF</color>
-    <color name="md_theme_dark_secondary">#B3B3B3</color>
-    <color name="md_theme_dark_onSecondary">#000000</color>
-    <color name="md_theme_dark_secondaryContainer">#2A2A2A</color>
-    <color name="md_theme_dark_onSecondaryContainer">#FFFFFF</color>
-    <color name="md_theme_dark_tertiary">#CC5500</color>
-    <color name="md_theme_dark_onTertiary">#FFFFFF</color>
-    <color name="md_theme_dark_tertiaryContainer">#1A1A1A</color>
-    <color name="md_theme_dark_onTertiaryContainer">#FFFFFF</color>
-    <color name="md_theme_dark_error">#FF4444</color>
-    <color name="md_theme_dark_errorContainer">#2A1A1A</color>
-    <color name="md_theme_dark_onError">#FFFFFF</color>
-    <color name="md_theme_dark_onErrorContainer">#FF4444</color>
-    <color name="md_theme_dark_background">#000000</color>
-    <color name="md_theme_dark_onBackground">#FFFFFF</color>
-    <color name="md_theme_dark_surface">#000000</color>
-    <color name="md_theme_dark_onSurface">#FFFFFF</color>
-    <color name="md_theme_dark_surfaceVariant">#1A1A1A</color>
-    <color name="md_theme_dark_onSurfaceVariant">#B3B3B3</color>
-    <color name="md_theme_dark_outline">#404040</color>
-    <color name="md_theme_dark_inverseOnSurface">#000000</color>
-    <color name="md_theme_dark_inverseSurface">#FFFFFF</color>
-    <color name="md_theme_dark_primaryInverse">#CC5500</color>
+    <color name="md_theme_dark_primary">#D0BCFF</color>
+    <color name="md_theme_dark_onPrimary">#381E72</color>
+    <color name="md_theme_dark_primaryContainer">#4F378B</color>
+    <color name="md_theme_dark_onPrimaryContainer">#EADDFF</color>
+    <color name="md_theme_dark_secondary">#CCC2DC</color>
+    <color name="md_theme_dark_onSecondary">#332D41</color>
+    <color name="md_theme_dark_secondaryContainer">#4A4458</color>
+    <color name="md_theme_dark_onSecondaryContainer">#E8DEF8</color>
+    <color name="md_theme_dark_tertiary">#EFB8C8</color>
+    <color name="md_theme_dark_onTertiary">#492532</color>
+    <color name="md_theme_dark_tertiaryContainer">#633B48</color>
+    <color name="md_theme_dark_onTertiaryContainer">#FFD8E4</color>
+    <color name="md_theme_dark_error">#F2B8B5</color>
+    <color name="md_theme_dark_errorContainer">#8C1D18</color>
+    <color name="md_theme_dark_onError">#601410</color>
+    <color name="md_theme_dark_onErrorContainer">#F9DEDC</color>
+    <color name="md_theme_dark_background">#1C1B1F</color>
+    <color name="md_theme_dark_onBackground">#E6E1E5</color>
+    <color name="md_theme_dark_surface">#1C1B1F</color>
+    <color name="md_theme_dark_onSurface">#E6E1E5</color>
+    <color name="md_theme_dark_surfaceVariant">#49454F</color>
+    <color name="md_theme_dark_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_dark_outline">#938F99</color>
+    <color name="md_theme_dark_inverseOnSurface">#1C1B1F</color>
+    <color name="md_theme_dark_inverseSurface">#E6E1E5</color>
+    <color name="md_theme_dark_primaryInverse">#6750A4</color>
 
-    <!-- Custom Spotify-style Colors -->
     <color name="gradientTitleColor">#FFFFFF</color>
-    <color name="gradientSubtitleColor">#B3B3B3</color>
-    <color name="titleTextColor">#FFFFFF</color>
-    <color name="subtitleTextColor">#B3B3B3</color>
-    <color name="dividerColor">#404040</color>
+    <color name="gradientSubtitleColor">#BFBFBF</color>
+    <color name="titleTextColor">#252525</color>
+    <color name="subtitleTextColor">#646464</color>
+    <color name="dividerColor">#e0e0e0</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="lyricsTextColor">#FFFFFF</color>
-    <color name="shadowsLyricsTextColor">#B3B3B3</color>
+    <color name="lyricsTextColor">#252525</color>
+    <color name="shadowsLyricsTextColor">#B4B4B4</color>
 
-    <color name="searchPlaceholderColor">#B3B3B3</color>
-    <color name="searchColor">#FFFFFF</color>
-
-    <!-- Additional Spotify-style Colors -->
-    <color name="spotify_black">#000000</color>
-    <color name="spotify_dark_gray">#1A1A1A</color>
-    <color name="spotify_medium_gray">#2A2A2A</color>
-    <color name="spotify_light_gray">#B3B3B3</color>
-    <color name="spotify_orange">#CC5500</color>
-    <color name="spotify_orange_dark">#B34700</color>
-    <color name="spotify_white">#FFFFFF</color>
-    
-    <!-- Card and Surface Colors -->
-    <color name="card_background">#1A1A1A</color>
-    <color name="card_background_elevated">#2A2A2A</color>
-    <color name="surface_overlay">#404040</color>
+    <color name="searchPlaceholderColor">#303030</color>
+    <color name="searchColor">#252525</color>
 
     <!-- <color name="iconLauncher">https://icon.kitchen/i/H4sIAAAAAAAAAzWQu27DMAxF%2F4VdPbhBsmTt0LVAuxVFIUuUIoAWDT36gJF%2Fz5WCcJCow8uXdvox0rjQeScfXiRuJtf%2BKIyLHHvTpNJE0WoCEE7le5GW6TrREj7%2BNwYN2bjIqevA%2BK%2B2DLxTfbi0ajHR3pNeH2oorIrmZwiejmaevUeFgQ4dzcOATAqCKscT8jFlF%2FS4H4a4D2%2FGuZjCaKobnQ%2BniXIMFzTp7qK16nr3hf2gY5b3ixkb2JgtWoCt6pr0D%2FlEW5c1ur69Fpy%2FvNDX9QZCITMSMwEAAA%3D%3D</color> -->
 </resources>
