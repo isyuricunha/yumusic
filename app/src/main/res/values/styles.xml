@@ -47,7 +47,6 @@
         <item name="materialCardViewStyle">@style/SpotifyCard</item>
         <item name="materialButtonStyle">@style/SpotifyButton</item>
         <item name="floatingActionButtonStyle">@style/SpotifyFAB</item>
-        <item name="bottomNavigationStyle">@style/ModernBottomNavigation</item>
         
         <!-- Spotify-inspired rounded corners -->
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Spotify.SmallComponent</item>
@@ -112,20 +111,5 @@
         <item name="backgroundTint">@color/spotify_orange</item>
         <item name="tint">@color/white</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Spotify.LargeComponent</item>
-    </style>
-
-    <!-- Modern Bottom Navigation Style -->
-    <style name="ModernBottomNavigation" parent="Widget.Material3.BottomNavigationView">
-        <item name="android:background">@drawable/modern_bottom_nav_background</item>
-        <item name="itemIconTint">@color/bottom_nav_item_color</item>
-        <item name="itemTextColor">@color/bottom_nav_item_color</item>
-        <item name="elevation">12dp</item>
-        <item name="labelVisibilityMode">selected</item>
-    </style>
-
-    <!-- Modern Bottom Nav Indicator -->
-    <style name="ModernBottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/spotify_orange</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.Spotify.SmallComponent</item>
     </style>
 </resources>
