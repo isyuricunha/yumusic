@@ -171,14 +171,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:bar_height="2dp"
-        app:buffered_color="?attr/colorOnSecondaryContainer"
+        app:bar_height="4dp"
+        app:buffered_color="@color/spotify_medium_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
-        app:played_color="?attr/colorOnPrimaryContainer"
-        app:scrubber_color="?attr/colorOnPrimaryContainer"
-        app:unplayed_color="?attr/colorPrimaryContainer" />
+        app:played_color="@color/spotify_orange"
+        app:scrubber_color="@color/spotify_orange"
+        app:unplayed_color="@color/spotify_medium_gray" />
 
     <TextView
         android:id="@+id/exo_duration"
@@ -305,12 +305,13 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="0dp"
+        android:background="@drawable/spotify_button_background"
         app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
         app:layout_constraintVertical_bias=".45"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/white" />
 
     <ImageButton
         android:id="@+id/exo_next"

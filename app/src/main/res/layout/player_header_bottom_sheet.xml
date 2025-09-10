@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
-    android:background="?attr/colorSurface"
+    android:background="@drawable/spotify_player_background"
     android:clipChildren="false">
 
     <ImageView
@@ -12,6 +12,7 @@
         android:layout_height="42dp"
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
+        android:background="@drawable/spotify_card_background"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
