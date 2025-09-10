@@ -47,21 +47,18 @@
             android:id="@+id/now_playing_song_lyrics_text_view"
             style="@style/BodyLarge"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:lineSpacingExtra="8dp"
+            android:lineSpacingExtra="12dp"
             android:padding="24dp"
             android:background="@drawable/modern_card_background"
-            android:layout_margin="16dp"
-            android:elevation="8dp"
+            android:layout_margin="8dp"
+            android:elevation="4dp"
             android:alpha="0.95"
             android:textAlignment="center"
-            android:animateLayoutChanges="true"
-            android:transitionName="lyrics_transition"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:animateLayoutChanges="true" />
+
     </androidx.core.widget.NestedScrollView>
 
     <Button
@@ -79,8 +76,8 @@
         app:icon="@drawable/ic_lyrics_sync_lock"
         app:iconTint="@color/white"
         app:iconSize="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/now_playing_song_lyrics_sroll_view"
-        app:layout_constraintBottom_toBottomOf="@+id/now_playing_song_lyrics_sroll_view" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/temp_lyrics_line_text_view"

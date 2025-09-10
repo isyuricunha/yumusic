@@ -5,51 +5,55 @@
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:background="@drawable/modern_card_background"
-    android:layout_margin="4dp"
-    android:orientation="horizontal"
-    android:paddingHorizontal="16dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp">
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="4dp"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/queue_song_cover_image_view"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/modern_card_background"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/queue_song_title_text_view"
         style="@style/LabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:paddingStart="12dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="12dp"
-        android:singleLine="true"
+        android:paddingEnd="8dp"
         android:text="@string/label_placeholder"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
-        app:layout_constraintTop_toTopOf="@id/queue_song_cover_image_view"
-        app:layout_constraintBottom_toTopOf="@id/queue_song_subtitle_text_view"
-        app:layout_constraintVertical_chainStyle="packed"/>
+        app:layout_constraintTop_toTopOf="@+id/queue_song_cover_image_view"
+        app:layout_constraintBottom_toTopOf="@+id/queue_song_subtitle_text_view" />
 
     <TextView
         android:id="@+id/queue_song_subtitle_text_view"
         style="@style/LabelSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:paddingStart="12dp"
-        android:paddingEnd="4dp"
-        android:singleLine="true"
+        android:paddingEnd="8dp"
         android:text="@string/label_placeholder"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="@+id/queue_song_title_text_view"
+        android:textColor="@color/modern_gray_light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/rating_indicator_image_view"
         app:layout_constraintStart_toEndOf="@+id/queue_song_cover_image_view"
         app:layout_constraintTop_toBottomOf="@+id/queue_song_title_text_view"
         app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"/>
@@ -69,7 +73,7 @@
             android:id="@+id/preferred_icon"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/ic_favorite_modern"
+            android:src="@drawable/ic_favorite_modern"
             app:tint="@color/spotify_orange"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,44 +95,50 @@
                 android:id="@+id/one_star_icon"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                tools:src="@drawable/ic_star" />
+                android:src="@drawable/ic_star_modern"
+                app:tint="@color/spotify_orange" />
 
             <ImageView
                 android:id="@+id/two_star_icon"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                tools:src="@drawable/ic_star" />
+                android:src="@drawable/ic_star_modern"
+                app:tint="@color/spotify_orange" />
 
             <ImageView
                 android:id="@+id/three_star_icon"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                tools:src="@drawable/ic_star" />
+                android:src="@drawable/ic_star_modern"
+                app:tint="@color/spotify_orange" />
 
             <ImageView
                 android:id="@+id/four_star_icon"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                tools:src="@drawable/ic_star" />
+                android:src="@drawable/ic_star_modern"
+                app:tint="@color/spotify_orange" />
 
             <ImageView
                 android:id="@+id/five_star_icon"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
-                tools:src="@drawable/ic_star" />
+                android:src="@drawable/ic_star_modern"
+                app:tint="@color/spotify_orange" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/queue_song_holder_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:padding="4dp"
+        android:background="@drawable/modern_icon_background"
         android:src="@drawable/ic_more_vert_modern"
         app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/queue_song_cover_image_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rating_indicator_image_view"
         app:layout_constraintTop_toTopOf="@+id/queue_song_cover_image_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

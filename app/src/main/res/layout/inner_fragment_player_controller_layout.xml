@@ -156,35 +156,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/player_media_title_label" />
 
-    <TextView
-        android:id="@+id/exo_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="24dp"
-        android:paddingBottom="4dp"
-        android:text="@string/label_placeholder"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
-
     <androidx.media3.ui.DefaultTimeBar
         android:id="@+id/exo_progress"
         android:layout_width="0dp"
         android:layout_height="6dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
         app:bar_height="6dp"
         app:bar_gravity="center"
         app:buffered_color="@color/modern_gray_light"
         app:played_color="@color/spotify_orange"
         app:scrubber_color="@color/spotify_orange"
         app:unplayed_color="@color/modern_gray_dark"
-        app:layout_constraintBottom_toTopOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/exo_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/label_placeholder"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
     <TextView
         android:id="@+id/exo_duration"
@@ -192,7 +192,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="24dp"
-        android:paddingBottom="4dp"
+        android:layout_marginTop="12dp"
         android:text="@string/label_placeholder"
         android:textColor="@color/white"
         android:textSize="12sp"
@@ -220,14 +220,12 @@
 
     <View
         android:id="@+id/player_play_pause_placeholder_view"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".45" />
+        app:layout_constraintTop_toBottomOf="@+id/exo_position" />
 
     <View
         android:id="@+id/placeholder_view_middle_right"
