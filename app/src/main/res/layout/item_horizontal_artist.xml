@@ -2,11 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/modern_card_background"
     android:clipChildren="false"
     android:orientation="horizontal"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp">
+    android:layout_margin="8dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/artist_cover_image_view"
@@ -14,7 +15,7 @@
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:background="@drawable/spotify_card_background"
+        android:background="@drawable/modern_card_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +63,8 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:background="@drawable/ic_more_vert"
+            android:src="@drawable/ic_more_vert"
+            app:tint="@color/white"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

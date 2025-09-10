@@ -178,15 +178,16 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        app:bar_height="2dp"
-        app:buffered_color="@color/spotify_dark_gray"
+        app:bar_height="6dp"
+        app:bar_gravity="center"
+        app:buffered_color="@color/modern_gray_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
         app:layout_constraintBottom_toTopOf="@+id/player_play_pause_placeholder_view"
         app:played_color="@color/spotify_orange"
         app:scrubber_color="@color/spotify_orange"
-        app:unplayed_color="@color/spotify_dark_gray" />
+        app:unplayed_color="@color/modern_gray_dark" />
 
     <TextView
         android:id="@+id/exo_duration"
@@ -277,7 +278,7 @@
         app:layout_constraintEnd_toStartOf="@+id/placeholder_view_middle_left"
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_left"
-        app:srcCompat="@drawable/ic_shuffle"
+        app:srcCompat="@drawable/ic_shuffle_modern"
         app:tint="@color/spotify_orange" />
 
     <ImageButton
@@ -286,7 +287,7 @@
         android:layout_height="42dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_replay"
+        android:src="@drawable/ic_replay_modern"
         app:layout_constraintBottom_toBottomOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintEnd_toStartOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintStart_toEndOf="@id/placeholder_view_left"
@@ -303,7 +304,7 @@
         app:layout_constraintEnd_toStartOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintStart_toEndOf="@id/placeholder_view_left"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
-        app:srcCompat="@drawable/ic_skip_previous"
+        app:srcCompat="@drawable/ic_skip_previous_modern"
         app:tint="@color/spotify_orange" />
 
     <ImageButton
@@ -327,7 +328,7 @@
         app:layout_constraintEnd_toStartOf="@id/placeholder_view_right"
         app:layout_constraintStart_toEndOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
-        app:srcCompat="@drawable/ic_skip_next"
+        app:srcCompat="@drawable/ic_skip_next_modern"
         app:tint="@color/spotify_orange" />
 
     <ImageButton
@@ -340,7 +341,7 @@
         app:layout_constraintEnd_toStartOf="@id/placeholder_view_right"
         app:layout_constraintStart_toEndOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
-        app:srcCompat="@drawable/ic_forward"
+        app:srcCompat="@drawable/ic_forward_modern"
         app:tint="@color/spotify_orange" />
 
     <ImageButton
@@ -354,7 +355,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/placeholder_view_middle_right"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_right"
-        app:srcCompat="@drawable/ic_repeat"
+        app:srcCompat="@drawable/ic_repeat_modern"
         app:tint="@color/spotify_orange" />
 
     <ToggleButton
