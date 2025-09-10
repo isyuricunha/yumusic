@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/modern_card_background"
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,6 +53,7 @@
             android:paddingEnd="12dp"
             android:singleLine="true"
             android:text="@string/label_placeholder"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toTopOf="parent" />
@@ -63,6 +66,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:text="@string/label_placeholder"
+            android:textColor="@color/modern_gray_light"
             app:layout_constraintEnd_toStartOf="@id/button_favorite"
             app:layout_constraintStart_toEndOf="@+id/song_cover_image_view"
             app:layout_constraintTop_toBottomOf="@+id/song_title_text_view" />
@@ -88,9 +92,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_instant_mix" />
 
         <TextView
@@ -102,9 +107,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_play_next" />
 
         <TextView
@@ -116,9 +122,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_add_to_queue" />
 
         <TextView
@@ -130,9 +137,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_rate" />
 
         <TextView
@@ -144,9 +152,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_download" />
 
         <TextView
@@ -158,9 +167,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/spotify_orange"
             android:text="@string/song_bottom_sheet_remove" />
 
         <TextView
@@ -172,9 +182,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_add_to_playlist" />
 
         <TextView
@@ -186,9 +197,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_go_to_album" />
 
         <TextView
@@ -200,9 +212,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_go_to_artist" />
 
         <TextView
@@ -214,9 +227,10 @@
             android:layout_margin="4dp"
             android:clickable="true"
             android:paddingStart="20dp"
-            android:paddingTop="12dp"
+            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="12dp"
+            android:paddingBottom="16dp"
+            android:textColor="@color/white"
             android:text="@string/song_bottom_sheet_share"
             android:visibility="gone"/>
     </LinearLayout>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/spotify_black">
 
     <fragment
         android:id="@+id/toolbar_fragment"
@@ -36,7 +37,7 @@
             android:maxWidth="240dp"
             android:maxHeight="240dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ui_empty_list" />
+            android:src="@drawable/modern_empty_state" />
 
         <TextView
             android:id="@+id/title_empty_description_label"
@@ -44,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
+            android:textColor="@color/white"
             android:text="@string/download_info_empty_title" />
 
         <TextView
@@ -54,6 +56,7 @@
             android:gravity="center_horizontal"
             android:paddingStart="56dp"
             android:paddingEnd="56dp"
+            android:textColor="@color/modern_gray_light"
             android:text="@string/download_info_empty_subtitle" />
     </LinearLayout>
 
@@ -80,6 +83,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/download_title_section"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/downloaded_go_back_image_view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -90,27 +94,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/download_shuffle_all_subtitle"
+                android:textColor="@color/modern_gray_light"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/downloaded_text_view_refreshable"/>
 
             <ImageView
                 android:id="@+id/downloaded_go_back_image_view"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginHorizontal="12dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_arrow_back"
+                android:src="@drawable/ic_arrow_back_modern"
+                android:background="@drawable/modern_icon_background"
+                android:padding="6dp"
                 app:layout_constraintBottom_toBottomOf="@+id/downloaded_text_view_refreshable"
                 app:layout_constraintEnd_toStartOf="@id/downloaded_group_by_image_view"
                 app:layout_constraintTop_toTopOf="@+id/downloaded_text_view_refreshable" />
 
             <ImageView
                 android:id="@+id/downloaded_group_by_image_view"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_filter_list"
+                android:src="@drawable/ic_filter_modern"
+                android:background="@drawable/modern_icon_background"
+                android:padding="6dp"
                 app:layout_constraintBottom_toBottomOf="@+id/downloaded_text_view_refreshable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/downloaded_text_view_refreshable" />
