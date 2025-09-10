@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/appbar_header_height"
                 android:layout_gravity="top"
-                android:background="@drawable/gradient_backdrop_background_image" />
+                android:background="@drawable/modern_card_background" />
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/anim_toolbar"
@@ -84,7 +84,7 @@
                     android:text="@string/artist_page_shuffle_button"
                     android:textAllCaps="false"
                     app:cornerRadius="24dp"
-                    app:icon="@drawable/ic_shuffle"
+                    app:icon="@drawable/ic_shuffle_modern"
                     app:iconGravity="textStart"
                     app:iconPadding="18dp"
                     app:iconTint="@color/white" />
@@ -101,7 +101,7 @@
                     android:text="@string/artist_page_radio_button"
                     android:textAllCaps="false"
                     app:cornerRadius="24dp"
-                    app:icon="@drawable/ic_feed"
+                    app:icon="@drawable/ic_search_modern"
                     app:iconGravity="textStart"
                     app:iconPadding="18dp"
                     app:iconTint="@color/spotify_orange" />
@@ -154,7 +154,9 @@
                     android:paddingStart="16dp"
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
-                    android:paddingBottom="8dp" />
+                    android:paddingBottom="8dp"
+                    android:background="@drawable/modern_card_background"
+                    android:layout_margin="8dp" />
             </LinearLayout>
 
             <!--  Label and button  -->

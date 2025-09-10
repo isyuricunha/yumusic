@@ -11,7 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="@string/player_queue_clean_all_button" />
+        android:text="@string/player_queue_clean_all_button"
+        android:background="@drawable/modern_button_rounded"
+        android:textColor="@color/white"
+        android:padding="12dp"
+        android:layout_marginHorizontal="24dp" />
 
     <com.yuricunha.yumusic.helper.recyclerview.NestedScrollableHost
         android:layout_width="match_parent"
@@ -35,6 +39,8 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/content_description_shuffle_button"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        app:srcCompat="@drawable/ic_shuffle" />
+        app:srcCompat="@drawable/ic_shuffle_modern"
+        app:backgroundTint="@color/spotify_orange"
+        app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

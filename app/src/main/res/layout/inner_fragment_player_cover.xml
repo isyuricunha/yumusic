@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@drawable/gradient_player_cover_background_image"
+        android:background="@drawable/modern_card_background"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,9 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_file_download"
+            app:icon="@drawable/ic_download_modern"
+            android:backgroundTint="@color/modern_surface_variant"
+            app:iconTint="@color/spotify_orange"
             app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline"
             app:layout_constraintEnd_toStartOf="@+id/vertical_guideline" />
 
@@ -69,7 +71,9 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_playlist_add"
+            app:icon="@drawable/ic_queue_modern"
+            android:backgroundTint="@color/modern_surface_variant"
+            app:iconTint="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline"
             app:layout_constraintStart_toEndOf="@+id/vertical_guideline" />
 
@@ -98,7 +102,9 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_mix_from_here"
+            app:icon="@drawable/ic_shuffle_modern"
+            android:backgroundTint="@color/modern_surface_variant"
+            app:iconTint="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
 
@@ -113,7 +119,9 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_bookmark"
+            app:icon="@drawable/ic_favorite_modern"
+            android:backgroundTint="@color/modern_surface_variant"
+            app:iconTint="@color/spotify_orange"
             app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
 
@@ -128,7 +136,9 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="30dp"
-            app:icon="@drawable/ic_lyrics"
+            app:icon="@drawable/ic_lyrics_modern"
+            android:backgroundTint="@color/modern_surface_variant"
+            app:iconTint="@color/white"
             app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_guideline" />
 
