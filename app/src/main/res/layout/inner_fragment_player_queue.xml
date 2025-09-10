@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="@string/player_queue_clean_all_button" />
 
-    <com.cappielloantonio.tempo.helper.recyclerview.NestedScrollableHost
+    <com.yuricunha.yumusic.helper.recyclerview.NestedScrollableHost
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,7 +25,7 @@
             android:paddingTop="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </com.cappielloantonio.tempo.helper.recyclerview.NestedScrollableHost>
+    </com.yuricunha.yumusic.helper.recyclerview.NestedScrollableHost>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/player_shuffle_queue_fab"

@@ -1,4 +1,4 @@
-package com.cappielloantonio.tempo.util;
+package com.yuricunha.yumusic.util;
 
 import android.content.Context;
 

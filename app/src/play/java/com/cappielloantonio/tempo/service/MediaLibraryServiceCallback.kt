@@ -1,4 +1,4 @@
-package com.cappielloantonio.tempo.service
+package com.yuricunha.yumusic.service
 
 import android.content.Context
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionCommand
 import androidx.media3.session.SessionResult
-import com.cappielloantonio.tempo.R
-import com.cappielloantonio.tempo.repository.AutomotiveRepository
+import com.yuricunha.yumusic.R
+import com.yuricunha.yumusic.repository.AutomotiveRepository
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture

@@ -1,4 +1,4 @@
-package com.cappielloantonio.tempo.service
+package com.yuricunha.yumusic.service
 
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
@@ -17,12 +17,12 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession.ControllerInfo
-import com.cappielloantonio.tempo.repository.AutomotiveRepository
-import com.cappielloantonio.tempo.ui.activity.MainActivity
-import com.cappielloantonio.tempo.util.Constants
-import com.cappielloantonio.tempo.util.DownloadUtil
-import com.cappielloantonio.tempo.util.Preferences
-import com.cappielloantonio.tempo.util.ReplayGainUtil
+import com.yuricunha.yumusic.repository.AutomotiveRepository
+import com.yuricunha.yumusic.ui.activity.MainActivity
+import com.yuricunha.yumusic.util.Constants
+import com.yuricunha.yumusic.util.DownloadUtil
+import com.yuricunha.yumusic.util.Preferences
+import com.yuricunha.yumusic.util.ReplayGainUtil
 import com.google.android.gms.cast.framework.CastContext
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability

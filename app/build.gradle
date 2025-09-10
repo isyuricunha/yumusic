@@ -30,17 +30,17 @@ android {
     productFlavors {
         tempo {
             dimension = "default"
-            applicationId 'com.cappielloantonio.tempo'
+            applicationId 'com.yuricunha.yumusic'
         }
 
         notquitemy {
             dimension = "default"
-            applicationId "com.cappielloantonio.notquitemy.tempo"
+            applicationId "com.yuricunha.yumusic.notquitemy"
         }
 
         play {
             dimension = "default"
-            applicationId "com.cappielloantonio.play.tempo"
+            applicationId "com.yuricunha.yumusic.play"
         }
     }
 
@@ -67,7 +67,7 @@ android {
         buildConfig true
     }
 
-    namespace 'com.cappielloantonio.tempo'
+    namespace 'com.yuricunha.yumusic'
 }
 
 dependencies {

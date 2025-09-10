@@ -1,4 +1,4 @@
-package com.cappielloantonio.tempo.service
+package com.yuricunha.yumusic.service
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent.FLAG_IMMUTABLE
@@ -15,12 +15,12 @@ import androidx.media3.exoplayer.source.TrackGroupArray
 import androidx.media3.exoplayer.trackselection.TrackSelectionArray
 import androidx.media3.session.*
 import androidx.media3.session.MediaSession.ControllerInfo
-import com.cappielloantonio.tempo.R
-import com.cappielloantonio.tempo.ui.activity.MainActivity
-import com.cappielloantonio.tempo.util.Constants
-import com.cappielloantonio.tempo.util.DownloadUtil
-import com.cappielloantonio.tempo.util.Preferences
-import com.cappielloantonio.tempo.util.ReplayGainUtil
+import com.yuricunha.yumusic.R
+import com.yuricunha.yumusic.ui.activity.MainActivity
+import com.yuricunha.yumusic.util.Constants
+import com.yuricunha.yumusic.util.DownloadUtil
+import com.yuricunha.yumusic.util.Preferences
+import com.yuricunha.yumusic.util.ReplayGainUtil
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture

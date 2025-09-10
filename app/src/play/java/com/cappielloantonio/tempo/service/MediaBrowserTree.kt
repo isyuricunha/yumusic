@@ -1,4 +1,4 @@
-package com.cappielloantonio.tempo.service
+package com.yuricunha.yumusic.service
 
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
@@ -6,8 +6,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaItem.SubtitleConfiguration
 import androidx.media3.common.MediaMetadata
 import androidx.media3.session.LibraryResult
-import com.cappielloantonio.tempo.repository.AutomotiveRepository
-import com.cappielloantonio.tempo.util.Preferences.getServerId
+import com.yuricunha.yumusic.repository.AutomotiveRepository
+import com.yuricunha.yumusic.util.Preferences.getServerId
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
