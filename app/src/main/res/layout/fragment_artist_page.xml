@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/spotify_black">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -16,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:expandedTitleMarginStart="@dimen/activity_margin_content"
-            app:contentScrim="?attr/colorSurface"
+            android:background="@color/spotify_black"
+            app:contentScrim="@color/spotify_black"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <ImageView
@@ -72,31 +74,37 @@
 
                 <Button
                     android:id="@+id/artist_page_shuffle_button"
+                    style="@style/SpotifyButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:text="@string/artist_page_shuffle_button"
                     android:textAllCaps="false"
+                    app:cornerRadius="24dp"
                     app:icon="@drawable/ic_shuffle"
                     app:iconGravity="textStart"
-                    app:iconPadding="18dp" />
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/white" />
 
                 <Button
                     android:id="@+id/artist_page_radio_button"
+                    style="@style/SpotifyButtonOutlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_weight="1"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:text="@string/artist_page_radio_button"
                     android:textAllCaps="false"
+                    app:cornerRadius="24dp"
                     app:icon="@drawable/ic_feed"
                     app:iconGravity="textStart"
-                    app:iconPadding="18dp" />
+                    app:iconPadding="18dp"
+                    app:iconTint="@color/spotify_orange" />
             </LinearLayout>
 
             <View

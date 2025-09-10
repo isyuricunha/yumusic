@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/spotify_black"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/anim_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorSurface"
+        android:background="@color/spotify_black"
         app:layout_collapseMode="pin"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -201,31 +202,37 @@
 
                     <Button
                         android:id="@+id/album_page_play_button"
+                        style="@style/SpotifyButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
-                        android:padding="10dp"
+                        android:padding="12dp"
                         android:text="@string/album_page_play_button"
                         android:textAllCaps="false"
+                        app:cornerRadius="24dp"
                         app:icon="@drawable/ic_play"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp" />
+                        app:iconPadding="18dp"
+                        app:iconTint="@color/white" />
 
                     <Button
                         android:id="@+id/album_page_shuffle_button"
+                        style="@style/SpotifyButtonOutlined"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="16dp"
                         android:layout_weight="1"
-                        android:padding="10dp"
+                        android:padding="12dp"
                         android:text="@string/album_page_shuffle_button"
                         android:textAllCaps="false"
+                        app:cornerRadius="24dp"
                         app:icon="@drawable/ic_shuffle"
                         app:iconGravity="textStart"
-                        app:iconPadding="18dp" />
+                        app:iconPadding="18dp"
+                        app:iconTint="@color/spotify_orange" />
                 </LinearLayout>
 
                 <TextView

@@ -25,6 +25,8 @@
             android:checked="true"
             android:clickable="false"
             android:text="Unknown"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/spotify_dark_gray"
             app:chipStrokeWidth="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,6 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
             app:layout_constraintTop_toTopOf="@id/player_media_extension"
             app:layout_constraintBottom_toBottomOf="@id/player_media_extension"
             app:layout_constraintStart_toEndOf="@id/player_media_extension"
@@ -134,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/white"
             android:text=""/>
     </LinearLayout>
 
@@ -160,26 +164,26 @@
         android:layout_marginStart="24dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
 
-    <androidx.media3.ui.DefaultTimeBar
-        android:id="@id/exo_progress"
+    <com.google.android.exoplayer2.ui.DefaultTimeBar
+        android:id="@+id/exo_progress"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:bar_height="4dp"
-        app:buffered_color="@color/spotify_medium_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
+        android:layout_height="3dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:bar_height="3dp"
+        app:buffered_color="@color/spotify_dark_gray"
         app:played_color="@color/spotify_orange"
         app:scrubber_color="@color/spotify_orange"
-        app:unplayed_color="@color/spotify_medium_gray" />
+        app:unplayed_color="@color/spotify_dark_gray"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/exo_duration"
@@ -189,7 +193,7 @@
         android:layout_marginEnd="24dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
@@ -303,18 +307,18 @@
     <ImageButton
         android:id="@id/exo_play_pause"
         style="@style/ExoStyledControls.Button.Center.PlayPause"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/spotify_play_button_elegant"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/spotify_play_button_redesigned"
         android:scaleType="centerInside"
-        android:padding="18dp"
-        android:elevation="8dp"
+        android:padding="16dp"
+        android:elevation="4dp"
         app:layout_constraintBottom_toTopOf="@+id/player_quick_action_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress"
-        app:layout_constraintVertical_bias=".45"
+        app:layout_constraintVertical_bias=".35"
         app:tint="@color/white" />
 
     <ImageButton

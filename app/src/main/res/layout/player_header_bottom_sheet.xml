@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_sheet_peek_height"
-    android:background="@color/spotify_dark_gray"
+    android:background="@color/spotify_black"
     android:clipChildren="false">
 
     <ImageView
