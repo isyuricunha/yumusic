@@ -133,9 +133,24 @@
         <item name="itemTextColor">@drawable/bottom_nav_item_color</item>
         <item name="itemActiveIndicatorStyle">@style/SpotifyBottomNavIndicator</item>
         <item name="android:elevation">8dp</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="itemTextAppearanceActive">@style/SpotifyBottomNavTextActive</item>
+        <item name="itemTextAppearanceInactive">@style/SpotifyBottomNavTextInactive</item>
+        <item name="labelVisibilityMode">labeled</item>
     </style>
 
     <style name="SpotifyBottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">@color/spotify_orange</item>
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+
+    <style name="SpotifyBottomNavTextActive" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">@color/spotify_orange</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SpotifyBottomNavTextInactive" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">@color/spotify_light_gray</item>
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

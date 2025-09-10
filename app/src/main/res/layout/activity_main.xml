@@ -32,10 +32,12 @@
             android:id="@+id/bottom_navigation"
             style="@style/SpotifyBottomNavigation"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:visibility="gone"
             app:menu="@menu/bottom_nav_menu" />
 
