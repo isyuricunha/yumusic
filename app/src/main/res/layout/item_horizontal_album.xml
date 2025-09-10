@@ -61,8 +61,7 @@
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@drawable/ic_more_vert"
-            app:tint="@color/white"
+            android:src="@drawable/ic_more_vert_modern"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

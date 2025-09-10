@@ -11,8 +11,9 @@
         android:layout_width="196dp"
         android:layout_height="54dp"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="2dp"
+        android:background="@drawable/modern_card_background"
+        card_view:cardCornerRadius="16dp"
+        card_view:cardElevation="4dp"
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true">
 
@@ -24,7 +25,7 @@
             <View
                 android:layout_width="6dp"
                 android:layout_height="match_parent"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/spotify_orange" />
 
             <TextView
                 android:id="@+id/genre_label"
