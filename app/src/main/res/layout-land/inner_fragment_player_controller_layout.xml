@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/now_playing_media_controller_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/spotify_black">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vertical_guideline"
@@ -31,6 +32,8 @@
             android:checked="true"
             android:clickable="false"
             android:text="Unknown"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/spotify_dark_gray"
             app:chipStrokeWidth="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
             app:layout_constraintTop_toTopOf="@id/player_media_extension"
             app:layout_constraintBottom_toBottomOf="@id/player_media_extension"
             app:layout_constraintStart_toEndOf="@id/player_media_extension"
@@ -60,7 +65,7 @@
             app:layout_constraintTop_toTopOf="@id/player_media_extension"
             app:layout_constraintBottom_toBottomOf="@id/player_media_extension"
             app:srcCompat="@drawable/ic_info_stream"
-            app:tint="?attr/colorOnPrimaryContainer" />
+            app:tint="@color/spotify_orange" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textColor="@color/white"
             android:text=""/>
     </LinearLayout>
 
@@ -161,7 +166,7 @@
         android:layout_marginStart="24dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
@@ -174,14 +179,14 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         app:bar_height="2dp"
-        app:buffered_color="?attr/colorOnSecondaryContainer"
+        app:buffered_color="@color/spotify_dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/player_artist_name_label"
         app:layout_constraintBottom_toTopOf="@+id/player_play_pause_placeholder_view"
-        app:played_color="?attr/colorOnPrimaryContainer"
-        app:scrubber_color="?attr/colorOnPrimaryContainer"
-        app:unplayed_color="?attr/colorPrimaryContainer" />
+        app:played_color="@color/spotify_orange"
+        app:scrubber_color="@color/spotify_orange"
+        app:unplayed_color="@color/spotify_dark_gray" />
 
     <TextView
         android:id="@+id/exo_duration"
@@ -191,7 +196,7 @@
         android:layout_marginEnd="24dp"
         android:paddingBottom="4dp"
         android:text="@string/label_placeholder"
-        android:textColor="@color/titleTextColor"
+        android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exo_progress" />
@@ -259,7 +264,7 @@
         app:layout_constraintEnd_toStartOf="@+id/placeholder_view_middle_left"
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_left"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_shuffle"
@@ -273,7 +278,7 @@
         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_left"
         app:srcCompat="@drawable/ic_shuffle"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_rew"
@@ -286,7 +291,7 @@
         app:layout_constraintEnd_toStartOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintStart_toEndOf="@id/placeholder_view_left"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_prev"
@@ -299,7 +304,7 @@
         app:layout_constraintStart_toEndOf="@id/placeholder_view_left"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
         app:srcCompat="@drawable/ic_skip_previous"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@id/exo_play_pause"
@@ -310,7 +315,7 @@
         app:layout_constraintEnd_toEndOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintStart_toStartOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintBottom_toBottomOf="@+id/player_play_pause_placeholder_view"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_next"
@@ -323,7 +328,7 @@
         app:layout_constraintStart_toEndOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
         app:srcCompat="@drawable/ic_skip_next"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_ffwd"
@@ -336,7 +341,7 @@
         app:layout_constraintStart_toEndOf="@+id/player_play_pause_placeholder_view"
         app:layout_constraintTop_toTopOf="@+id/player_play_pause_placeholder_view"
         app:srcCompat="@drawable/ic_forward"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ImageButton
         android:id="@+id/exo_repeat_toggle"
@@ -350,7 +355,7 @@
         app:layout_constraintStart_toEndOf="@+id/placeholder_view_middle_right"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_right"
         app:srcCompat="@drawable/ic_repeat"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <ToggleButton
         android:id="@+id/player_skip_silence_toggle_button"
@@ -365,7 +370,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/placeholder_view_middle_right"
         app:layout_constraintTop_toTopOf="@+id/placeholder_view_middle_right"
-        app:tint="?attr/colorOnPrimaryContainer" />
+        app:tint="@color/spotify_orange" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/player_quick_action_view"
