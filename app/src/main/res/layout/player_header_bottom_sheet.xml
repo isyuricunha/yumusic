@@ -112,7 +112,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/spotify_player_button_background"
-        android:src="@drawable/ic_play"
+        android:src="@drawable/ic_play_arrow"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         app:tint="@color/spotify_black"
         app:layout_constraintBottom_toTopOf="@+id/player_header_seek_bar"
