@@ -126,8 +126,8 @@
         app:cornerRadius="64dp"
         android:alpha="0.7"
         app:icon="@drawable/ic_tap"
-        app:layout_constraintEnd_toEndOf="@+id/now_playing_song_cover_image_view"
-        app:layout_constraintBottom_toBottomOf="@+id/now_playing_song_cover_image_view" />
+        app:layout_constraintEnd_toEndOf="@+id/album_art_card"
+        app:layout_constraintBottom_toBottomOf="@+id/album_art_card" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/now_playing_song_cover_button_group"
