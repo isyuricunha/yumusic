@@ -84,30 +84,6 @@
     <color name="modern_accent_light">#FF8A50</color>
     <color name="modern_surface">#0D0D0D</color>
     <color name="modern_surface_variant">#1F1F1F</color>
-    
-    <!-- New Modern UI Colors -->
-    <color name="modern_pink">#E91E63</color>
-    <color name="modern_pink_light">#F48FB1</color>
-    <color name="modern_pink_dark">#AD1457</color>
-    <color name="modern_magenta">#FF1744</color>
-    <color name="modern_purple">#9C27B0</color>
-    <color name="modern_blue">#2196F3</color>
-    <color name="modern_teal">#009688</color>
-    <color name="modern_orange_gradient">#FF5722</color>
-    <color name="modern_red_gradient">#F44336</color>
-    <color name="modern_purple_gradient">#673AB7</color>
-    
-    <!-- Gradient Colors for Cards -->
-    <color name="gradient_orange_start">#FF6B35</color>
-    <color name="gradient_orange_end">#F7931E</color>
-    <color name="gradient_purple_start">#667eea</color>
-    <color name="gradient_purple_end">#764ba2</color>
-    <color name="gradient_pink_start">#f093fb</color>
-    <color name="gradient_pink_end">#f5576c</color>
-    <color name="gradient_blue_start">#4facfe</color>
-    <color name="gradient_blue_end">#00f2fe</color>
-    <color name="gradient_red_start">#fa709a</color>
-    <color name="gradient_red_end">#fee140</color>
 
     <!-- <color name="iconLauncher">https://icon.kitchen/i/H4sIAAAAAAAAAzWQu27DMAxF%2F4VdPbhBsmTt0LVAuxVFIUuUIoAWDT36gJF%2Fz5WCcJCow8uXdvox0rjQeScfXiRuJtf%2BKIyLHHvTpNJE0WoCEE7le5GW6TrREj7%2BNwYN2bjIqevA%2BK%2B2DLxTfbi0ajHR3pNeH2oorIrmZwiejmaevUeFgQ4dzcOATAqCKscT8jFlF%2FS4H4a4D2%2FGuZjCaKobnQ%2BniXIMFzTp7qK16nr3hf2gY5b3ixkb2JgtWoCt6pr0D%2FlEW5c1ur69Fpy%2FvNDX9QZCITMSMwEAAA%3D%3D</color> -->
 </resources>
