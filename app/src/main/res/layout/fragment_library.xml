@@ -6,218 +6,36 @@
     android:layout_height="match_parent"
     android:background="@color/spotify_black">
 
-    <fragment
-        android:id="@+id/toolbar_fragment"
-        android:name="com.yuricunha.yumusic.ui.fragment.ToolbarFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/fragment_library_nested_scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/library_linear_layout_container"
+        <!-- Header -->
+        <include
+            android:id="@+id/library_header"
+            layout="@layout/library_header" />
+
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/library_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/spotify_black"
-            android:paddingBottom="@dimen/global_padding_bottom">
+            app:tabIndicatorColor="@color/spotify_orange"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/spotify_light_gray"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp" />
 
-            <!--  Music Folder  -->
-            <LinearLayout
-                android:id="@+id/library_music_folder_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:visibility="gone"
-                tools:visibility="visible">
+        <!-- ViewPager2 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/library_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-                <TextView
-                    style="@style/TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="@string/library_title_music_folder" />
+    </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/music_folder_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:nestedScrollingEnabled="false"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <!--  Album  -->
-            <LinearLayout
-                android:id="@+id/library_album_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <!--  Album  -->
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/album_catalogue_sample_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_album" />
-
-                    <TextView
-                        android:id="@+id/album_catalogue_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_album_see_all_button" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/album_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/library_artist_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <!--  Artist  -->
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/artist_catalogue_sample_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_artist" />
-
-
-                    <TextView
-                        android:id="@+id/artist_catalogue_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_artist_see_all_button" />
-
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/artist_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/library_genres_sector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <!--  Genre  -->
-                <!--  Label and button  -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="16dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/genre_catalogue_sample_text_view_refreshable"
-                        style="@style/TitleLarge"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_genre" />
-
-
-                    <TextView
-                        android:id="@+id/genre_catalogue_text_view_clickable"
-                        style="@style/TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/library_title_genre_see_all_button" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/genre_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
