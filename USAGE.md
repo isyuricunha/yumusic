@@ -34,7 +34,7 @@ This app works with any service that implements the Subsonic API, including:
 ## Getting Started
 
 ### Installation
-1. Download the APK from the [Releases](https://github.com/eddyizm/tempo/releases) section
+1. Download the APK from the [Releases](https://github.com/isyuricunha/yumusic/releases) section
 2. Enable "Install from unknown sources" in your Android settings
 3. Install the application
 
@@ -137,8 +137,8 @@ This app works with any service that implements the Subsonic API, including:
 
 ### Support
 For additional help:
-- Question? Start a [Discussion](https://github.com/eddyizm/tempo/discussions)
-- Open an [issue](https://github.com/eddyizm/tempo/issues) if you don't find a discussion solving your issue. 
+- Question? Start a [Discussion](https://github.com/isyuricunha/yumusic/discussions)
+- Open an [issue](https://github.com/isyuricunha/yumusic/issues) if you don't find a discussion solving your issue. 
 - Consult your Subsonic server's documentation
 
 ---

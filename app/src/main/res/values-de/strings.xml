@@ -284,7 +284,7 @@
     <string name="settings_download_storage_title">Download storage</string>
     <string name="settings_equalizer_summary">Audio Einstellungen anpassen</string>
     <string name="settings_equalizer_title">Equalizer</string>
-    <string name="settings_github_link">https://github.com/eddyizm/tempo</string>
+    <string name="settings_github_link">https://github.com/isyuricunha/yumusic</string>
     <string name="settings_github_summary">Verfolge die Entwicklung</string>
     <string name="settings_github_title">Github</string>
     <string name="settings_image_size">Bilder Auflösung anpassen</string>
