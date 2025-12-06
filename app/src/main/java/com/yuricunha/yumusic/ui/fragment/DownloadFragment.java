@@ -212,6 +212,10 @@ public class DownloadFragment extends Fragment implements ClickCallback {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_GENRE, null));
                 Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_GENRE);
                 return true;
+            } else if (menuItem.getItemId() == R.id.menu_download_group_by_playlist) {
+                downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_PLAYLIST, null));
+                Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_PLAYLIST);
+                return true;
             } else if (menuItem.getItemId() == R.id.menu_download_group_by_year) {
                 downloadViewModel.initViewStack(new DownloadStack(Constants.DOWNLOAD_TYPE_YEAR, null));
                 Preferences.setDefaultDownloadViewType(Constants.DOWNLOAD_TYPE_YEAR);

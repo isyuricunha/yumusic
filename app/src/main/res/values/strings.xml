@@ -174,14 +174,18 @@
     <string name="menu_group_by_album">Album</string>
     <string name="menu_group_by_artist">Artist</string>
     <string name="menu_group_by_genre">Genre</string>
+    <string name="menu_group_by_playlist">Playlist</string>
     <string name="menu_group_by_track">Track</string>
+
     <string name="menu_group_by_year">Year</string>
     <string name="menu_home_label">Home</string>
     <string name="menu_last_week_name">Last week</string>
     <string name="menu_last_month_name">Last month</string>
     <string name="menu_last_year_name">Last year</string>
     <string name="menu_library_label">Library</string>
+    <string name="menu_playlist_label">Playlists</string>
     <string name="menu_search_button">Search</string>
+
     <string name="menu_settings_button">Settings</string>
     <string name="menu_sort_artist">Artist</string>
     <string name="menu_sort_name">Name</string>

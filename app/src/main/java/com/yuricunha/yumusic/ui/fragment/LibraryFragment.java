@@ -46,7 +46,6 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     private AlbumAdapter albumAdapter;
     private ArtistAdapter artistAdapter;
     private GenreAdapter genreAdapter;
-    private PlaylistHorizontalAdapter playlistHorizontalAdapter;
 
     private MaterialToolbar materialToolbar;
 
@@ -73,7 +72,6 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         initAlbumView();
         initArtistView();
         initGenreView();
-        initPlaylistView();
     }
 
     @Override
@@ -85,7 +83,6 @@ public class LibraryFragment extends Fragment implements ClickCallback {
     @Override
     public void onResume() {
         super.onResume();
-        refreshPlaylistView();
     }
 
     @Override
@@ -98,11 +95,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
         bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
         bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
-        bind.playlistCatalogueTextViewClickable.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.PLAYLIST_ALL, Constants.PLAYLIST_ALL);
-            activity.navController.navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment, bundle);
-        });
+
 
         bind.albumCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
             libraryViewModel.refreshAlbumSample(getViewLifecycleOwner());
@@ -116,10 +109,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
             libraryViewModel.refreshGenreSample(getViewLifecycleOwner());
             return true;
         });
-        bind.playlistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
-            libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
-            return true;
-        });
+
     }
 
     private void initAppBar() {
@@ -216,34 +206,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         genreSnapHelper.attachToRecyclerView(bind.genreRecyclerView);
     }
 
-    private void initPlaylistView() {
-        bind.playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        bind.playlistRecyclerView.setHasFixedSize(true);
 
-        playlistHorizontalAdapter = new PlaylistHorizontalAdapter(this);
-        bind.playlistRecyclerView.setAdapter(playlistHorizontalAdapter);
-        libraryViewModel.getPlaylistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), playlists -> {
-            if (playlists == null) {
-                if (bind != null) bind.libraryPlaylistSector.setVisibility(View.GONE);
-            } else {
-                if (bind != null)
-                    bind.libraryPlaylistSector.setVisibility(!playlists.isEmpty() ? View.VISIBLE : View.GONE);
-
-                playlistHorizontalAdapter.setItems(playlists);
-            }
-        });
-    }
-
-    private void refreshPlaylistView() {
-        final Handler handler = new Handler();
-
-        final Runnable runnable = () -> {
-            if (getView() != null && bind != null && libraryViewModel != null)
-                libraryViewModel.refreshPlaylistSample(getViewLifecycleOwner());
-        };
-
-        handler.postDelayed(runnable, 100);
-    }
 
     @Override
     public void onAlbumClick(Bundle bundle) {
@@ -270,23 +233,7 @@ public class LibraryFragment extends Fragment implements ClickCallback {
         Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
     }
 
-    @Override
-    public void onPlaylistClick(Bundle bundle) {
-        Navigation.findNavController(requireView()).navigate(R.id.playlistPageFragment, bundle);
-    }
 
-    @Override
-    public void onPlaylistLongClick(Bundle bundle) {
-        PlaylistEditorDialog dialog = new PlaylistEditorDialog(new PlaylistCallback() {
-            @Override
-            public void onDismiss() {
-                refreshPlaylistView();
-            }
-        });
-
-        dialog.setArguments(bundle);
-        dialog.show(activity.getSupportFragmentManager(), null);
-    }
 
     @Override
     public void onMusicFolderClick(Bundle bundle) {
