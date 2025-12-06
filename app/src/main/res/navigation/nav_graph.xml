@@ -112,24 +112,6 @@
             app:destination="@id/indexFragment" />
     </fragment>
     <fragment
-        android:id="@+id/playlistFragment"
-        android:name="com.yuricunha.yumusic.ui.fragment.PlaylistFragment"
-        android:label="PlaylistFragment"
-        tools:layout="@layout/fragment_playlist">
-        <action
-            android:id="@+id/action_playlistFragment_to_playlistPageFragment"
-            app:destination="@id/playlistPageFragment" />
-        <action
-            android:id="@+id/action_playlistFragment_to_playlistCatalogueFragment"
-            app:destination="@id/playlistCatalogueFragment" />
-        <action
-            android:id="@+id/action_playlistFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_playlistFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/downloadFragment"
         android:name="com.yuricunha.yumusic.ui.fragment.DownloadFragment"
         android:label="DownloadFragment"

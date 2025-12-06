@@ -12,9 +12,7 @@
     <item
         android:id="@+id/menu_download_group_by_genre"
         android:title="@string/menu_group_by_genre" />
-    <item
-        android:id="@+id/menu_download_group_by_playlist"
-        android:title="@string/menu_group_by_playlist" />
+
     <item
         android:id="@+id/menu_download_group_by_year"
         android:title="@string/menu_group_by_year" />
