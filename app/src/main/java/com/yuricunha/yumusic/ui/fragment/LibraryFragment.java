@@ -1,6 +1,7 @@
 package com.yuricunha.yumusic.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,23 +9,45 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.util.UnstableApi;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.yuricunha.yumusic.R;
 import com.yuricunha.yumusic.databinding.FragmentLibraryBinding;
+import com.yuricunha.yumusic.helper.recyclerview.CustomLinearSnapHelper;
+import com.yuricunha.yumusic.interfaces.ClickCallback;
+import com.yuricunha.yumusic.interfaces.PlaylistCallback;
 import com.yuricunha.yumusic.ui.activity.MainActivity;
-import com.yuricunha.yumusic.ui.adapter.LibraryTabPagerAdapter;
+import com.yuricunha.yumusic.ui.adapter.AlbumAdapter;
+import com.yuricunha.yumusic.ui.adapter.ArtistAdapter;
+import com.yuricunha.yumusic.ui.adapter.GenreAdapter;
+import com.yuricunha.yumusic.ui.adapter.MusicFolderAdapter;
+import com.yuricunha.yumusic.ui.adapter.PlaylistHorizontalAdapter;
+import com.yuricunha.yumusic.ui.dialog.PlaylistEditorDialog;
+import com.yuricunha.yumusic.util.Constants;
+import com.yuricunha.yumusic.util.Preferences;
+import com.yuricunha.yumusic.viewmodel.LibraryViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.Objects;
 
 @UnstableApi
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends Fragment implements ClickCallback {
     private static final String TAG = "LibraryFragment";
 
     private FragmentLibraryBinding bind;
     private MainActivity activity;
-    private LibraryTabPagerAdapter pagerAdapter;
+    private LibraryViewModel libraryViewModel;
+
+    private MusicFolderAdapter musicFolderAdapter;
+    private AlbumAdapter albumAdapter;
+    private ArtistAdapter artistAdapter;
+    private GenreAdapter genreAdapter;
+
+    private MaterialToolbar materialToolbar;
 
     @Nullable
     @Override
@@ -33,11 +56,22 @@ public class LibraryFragment extends Fragment {
 
         bind = FragmentLibraryBinding.inflate(inflater, container, false);
         View view = bind.getRoot();
+        libraryViewModel = new ViewModelProvider(requireActivity()).get(LibraryViewModel.class);
 
-        setupHeader();
-        setupTabsAndViewPager();
+        init();
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initAppBar();
+        initMusicFolderView();
+        initAlbumView();
+        initArtistView();
+        initGenreView();
     }
 
     @Override
@@ -47,45 +81,162 @@ public class LibraryFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         bind = null;
     }
 
-    private void setupHeader() {
-        // Search button click
-        bind.libraryHeader.librarySearchButton.setOnClickListener(v -> {
-            Navigation.findNavController(requireView()).navigate(R.id.searchFragment);
+    private void init() {
+        bind.albumCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_albumCatalogueFragment));
+        bind.artistCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_artistCatalogueFragment));
+        bind.genreCatalogueTextViewClickable.setOnClickListener(v -> activity.navController.navigate(R.id.action_libraryFragment_to_genreCatalogueFragment));
+
+
+        bind.albumCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshAlbumSample(getViewLifecycleOwner());
+            return true;
+        });
+        bind.artistCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshArtistSample(getViewLifecycleOwner());
+            return true;
+        });
+        bind.genreCatalogueSampleTextViewRefreshable.setOnLongClickListener(view -> {
+            libraryViewModel.refreshGenreSample(getViewLifecycleOwner());
+            return true;
         });
 
-        // Add button click (can open menu for creating playlist/adding podcast)
-        bind.libraryHeader.libraryAddButton.setOnClickListener(v -> {
-            // TODO: Show menu with options (Create Playlist, Add Podcast, etc.)
-            // For now, navigate to playlist catalogue
-            Navigation.findNavController(requireView()).navigate(R.id.action_libraryFragment_to_playlistCatalogueFragment);
+    }
+
+    private void initAppBar() {
+        materialToolbar = bind.getRoot().findViewById(R.id.toolbar);
+
+        activity.setSupportActionBar(materialToolbar);
+        Objects.requireNonNull(materialToolbar.getOverflowIcon()).setTint(requireContext().getResources().getColor(R.color.titleTextColor, null));
+    }
+
+    private void initMusicFolderView() {
+        if (!Preferences.isMusicDirectorySectionVisible()) {
+            bind.libraryMusicFolderSector.setVisibility(View.GONE);
+            return;
+        }
+
+        bind.musicFolderRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        bind.musicFolderRecyclerView.setHasFixedSize(true);
+
+        musicFolderAdapter = new MusicFolderAdapter(this);
+        bind.musicFolderRecyclerView.setAdapter(musicFolderAdapter);
+        libraryViewModel.getMusicFolders(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), musicFolders -> {
+            if (musicFolders == null) {
+                if (bind != null) bind.libraryMusicFolderSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.libraryMusicFolderSector.setVisibility(!musicFolders.isEmpty() ? View.VISIBLE : View.GONE);
+
+                musicFolderAdapter.setItems(musicFolders);
+            }
         });
     }
 
-    private void setupTabsAndViewPager() {
-        // Setup ViewPager2
-        pagerAdapter = new LibraryTabPagerAdapter(this);
-        bind.libraryViewpager.setAdapter(pagerAdapter);
+    private void initAlbumView() {
+        bind.albumRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.albumRecyclerView.setHasFixedSize(true);
 
-        // Setup TabLayout with ViewPager2
-        new TabLayoutMediator(bind.libraryTabs, bind.libraryViewpager,
-                (tab, position) -> {
-                    switch (position) {
-                        case LibraryTabPagerAdapter.TAB_PLAYLISTS:
-                            tab.setText(R.string.library_tab_playlists);
-                            break;
-                        case LibraryTabPagerAdapter.TAB_PODCASTS:
-                            tab.setText(R.string.library_tab_podcasts);
-                            break;
-                        case LibraryTabPagerAdapter.TAB_ALBUMS:
-                            tab.setText(R.string.library_tab_albums);
-                            break;
-                    }
-                }
-        ).attach();
+        albumAdapter = new AlbumAdapter(this);
+        bind.albumRecyclerView.setAdapter(albumAdapter);
+        libraryViewModel.getAlbumSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), albums -> {
+            if (albums == null) {
+                if (bind != null) bind.libraryAlbumSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.libraryAlbumSector.setVisibility(!albums.isEmpty() ? View.VISIBLE : View.GONE);
+
+                albumAdapter.setItems(albums);
+            }
+        });
+
+        CustomLinearSnapHelper albumSnapHelper = new CustomLinearSnapHelper();
+        albumSnapHelper.attachToRecyclerView(bind.albumRecyclerView);
+    }
+
+    private void initArtistView() {
+        bind.artistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        bind.artistRecyclerView.setHasFixedSize(true);
+
+        artistAdapter = new ArtistAdapter(this, false, false);
+        bind.artistRecyclerView.setAdapter(artistAdapter);
+        libraryViewModel.getArtistSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), artists -> {
+            if (artists == null) {
+                if (bind != null) bind.libraryArtistSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.libraryArtistSector.setVisibility(!artists.isEmpty() ? View.VISIBLE : View.GONE);
+
+                artistAdapter.setItems(artists);
+            }
+        });
+
+        CustomLinearSnapHelper artistSnapHelper = new CustomLinearSnapHelper();
+        artistSnapHelper.attachToRecyclerView(bind.artistRecyclerView);
+    }
+
+    private void initGenreView() {
+        bind.genreRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3, GridLayoutManager.HORIZONTAL, false));
+        bind.genreRecyclerView.setHasFixedSize(true);
+
+        genreAdapter = new GenreAdapter(this);
+        bind.genreRecyclerView.setAdapter(genreAdapter);
+
+        libraryViewModel.getGenreSample(getViewLifecycleOwner()).observe(getViewLifecycleOwner(), genres -> {
+            if (genres == null) {
+                if (bind != null) bind.libraryGenresSector.setVisibility(View.GONE);
+            } else {
+                if (bind != null)
+                    bind.libraryGenresSector.setVisibility(!genres.isEmpty() ? View.VISIBLE : View.GONE);
+
+                genreAdapter.setItems(genres);
+            }
+        });
+
+        CustomLinearSnapHelper genreSnapHelper = new CustomLinearSnapHelper();
+        genreSnapHelper.attachToRecyclerView(bind.genreRecyclerView);
+    }
+
+
+
+    @Override
+    public void onAlbumClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumPageFragment, bundle);
+    }
+
+    @Override
+    public void onAlbumLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.albumBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onArtistClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistPageFragment, bundle);
+    }
+
+    @Override
+    public void onArtistLongClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.artistBottomSheetDialog, bundle);
+    }
+
+    @Override
+    public void onGenreClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.songListPageFragment, bundle);
+    }
+
+
+
+    @Override
+    public void onMusicFolderClick(Bundle bundle) {
+        Navigation.findNavController(requireView()).navigate(R.id.indexFragment, bundle);
     }
 }
