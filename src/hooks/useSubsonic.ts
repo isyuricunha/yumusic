@@ -50,6 +50,19 @@ export interface SubsonicRadioStation {
   streamUrl: string;
 }
 
+export interface SubsonicPlaylist {
+  id: string;
+  name: string;
+  songCount: number;
+  duration: number;
+  created: string;
+  changed: string;
+  owner: string;
+  public: boolean;
+  coverArt?: string;
+  entry?: SubsonicSong[];
+}
+
 // === Hooks ===
 export function useArtists() {
   const config = useConfigStore((state) => state.config);
@@ -164,4 +177,83 @@ export function useRadioStations() {
     },
     enabled: !!config,
   });
+}
+
+export function usePlaylists() {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['playlists', config?.serverUrl],
+    queryFn: async () => {
+      if (!config) throw new Error('No config');
+      const res = await fetchSubsonic('getPlaylists', config);
+      return (res?.playlists?.playlist || []) as SubsonicPlaylist[];
+    },
+    enabled: !!config,
+  });
+}
+
+export function usePlaylist(id?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['playlist', id, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !id) throw new Error('No config or id');
+      const res = await fetchSubsonic('getPlaylist', config, { id });
+      return res?.playlist as SubsonicPlaylist;
+    },
+    enabled: !!config && !!id,
+  });
+}
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+export function usePlaylistMutations() {
+  const config = useConfigStore((state) => state.config);
+  const queryClient = useQueryClient();
+
+  const createPlaylist = useMutation({
+    mutationFn: async ({ name, songIds }: { name: string; songIds?: string[] }) => {
+      if (!config) throw new Error('No config');
+      const params: any = { name };
+      if (songIds) songIds.forEach((id, i) => (params[`songId[${i}]`] = id));
+      return await fetchSubsonic('createPlaylist', config, params);
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['playlists'] }),
+  });
+
+  const deletePlaylist = useMutation({
+    mutationFn: async (id: string) => {
+      if (!config) throw new Error('No config');
+      return await fetchSubsonic('deletePlaylist', config, { id });
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['playlists'] }),
+  });
+
+  const addTracksToPlaylist = useMutation({
+    mutationFn: async ({ playlistId, songIds }: { playlistId: string; songIds: string[] }) => {
+      if (!config) throw new Error('No config');
+      const params: any = { playlistId };
+      songIds.forEach((id, i) => (params[`songIdToAdd[${i}]`] = id));
+      return await fetchSubsonic('updatePlaylist', config, params);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['playlist', variables.playlistId] });
+      queryClient.invalidateQueries({ queryKey: ['playlists'] });
+    },
+  });
+
+  const removeTracksFromPlaylist = useMutation({
+    mutationFn: async ({ playlistId, indices }: { playlistId: string; indices: number[] }) => {
+      if (!config) throw new Error('No config');
+      const params: any = { playlistId };
+      indices.forEach((index, i) => (params[`indexToRemove[${i}]`] = index.toString()));
+      return await fetchSubsonic('updatePlaylist', config, params);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['playlist', variables.playlistId] });
+      queryClient.invalidateQueries({ queryKey: ['playlists'] });
+    },
+  });
+
+  return { createPlaylist, deletePlaylist, addTracksToPlaylist, removeTracksFromPlaylist };
 }

@@ -22,38 +22,53 @@ export const useConfigStore = create<ConfigStore>((set) => ({
   
   setConfig: async (newConfig: AppConfig) => {
     try {
-      const store = await load('config.json');
-      await store.set('appConfig', newConfig);
-      await store.save();
+      if (window.__TAURI__) {
+        const store = await load('config.json');
+        await store.set('appConfig', newConfig);
+        await store.save();
+      } else {
+        localStorage.setItem('yumusic-config', JSON.stringify(newConfig));
+      }
       set({ config: newConfig });
     } catch (e) {
-      console.error('Failed to save config to Tauri Store', e);
+      console.error('Failed to save config', e);
     }
   },
 
   clearConfig: async () => {
     try {
-      const store = await load('config.json');
-      await store.delete('appConfig');
-      await store.save();
+      if (window.__TAURI__) {
+        const store = await load('config.json');
+        await store.delete('appConfig');
+        await store.save();
+      } else {
+        localStorage.removeItem('yumusic-config');
+      }
       set({ config: null });
     } catch (e) {
-      console.error('Failed to clear config from Tauri Store', e);
+      console.error('Failed to clear config', e);
     }
   },
 
   initializeConfig: async () => {
     set({ isLoading: true });
     try {
-      const store = await load('config.json');
-      const savedConfig = await store.get<AppConfig>('appConfig');
+      let savedConfig: AppConfig | null = null;
+      if (window.__TAURI__) {
+        const store = await load('config.json');
+        savedConfig = (await store.get<AppConfig>('appConfig')) ?? null;
+      } else {
+        const local = localStorage.getItem('yumusic-config');
+        if (local) savedConfig = JSON.parse(local);
+      }
+
       if (savedConfig) {
         set({ config: savedConfig, isLoading: false });
       } else {
         set({ config: null, isLoading: false });
       }
     } catch (e) {
-      console.error('Failed to load config from Tauri Store', e);
+      console.error('Failed to load config', e);
       set({ config: null, isLoading: false });
     }
   }
