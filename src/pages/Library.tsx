@@ -58,7 +58,11 @@ export default function Library() {
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
               {artists?.map((artist) => (
-                <div key={artist.id} className="group flex flex-col items-center cursor-pointer space-y-3">
+                <div 
+                  key={artist.id} 
+                  className="group flex flex-col items-center cursor-pointer space-y-3"
+                  onClick={() => navigate(`/artist/${artist.id}`)}
+                >
                   <Avatar className="w-20 h-20 sm:w-28 sm:h-28 shadow-md transition-transform duration-300 group-hover:scale-[1.05]">
                     <AvatarImage src={getCoverUrl(artist.coverArt || '')} className="object-cover" />
                     <AvatarFallback className="bg-muted text-xl font-bold">{artist.name.charAt(0)}</AvatarFallback>
