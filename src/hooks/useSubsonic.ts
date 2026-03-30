@@ -206,7 +206,7 @@ export function useArtistInfo(id?: string) {
       if (!config || !id) throw new Error('No config or id');
       try {
         const res = await fetchSubsonic('getArtistInfo2', config, { id });
-        return res?.artistInfo2 as SubsonicArtistInfo;
+        return (res?.artistInfo2 || null) as SubsonicArtistInfo;
       } catch (e) {
         console.warn('ArtistInfo not supported or failed', e);
         return null;
@@ -225,7 +225,7 @@ export function useAlbumInfo(id?: string) {
       if (!config || !id) throw new Error('No config or id');
       try {
         const res = await fetchSubsonic('getAlbumInfo2', config, { id });
-        return res?.albumInfo2 as SubsonicAlbumInfo;
+        return (res?.albumInfo2 || null) as SubsonicAlbumInfo;
       } catch (e) {
         console.warn('AlbumInfo not supported or failed', e);
         return null;

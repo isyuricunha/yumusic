@@ -38,6 +38,13 @@ export const fetchSubsonic = async (
     throw new Error(`[${response.status}] Subsonic API error: ${response.statusText}`);
   }
 
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const text = await response.text();
+    console.error('Non-JSON response received:', text.substring(0, 200));
+    throw new Error(`Server returned ${contentType || 'text'} instead of JSON. Ensure the server URL is correct.`);
+  }
+
   const data = await response.json();
   const res = data['subsonic-response'];
   if (res && res.status === 'failed') {
