@@ -57,7 +57,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
 
     const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
-    const streamUrl = `${baseUrl}rest/stream?${query.toString()}`;
+    const streamUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
 
     const newAudio = new Audio(streamUrl);
     newAudio.volume = get().volume;

@@ -36,6 +36,7 @@ export interface SubsonicSong {
   albumId: string;
   artistId: string;
   type?: string; // For distinguishing Podcasts/Radio
+  streamUrl?: string; // For external sources (RSS, Direct Links)
 }
 
 export interface SubsonicPodcast {
@@ -44,6 +45,7 @@ export interface SubsonicPodcast {
   description?: string;
   coverArt?: string;
   episode?: SubsonicSong[];
+  isLocal?: boolean;
 }
 
 export interface SubsonicRadioStation {
@@ -170,6 +172,27 @@ export function useCoverArtUrl() {
     
     const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
     return `${baseUrl}rest/getCoverArt?${query.toString()}`;
+  }, [config]);
+}
+
+export function useStreamUrl() {
+  const config = useConfigStore((state) => state.config);
+  
+  return useCallback((song: SubsonicSong) => {
+    if (!config || !song.id) return undefined;
+    
+    const query = new URLSearchParams({
+      u: config.username,
+      t: config.token,
+      s: config.salt,
+      v: '1.16.1',
+      c: 'Yumusic',
+      id: song.id
+    });
+    
+    const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
+    const streamUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
+    return streamUrl;
   }, [config]);
 }
 
@@ -308,7 +331,7 @@ export function useArtistSongs(artistId?: string, artistName?: string) {
   });
 }
 
-export function usePodcasts() {
+export function usePodcasts(options?: { enabled?: boolean }) {
   const config = useConfigStore((state) => state.config);
   return useQuery({
     queryKey: ['podcasts', config?.serverUrl],
@@ -317,7 +340,7 @@ export function usePodcasts() {
       const res = await fetchSubsonic('getPodcasts', config);
       return (res?.podcasts?.channel || []) as SubsonicPodcast[];
     },
-    enabled: !!config,
+    enabled: !!config && options?.enabled !== false,
   });
 }
 
