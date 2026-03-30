@@ -1,5 +1,6 @@
 import { fetch } from '@tauri-apps/plugin-http';
 import { SubsonicSong } from '@/hooks/useSubsonic';
+import { isTauri } from '@tauri-apps/api/core';
 
 export interface RSSFeed {
   title: string;
@@ -11,10 +12,9 @@ export interface RSSFeed {
 
 export const fetchRSS = async (url: string): Promise<RSSFeed> => {
   // Use Tauri's fetch to bypass CORS, or fallback to standard fetch if not in Tauri
-  const isTauri = !!(window as any).__TAURI_INTERNALS__;
   
   let response: Response;
-  if (isTauri) {
+  if (isTauri()) {
     response = await fetch(url, {
       method: 'GET',
       connectTimeout: 10000,
