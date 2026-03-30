@@ -36,13 +36,13 @@ export default function Settings() {
                 <div className="text-xs text-muted-foreground">{t('settings.theme_desc')}</div>
               </div>
               <Select value={theme} onValueChange={(v) => v && setTheme(v as Theme)}>
-                <SelectTrigger className="w-40 bg-muted/50 border-transparent">
+                <SelectTrigger className="w-40 bg-muted/50 border-transparent text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="dark">True Dark</SelectItem>
-                  <SelectItem value="catppuccin">Catppuccin</SelectItem>
-                  <SelectItem value="nord">Nord</SelectItem>
+                  <SelectItem value="theme-catppuccin">Catppuccin</SelectItem>
+                  <SelectItem value="theme-nord">Nord</SelectItem>
                 </SelectContent>
               </Select>
             </div>

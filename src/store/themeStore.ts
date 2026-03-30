@@ -13,10 +13,16 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
   
   setTheme: (theme: Theme) => {
     const root = document.documentElement;
-    root.classList.remove('dark', 'theme-catppuccin', 'theme-nord');
-    root.classList.add(theme);
+    // We always keep 'dark' for these themes as they are all dark-based
+    // and rely on darkmode utilities.
+    root.classList.remove('theme-catppuccin', 'theme-nord');
     
-    // Save locally for quick load (until full store hydration)
+    if (theme !== 'dark') {
+      root.classList.add(theme);
+    }
+    
+    root.classList.add('dark');
+    
     localStorage.setItem('yumusic-ui-theme', theme);
     set({ theme });
   },
