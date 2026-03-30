@@ -27,7 +27,7 @@ export default function Library() {
           {loadingAlbums ? (
             <div className="text-muted-foreground animate-pulse">Loading...</div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
               {albums?.map((album) => (
                 <div 
                   key={album.id} 
@@ -56,14 +56,14 @@ export default function Library() {
           {loadingArtists ? (
             <div className="text-muted-foreground animate-pulse">Loading...</div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
               {artists?.map((artist) => (
                 <div key={artist.id} className="group flex flex-col items-center cursor-pointer space-y-3">
-                  <Avatar className="w-28 h-28 sm:w-32 sm:h-32 shadow-md transition-transform duration-300 group-hover:scale-[1.05]">
+                  <Avatar className="w-20 h-20 sm:w-28 sm:h-28 shadow-md transition-transform duration-300 group-hover:scale-[1.05]">
                     <AvatarImage src={getCoverUrl(artist.coverArt || '')} className="object-cover" />
                     <AvatarFallback className="bg-muted text-xl font-bold">{artist.name.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <span className="font-semibold text-sm text-center line-clamp-2">{artist.name}</span>
+                  <span className="font-semibold text-xs text-center line-clamp-2">{artist.name}</span>
                 </div>
               ))}
             </div>

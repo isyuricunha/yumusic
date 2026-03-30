@@ -44,20 +44,20 @@ export default function Home() {
         </div>
         
         {loadingArtists ? (
-          <div className="flex space-x-6 overflow-hidden">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-muted animate-pulse flex-shrink-0" />
+          <div className="flex space-x-4 overflow-hidden">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-muted animate-pulse flex-shrink-0" />
             ))}
           </div>
         ) : (
-          <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide">
+          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
             {featuredArtists.map((artist) => (
               <div 
                 key={artist.id} 
-                className="group flex flex-col items-center space-y-3 cursor-pointer flex-shrink-0"
+                className="group flex flex-col items-center space-y-2 cursor-pointer flex-shrink-0"
                 onClick={() => navigate(`/artist/${artist.id}`)}
               >
-                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl bg-muted relative">
+                <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl bg-muted relative">
                   {artist.coverArt ? (
                     <img 
                       src={getCoverArt(artist.coverArt)} 
@@ -66,7 +66,7 @@ export default function Home() {
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                      <User className="h-10 w-10" />
+                      <User className="h-8 w-8" />
                     </div>
                   )}
                 </div>
@@ -117,7 +117,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
             {frequentAlbums?.map((album) => (
               <AlbumCard 
                 key={album.id} 

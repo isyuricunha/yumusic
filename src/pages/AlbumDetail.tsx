@@ -53,7 +53,7 @@ export default function AlbumDetail() {
       </Button>
 
       <div className="flex flex-col md:flex-row md:items-end space-y-6 md:space-y-0 md:space-x-8">
-        <div className="w-48 h-48 md:w-64 md:h-64 shadow-2xl rounded-lg overflow-hidden shrink-0 bg-muted">
+        <div className="w-32 h-32 md:w-48 md:h-48 shadow-2xl rounded-lg overflow-hidden shrink-0 bg-muted">
           <img 
             src={getCoverUrl(album.coverArt || album.id)} 
             alt={album.name} 

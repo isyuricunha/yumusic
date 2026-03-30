@@ -120,7 +120,7 @@ export default function Search() {
                   <Disc className="h-5 w-5 text-primary" />
                   <span>{t('search.albums')}</span>
                 </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
                   {results.album.map((album: any) => (
                     <div 
                       key={album.id} 
@@ -160,14 +160,14 @@ export default function Search() {
                   <User className="h-5 w-5 text-primary" />
                   <span>{t('search.artists')}</span>
                 </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
                   {results.artist.map((artist: any) => (
                     <div 
                       key={artist.id} 
                       className="group flex flex-col items-center cursor-pointer space-y-3"
                       onClick={() => navigate(`/artist/${artist.id}`)}
                     >
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-[1.05] bg-muted">
+                      <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-[1.05] bg-muted">
                         <img 
                           src={getCoverUrl(artist.coverArt || '')} 
                           alt={artist.name}
@@ -175,7 +175,7 @@ export default function Search() {
                           loading="lazy"
                         />
                       </div>
-                      <span className="font-semibold text-sm text-center line-clamp-1 hover:underline">{artist.name}</span>
+                      <span className="font-semibold text-xs text-center line-clamp-1 hover:underline">{artist.name}</span>
                     </div>
                   ))}
                 </div>
