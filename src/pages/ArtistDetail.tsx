@@ -1,19 +1,22 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useCoverArtUrl } from '@/hooks/useSubsonic';
+import { useArtist, useArtistInfo, useCoverArtUrl } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, ArrowLeft } from 'lucide-react';
+import { Play, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
 import { useTranslation } from 'react-i18next';
 import { usePlayerStore } from '@/store/playerStore';
+import { useState } from 'react';
 
 export default function ArtistDetail() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: artist, isLoading } = useArtist(id);
+  const { data: artistInfo } = useArtistInfo(id);
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue } = usePlayerStore();
+  const [showFullBio, setShowFullBio] = useState(false);
 
   if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground">{t('common.loading')}...</div>;
   if (!artist) return <div className="p-8 text-muted-foreground">{t('common.not_found')}</div>;
@@ -68,6 +71,33 @@ export default function ArtistDetail() {
           </div>
         </div>
       </div>
+
+      {artistInfo?.biography && (
+        <section className="bg-muted/30 rounded-xl p-6 border border-border/50 max-w-4xl">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Biography</h2>
+          <div className="relative">
+            <div 
+              className={`text-sm leading-relaxed text-muted-foreground prose prose-invert max-w-none transition-all duration-500 overflow-hidden ${showFullBio ? 'max-h-[2000px]' : 'max-h-24'}`}
+              dangerouslySetInnerHTML={{ __html: artistInfo.biography }}
+            />
+            {!showFullBio && (
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background/50 to-transparent pointer-events-none" />
+            )}
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="mt-4 text-primary hover:text-primary/80 p-0 h-auto font-semibold flex items-center"
+            onClick={() => setShowFullBio(!showFullBio)}
+          >
+            {showFullBio ? (
+              <>Show Less <ChevronUp className="ml-1 h-4 w-4" /></>
+            ) : (
+              <>Read More <ChevronDown className="ml-1 h-4 w-4" /></>
+            )}
+          </Button>
+        </section>
+      )}
 
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-6">{t('common.albums')}</h2>

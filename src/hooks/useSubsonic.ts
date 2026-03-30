@@ -64,6 +64,25 @@ export interface SubsonicPlaylist {
   entry?: SubsonicSong[];
 }
 
+export interface SubsonicArtistInfo {
+  biography?: string;
+  musicBrainzId?: string;
+  lastFmUrl?: string;
+  smallImageUrl?: string;
+  mediumImageUrl?: string;
+  largeImageUrl?: string;
+  similarArtist?: { id: string; name: string }[];
+}
+
+export interface SubsonicAlbumInfo {
+  notes?: string;
+  musicBrainzId?: string;
+  lastFmUrl?: string;
+  smallImageUrl?: string;
+  mediumImageUrl?: string;
+  largeImageUrl?: string;
+}
+
 // === Hooks ===
 export function useArtists() {
   const config = useConfigStore((state) => state.config);
@@ -176,6 +195,44 @@ export function useAlbum(id?: string) {
       return res?.album as SubsonicAlbum & { song: SubsonicSong[] };
     },
     enabled: !!config && !!id,
+  });
+}
+
+export function useArtistInfo(id?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['artistInfo', id, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !id) throw new Error('No config or id');
+      try {
+        const res = await fetchSubsonic('getArtistInfo2', config, { id });
+        return res?.artistInfo2 as SubsonicArtistInfo;
+      } catch (e) {
+        console.warn('ArtistInfo not supported or failed', e);
+        return null;
+      }
+    },
+    enabled: !!config && !!id,
+    retry: false,
+  });
+}
+
+export function useAlbumInfo(id?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['albumInfo', id, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !id) throw new Error('No config or id');
+      try {
+        const res = await fetchSubsonic('getAlbumInfo2', config, { id });
+        return res?.albumInfo2 as SubsonicAlbumInfo;
+      } catch (e) {
+        console.warn('AlbumInfo not supported or failed', e);
+        return null;
+      }
+    },
+    enabled: !!config && !!id,
+    retry: false,
   });
 }
 

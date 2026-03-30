@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Play, User } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
-
 export default function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -85,13 +84,13 @@ export default function Home() {
         </div>
         
         {loadingRecent ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {[...Array(5)].map((_, i) => (
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
+            {[...Array(12)].map((_, i) => (
               <div key={i} className="aspect-square bg-muted rounded-md animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
             {recentAlbums?.map((album) => (
               <AlbumCard 
                 key={album.id} 
@@ -117,7 +116,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
             {frequentAlbums?.map((album) => (
               <AlbumCard 
                 key={album.id} 
@@ -136,9 +135,9 @@ export default function Home() {
 
 function AlbumCard({ album, getCoverArt, navigate, onPlay }: any) {
   return (
-    <div className="group flex flex-col space-y-3">
+    <div className="group flex flex-col space-y-2">
       <div 
-        className="overflow-hidden rounded-lg shadow-md bg-muted aspect-square relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 cursor-pointer"
+        className="overflow-hidden rounded-md shadow-md bg-muted aspect-square relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 cursor-pointer"
         onClick={() => navigate(`/album/${album.id}`)}
       >
         <img
@@ -148,25 +147,25 @@ function AlbumCard({ album, getCoverArt, navigate, onPlay }: any) {
           loading="lazy"
         />
         <button 
-          className="absolute bottom-3 right-3 w-10 h-10 bg-primary rounded-full shadow-lg flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:scale-110 active:scale-95"
+          className="absolute bottom-2 right-2 w-8 h-8 bg-primary rounded-full shadow-lg flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:scale-110 active:scale-95"
           onClick={(e) => {
             e.stopPropagation();
             onPlay();
           }}
         >
-          <Play className="h-5 w-5 fill-current text-primary-foreground ml-1" />
+          <Play className="h-4 w-4 fill-current text-primary-foreground ml-0.5" />
         </button>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col min-w-0">
         <span 
-          className="font-semibold text-sm truncate hover:underline cursor-pointer" 
+          className="font-semibold text-[10px] sm:text-xs truncate hover:underline cursor-pointer leading-tight" 
           title={album.name}
           onClick={() => navigate(`/album/${album.id}`)}
         >
           {album.name}
         </span>
         <span 
-          className="text-xs text-muted-foreground truncate hover:underline cursor-pointer" 
+          className="text-[9px] sm:text-[11px] text-muted-foreground truncate hover:underline cursor-pointer leading-tight" 
           title={album.artist}
           onClick={() => navigate(`/artist/${album.artistId || ''}`)}
         >
