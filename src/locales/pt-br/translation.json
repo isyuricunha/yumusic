@@ -23,7 +23,9 @@
     "album": "Álbum",
     "albums": "Álbuns",
     "podcast": "Podcast",
-    "episode": "Episódio"
+    "episode": "Episódio",
+    "not_supported": "Funcionalidade Não Suportada",
+    "feature_not_implemented": "Esta funcionalidade não foi implementada pelo seu servidor (ex: Navidrome ainda não suporta Podcasts)."
   },
   "home": {
     "recently_added": "Adicionados Recentemente",

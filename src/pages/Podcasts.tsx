@@ -5,8 +5,24 @@ import { useNavigate } from 'react-router';
 export default function Podcasts() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { data: podcasts, isLoading } = usePodcasts();
+  const { data: podcasts, isLoading, isError, error } = usePodcasts();
   const getCoverUrl = useCoverArtUrl();
+
+  const isNotImplemented = error instanceof Error && error.message.includes('[501]');
+
+  if (isError && isNotImplemented) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center py-20 text-center space-y-6">
+        <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center">
+          <span className="text-4xl">📻</span>
+        </div>
+        <div className="space-y-2 max-w-md">
+          <h2 className="text-2xl font-bold text-primary">{t('common.not_supported')}</h2>
+          <p className="text-muted-foreground">{t('common.feature_not_implemented')}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-6 pb-8 text-foreground">
@@ -36,7 +52,7 @@ export default function Podcasts() {
               </div>
             </div>
           ))}
-          {podcasts?.length === 0 && (
+          {podcasts && podcasts.length === 0 && !isError && (
             <p className="text-muted-foreground">No podcasts found on your server.</p>
           )}
         </div>

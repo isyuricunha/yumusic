@@ -35,7 +35,7 @@ export const fetchSubsonic = async (
 
   const response = await fetch(restUrl);
   if (!response.ok) {
-    throw new Error(`Subsonic API error: ${response.statusText}`);
+    throw new Error(`[${response.status}] Subsonic API error: ${response.statusText}`);
   }
 
   const data = await response.json();
