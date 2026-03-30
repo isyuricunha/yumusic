@@ -153,6 +153,19 @@ export function useCoverArtUrl() {
   }, [config]);
 }
 
+export function useArtist(id?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['artist', id, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !id) throw new Error('No config or id');
+      const res = await fetchSubsonic('getArtist', config, { id });
+      return res?.artist as SubsonicArtist & { album: SubsonicAlbum[] };
+    },
+    enabled: !!config && !!id,
+  });
+}
+
 export function useAlbum(id?: string) {
   const config = useConfigStore((state) => state.config);
   return useQuery({

@@ -10,7 +10,25 @@
     "radio": "Rádio",
     "login": "Entrar",
     "logout": "Sair",
-    "back": "Voltar"
+    "back": "Voltar",
+    "create": "Criar",
+    "creating": "Criando...",
+    "loading": "Carregando",
+    "not_found": "Não Encontrado",
+    "no_playlists": "Nenhuma Playlist Encontrada",
+    "see_all": "Ver Tudo",
+    "play": "Reproduzir",
+    "artist": "Artista",
+    "artists": "Artistas",
+    "album": "Álbum",
+    "albums": "Álbuns",
+    "podcast": "Podcast",
+    "episode": "Episódio"
+  },
+  "home": {
+    "recently_added": "Adicionados Recentemente",
+    "most_played": "Mais Tocados",
+    "featured_artists": "Artistas Sugeridos"
   },
   "sidebar": {
     "menu": "Menu",
@@ -32,7 +50,16 @@
     "language": "Idioma",
     "language_desc": "Selecione o idioma de sua preferência.",
     "server": "Servidor e Conta",
-    "server_desc": "Informações do servidor conectado."
+    "server_desc": "Informações do servidor conectado.",
+    "session": "Sessão",
+    "logout_confirm": "Tem certeza que deseja sair?"
+  },
+  "playlists": {
+    "create_new": "Criar Nova Playlist",
+    "name_placeholder": "Nome da playlist",
+    "delete_confirm": "Tem certeza que deseja excluir esta playlist?",
+    "empty": "Esta playlist está vazia. Adicione algumas músicas!",
+    "add_to": "Adicionar à Playlist"
   },
   "player": {
     "not_playing": "Nada tocando agora"

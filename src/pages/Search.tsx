@@ -84,7 +84,27 @@ export default function Search() {
                           "text-sm font-medium truncate",
                           currentSong?.id === song.id ? "text-primary" : "text-foreground"
                         )}>{song.title}</span>
-                        <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
+                        <div className="text-xs text-muted-foreground truncate space-x-1">
+                          <span 
+                            className="hover:underline cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/artist/${song.artistId}`);
+                            }}
+                          >
+                            {song.artist}
+                          </span>
+                          <span>-</span>
+                          <span 
+                            className="hover:underline cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/album/${song.albumId}`);
+                            }}
+                          >
+                            {song.album}
+                          </span>
+                        </div>
                       </div>
                       <AddToPlaylistDropdown songId={song.id} />
                     </div>
@@ -116,8 +136,16 @@ export default function Search() {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-semibold text-sm truncate">{album.name}</span>
-                        <span className="text-xs text-muted-foreground truncate">{album.artist}</span>
+                        <span className="font-semibold text-sm truncate hover:underline">{album.name}</span>
+                        <span 
+                          className="text-xs text-muted-foreground truncate hover:underline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/artist/${album.artistId || ''}`);
+                          }}
+                        >
+                          {album.artist}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -134,7 +162,11 @@ export default function Search() {
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                   {results.artist.map((artist: any) => (
-                    <div key={artist.id} className="group flex flex-col items-center cursor-pointer space-y-3">
+                    <div 
+                      key={artist.id} 
+                      className="group flex flex-col items-center cursor-pointer space-y-3"
+                      onClick={() => navigate(`/artist/${artist.id}`)}
+                    >
                       <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-[1.05] bg-muted">
                         <img 
                           src={getCoverUrl(artist.coverArt || '')} 
@@ -143,7 +175,7 @@ export default function Search() {
                           loading="lazy"
                         />
                       </div>
-                      <span className="font-semibold text-sm text-center line-clamp-1">{artist.name}</span>
+                      <span className="font-semibold text-sm text-center line-clamp-1 hover:underline">{artist.name}</span>
                     </div>
                   ))}
                 </div>

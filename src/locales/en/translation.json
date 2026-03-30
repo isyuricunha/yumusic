@@ -18,12 +18,17 @@
     "no_playlists": "No Playlists Found",
     "see_all": "See All",
     "play": "Play",
+    "artist": "Artist",
+    "artists": "Artists",
+    "album": "Album",
+    "albums": "Albums",
     "podcast": "Podcast",
     "episode": "Episode"
   },
   "home": {
     "recently_added": "Recently Added",
-    "most_played": "Most Played"
+    "most_played": "Most Played",
+    "featured_artists": "Featured Artists"
   },
   "sidebar": {
     "menu": "Menu",
@@ -45,7 +50,9 @@
     "language": "Language",
     "language_desc": "Select your preferred language.",
     "server": "Server & Account",
-    "server_desc": "Connected server information."
+    "server_desc": "Connected server information.",
+    "session": "Session",
+    "logout_confirm": "Are you sure you want to logout?"
   },
   "playlists": {
     "create_new": "Create New Playlist",

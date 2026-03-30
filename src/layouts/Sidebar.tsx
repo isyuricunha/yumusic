@@ -126,7 +126,7 @@ export function Sidebar() {
         </nav>
       </ScrollArea>
       
-      <div className="p-4 border-t border-sidebar-border mt-auto">
+      <div className="p-4 border-t border-sidebar-border mt-auto pb-28">
         <NavLink 
           to="/settings"
           className={({ isActive }: { isActive: boolean }) =>

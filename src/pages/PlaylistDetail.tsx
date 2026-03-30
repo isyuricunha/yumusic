@@ -112,9 +112,11 @@ export default function PlaylistDetail() {
       </div>
 
       <div className="w-full">
-        <div className="grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr_auto_auto] gap-4 px-4 py-2 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+        <div className="grid grid-cols-[1fr_auto] md:grid-cols-[auto_2fr_1fr_1fr_auto_auto] gap-4 px-4 py-2 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
           <span className="hidden md:inline w-8 text-center">#</span>
           <span>Title</span>
+          <span className="hidden md:inline">Artist</span>
+          <span className="hidden md:inline">Album</span>
           <Clock className="h-4 w-4" />
           <span className="w-8"></span>
         </div>
@@ -124,7 +126,7 @@ export default function PlaylistDetail() {
             <div 
               key={`${song.id}-${index}`} 
               className={cn(
-                "grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr_auto_auto] gap-4 px-4 py-3 rounded-md hover:bg-muted/50 cursor-pointer group transition items-center",
+                "grid grid-cols-[1fr_auto] md:grid-cols-[auto_2fr_1fr_1fr_auto_auto] gap-4 px-4 py-3 rounded-md hover:bg-muted/50 cursor-pointer group transition items-center",
                 currentSong?.id === song.id && "bg-muted/40"
               )}
               onClick={() => handlePlaySong(song)}
@@ -141,14 +143,46 @@ export default function PlaylistDetail() {
                 )} />
               </div>
               <div className="flex flex-col truncate">
-                <span className={cn(
-                  "text-sm font-medium truncate",
-                  currentSong?.id === song.id ? "text-primary" : "text-foreground"
-                )}>
+                <span 
+                  className={cn(
+                    "text-sm font-medium truncate hover:underline",
+                    currentSong?.id === song.id ? "text-primary" : "text-foreground"
+                  )}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/album/${song.albumId}`);
+                  }}
+                >
                   {song.title}
                 </span>
-                <span className="text-xs text-muted-foreground truncate">{song.artist}</span>
+                <span 
+                  className="text-xs text-muted-foreground truncate md:hidden hover:underline"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/artist/${song.artistId}`);
+                  }}
+                >
+                  {song.artist}
+                </span>
               </div>
+              <span 
+                className="hidden md:block text-sm text-muted-foreground truncate hover:underline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/artist/${song.artistId}`);
+                }}
+              >
+                {song.artist}
+              </span>
+              <span 
+                className="hidden md:block text-sm text-muted-foreground truncate hover:underline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/album/${song.albumId}`);
+                }}
+              >
+                {song.album}
+              </span>
               <span className="text-xs text-muted-foreground tabular-nums min-w-[40px]">
                 {formatDuration(song.duration)}
               </span>

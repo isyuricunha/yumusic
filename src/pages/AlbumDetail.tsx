@@ -37,8 +37,8 @@ export default function AlbumDetail() {
     }
   };
 
-  if (isLoading) return <div className="animate-pulse text-muted-foreground">Loading...</div>;
-  if (!album) return <div>Not Found</div>;
+  if (isLoading) return <div className="animate-pulse text-muted-foreground p-8">{t('common.loading')}...</div>;
+  if (!album) return <div className="p-8">{t('common.not_found')}</div>;
 
   return (
     <div className="flex flex-col space-y-8 pb-12">
@@ -53,7 +53,7 @@ export default function AlbumDetail() {
       </Button>
 
       <div className="flex flex-col md:flex-row md:items-end space-y-6 md:space-y-0 md:space-x-8">
-        <div className="w-48 h-48 md:w-64 md:h-64 shadow-2xl rounded-lg overflow-hidden shrink-0">
+        <div className="w-48 h-48 md:w-64 md:h-64 shadow-2xl rounded-lg overflow-hidden shrink-0 bg-muted">
           <img 
             src={getCoverUrl(album.coverArt || album.id)} 
             alt={album.name} 
@@ -64,7 +64,12 @@ export default function AlbumDetail() {
           <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Album</span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">{album.name}</h1>
           <div className="flex items-center space-x-2 text-sm font-medium">
-            <span className="hover:underline cursor-pointer text-primary">{album.artist}</span>
+            <span 
+              className="hover:underline cursor-pointer text-primary"
+              onClick={() => navigate(`/artist/${album.artistId}`)}
+            >
+              {album.artist}
+            </span>
             <span className="text-muted-foreground">•</span>
             <span className="text-muted-foreground">{album.year}</span>
             <span className="text-muted-foreground">•</span>
@@ -118,7 +123,15 @@ export default function AlbumDetail() {
                 )}>
                   {song.title}
                 </span>
-                <span className="text-xs text-muted-foreground truncate">{song.artist}</span>
+                <span 
+                  className="text-xs text-muted-foreground truncate hover:underline"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/artist/${song.artistId}`);
+                  }}
+                >
+                  {song.artist}
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <span className="text-xs text-muted-foreground tabular-nums">

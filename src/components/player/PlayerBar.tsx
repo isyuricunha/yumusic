@@ -7,8 +7,11 @@ import { useCoverArtUrl } from '@/hooks/useSubsonic';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
+import { useNavigate } from 'react-router';
+
 export function PlayerBar() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { 
     currentSong, 
     isPlaying, 
@@ -68,10 +71,16 @@ export function PlayerBar() {
           )}
         </div>
         <div className="ml-4 flex flex-col justify-center overflow-hidden">
-          <div className="font-semibold text-sm hover:underline cursor-pointer truncate">
+          <div 
+            className="font-semibold text-sm hover:underline cursor-pointer truncate"
+            onClick={() => currentSong && navigate(`/album/${currentSong.albumId}`)}
+          >
             {currentSong ? currentSong.title : t('player.not_playing')}
           </div>
-          <div className="text-xs text-muted-foreground hover:underline cursor-pointer truncate">
+          <div 
+            className="text-xs text-muted-foreground hover:underline cursor-pointer truncate"
+            onClick={() => currentSong && navigate(`/artist/${currentSong.artistId || ''}`)}
+          >
             {currentSong ? currentSong.artist : 'Yumusic Player'}
           </div>
         </div>
