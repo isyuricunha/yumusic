@@ -32,6 +32,8 @@
     "results": "Resultados",
     "podcast": "Podcast",
     "episode": "Episódio",
+    "episodes": "Episódios",
+    "remaining": "restantes",
     "not_supported": "Funcionalidade Não Suportada",
     "feature_not_implemented": "Esta funcionalidade não foi implementada pelo seu servidor (ex: Navidrome ainda não suporta Podcasts)."
   },
@@ -86,5 +88,13 @@
     "artists": "Artistas",
     "no_results": "Nenhum resultado encontrado para",
     "searching": "Buscando..."
+  },
+  "podcasts": {
+    "add_rss": "Adicionar RSS",
+    "add_rss_title": "Assinar via RSS",
+    "add_rss_desc": "Cole a URL do feed RSS do podcast (Anchor, Spotify, etc.) para ouvir localmente.",
+    "local_podcasts": "Podcasts Locais (RSS)",
+    "server_podcasts": "Podcasts do Servidor",
+    "unsupported_server": "Seu servidor não suporta a API de Podcasts, mas você pode adicionar feeds RSS manualmente abaixo."
   }
 }
