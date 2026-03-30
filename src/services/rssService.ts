@@ -61,6 +61,9 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
       duration = parseInt(durationStr) || 0;
     }
 
+    const episodeImage = item.querySelector('itunes\\:image')?.getAttribute('href') || 
+                        item.querySelector('media\\:content')?.getAttribute('url');
+
     if (streamUrl) {
       items.push({
         id: `rss-${url}-${index}`, // Unique ID for the session
@@ -69,7 +72,7 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
         artist: author || title,
         track: index + 1,
         duration: duration,
-        coverArt: image,
+        coverArt: episodeImage || image, // Fallback to channel image
         albumId: url, // Use URL as parent ID
         artistId: url,
         type: 'podcast',

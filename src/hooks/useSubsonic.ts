@@ -161,6 +161,9 @@ export function useCoverArtUrl() {
   return useCallback((id?: string) => {
     if (!config || !id) return undefined;
     
+    // If it's already a URL, return it as is
+    if (id.startsWith('http')) return id;
+    
     const query = new URLSearchParams({
       u: config.username,
       t: config.token,
