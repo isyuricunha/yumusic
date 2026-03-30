@@ -41,14 +41,14 @@ export default function ArtistSongs() {
         </Button>
         <div>
           <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{t('common.artist')}</span>
-          <h1 className="text-3xl font-black">{artist.name} — {t('common.all_songs') || 'All Songs'}</h1>
+          <h1 className="text-3xl font-black">{artist.name} — {t('common.all_songs')}</h1>
         </div>
       </div>
 
       <div className="flex flex-col">
         <div className="grid grid-cols-[40px_1fr_1fr_auto] gap-4 px-4 py-2 border-b border-white/5 text-xs font-bold text-muted-foreground uppercase tracking-widest">
           <div className="flex justify-center">#</div>
-          <div>{t('common.title') || 'Title'}</div>
+          <div>{t('common.title')}</div>
           <div className="hidden md:block">{t('common.album')}</div>
           <div className="flex justify-end"><Clock className="h-4 w-4" /></div>
         </div>
