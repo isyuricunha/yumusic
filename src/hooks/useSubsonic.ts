@@ -273,24 +273,35 @@ export function useSearchSongs(query?: string, count: number = 20) {
   });
 }
 
-export function useArtistSongs(artistId?: string) {
+export function useArtistSongs(artistId?: string, artistName?: string) {
   const config = useConfigStore((state) => state.config);
   return useQuery({
-    queryKey: ['artistSongs', artistId, config?.serverUrl],
+    queryKey: ['artistSongs', artistId, artistName, config?.serverUrl],
     queryFn: async () => {
       if (!config || !artistId) throw new Error('No config or artistId');
-      // Fetch artist to get albums, then fetch songs for each album
-      const artistRes = await fetchSubsonic('getArtist', config, { id: artistId });
-      const albums = artistRes?.artist?.album || [];
       
-      const allSongs: SubsonicSong[] = [];
-      // To keep it fast, we'll only fetch the first 3 albums
-      for (const album of albums.slice(0, 3)) {
-        const albumRes = await fetchSubsonic('getAlbum', config, { id: album.id });
-        const songs = albumRes?.album?.song || [];
-        allSongs.push(...songs);
-      }
-      return allSongs;
+      const [artistRes, searchRes] = await Promise.all([
+        fetchSubsonic('getArtist', config, { id: artistId }),
+        artistName ? fetchSubsonic('search3', config, { query: artistName, songCount: '50' }) : Promise.resolve(null)
+      ]);
+
+      const albums = artistRes?.artist?.album || [];
+      const searchSongs = (searchRes?.searchResult3?.song || []) as SubsonicSong[];
+      
+      const albumSongsPromises = albums.slice(0, 20).map((album: SubsonicAlbum) => 
+        fetchSubsonic('getAlbum', config, { id: album.id })
+      );
+      
+      const albumResults = await Promise.all(albumSongsPromises);
+      const albumSongs = albumResults.flatMap(res => res?.album?.song || []) as SubsonicSong[];
+      
+      // Combine and deduplicate
+      const allSongsMap = new Map<string, SubsonicSong>();
+      [...albumSongs, ...searchSongs].forEach(song => {
+        if (song.id) allSongsMap.set(song.id, song);
+      });
+      
+      return Array.from(allSongsMap.values());
     },
     enabled: !!config && !!artistId,
   });

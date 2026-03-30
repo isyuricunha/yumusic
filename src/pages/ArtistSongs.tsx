@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useCoverArtUrl, useTopSongs, useSearchSongs } from '@/hooks/useSubsonic';
+import { useArtist, useCoverArtUrl, useArtistSongs } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, Clock } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
@@ -12,14 +12,9 @@ export default function ArtistSongs() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: artist, isLoading: loadingArtist } = useArtist(id);
-  const { data: topSongs, isLoading: loadingTopSongs, isSuccess: topSuccess } = useTopSongs(artist?.name, 50);
-  const { data: searchSongs, isLoading: loadingSearch } = useSearchSongs(
-    (!topSongs || topSongs.length === 0) && topSuccess ? artist?.name : undefined, 
-    50
-  );
+  const { data: songs, isLoading: loadingSongs } = useArtistSongs(id, artist?.name);
 
-  const songs = (topSongs && topSongs.length > 0) ? topSongs : (searchSongs || []);
-  const isLoading = loadingArtist || (loadingTopSongs && !topSuccess) || (loadingSearch && (!topSongs || topSongs.length === 0));
+  const isLoading = loadingArtist || loadingSongs;
   
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
