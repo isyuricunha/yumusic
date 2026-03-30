@@ -255,6 +255,47 @@ export function useTopSongs(artistName?: string, count: number = 10) {
   });
 }
 
+export function useSearchSongs(query?: string, count: number = 20) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['searchSongs', query, count, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !query) return [];
+      try {
+        const res = await fetchSubsonic('search3', config, { query, songCount: count.toString() });
+        return (res?.searchResult3?.song || []) as SubsonicSong[];
+      } catch (e) {
+        console.warn('SearchSongs failed', e);
+        return [];
+      }
+    },
+    enabled: !!config && !!query,
+  });
+}
+
+export function useArtistSongs(artistId?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['artistSongs', artistId, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !artistId) throw new Error('No config or artistId');
+      // Fetch artist to get albums, then fetch songs for each album
+      const artistRes = await fetchSubsonic('getArtist', config, { id: artistId });
+      const albums = artistRes?.artist?.album || [];
+      
+      const allSongs: SubsonicSong[] = [];
+      // To keep it fast, we'll only fetch the first 3 albums
+      for (const album of albums.slice(0, 3)) {
+        const albumRes = await fetchSubsonic('getAlbum', config, { id: album.id });
+        const songs = albumRes?.album?.song || [];
+        allSongs.push(...songs);
+      }
+      return allSongs;
+    },
+    enabled: !!config && !!artistId,
+  });
+}
+
 export function usePodcasts() {
   const config = useConfigStore((state) => state.config);
   return useQuery({

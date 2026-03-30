@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useCoverArtUrl, useTopSongs } from '@/hooks/useSubsonic';
+import { useArtist, useCoverArtUrl, useTopSongs, useSearchSongs } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, Clock } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
@@ -12,9 +12,15 @@ export default function ArtistSongs() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: artist, isLoading: loadingArtist } = useArtist(id);
-  // We'll use getTopSongs with a high count to approximate "All Songs" 
-  // or until we have a better way to flatten all albums.
-  const { data: songs, isLoading: loadingSongs } = useTopSongs(artist?.name, 50);
+  const { data: topSongs, isLoading: loadingTopSongs, isSuccess: topSuccess } = useTopSongs(artist?.name, 50);
+  const { data: searchSongs, isLoading: loadingSearch } = useSearchSongs(
+    (!topSongs || topSongs.length === 0) && topSuccess ? artist?.name : undefined, 
+    50
+  );
+
+  const songs = (topSongs && topSongs.length > 0) ? topSongs : (searchSongs || []);
+  const isLoading = loadingArtist || (loadingTopSongs && !topSuccess) || (loadingSearch && (!topSongs || topSongs.length === 0));
+  
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
@@ -25,7 +31,7 @@ export default function ArtistSongs() {
     return `${min}:${sec.toString().padStart(2, '0')}`;
   };
 
-  if (loadingArtist || loadingSongs) return <div className="p-8 animate-pulse text-muted-foreground">{t('common.loading')}...</div>;
+  if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground">{t('common.loading')}...</div>;
   if (!artist) return <div className="p-8 text-muted-foreground">{t('common.not_found')}</div>;
 
   return (

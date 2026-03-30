@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl } from '@/hooks/useSubsonic';
+import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl, useSearchSongs } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
@@ -14,7 +14,14 @@ export default function ArtistDetail() {
   const navigate = useNavigate();
   const { data: artist, isLoading } = useArtist(id);
   const { data: artistInfo } = useArtistInfo(id);
-  const { data: topSongs } = useTopSongs(artist?.name);
+  const { data: topSongs, isSuccess: topSongsSucceeded } = useTopSongs(artist?.name);
+  const { data: searchSongs } = useSearchSongs(
+    (!topSongs || topSongs.length === 0) && topSongsSucceeded ? artist?.name : undefined, 
+    10
+  );
+  
+  const displaySongs = (topSongs && topSongs.length > 0) ? topSongs : (searchSongs || []);
+  
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
@@ -31,11 +38,19 @@ export default function ArtistDetail() {
   if (!artist) return <div className="p-8 text-muted-foreground">{t('common.not_found')}</div>;
 
   const handlePlayArtist = async () => {
-    if (!config || !artist.album || artist.album.length === 0) return;
+    if (!config) return;
     
-    // Quick play first album's first song as a placeholder for "Play Artist"
+    if (displaySongs.length > 0) {
+      setQueue(displaySongs);
+      setSong(displaySongs[0], config);
+      return;
+    }
+
+    if (!artist.album || artist.album.length === 0) return;
+    
+    // Fallback to first album if no songs list available
     const firstAlbumId = artist.album[0].id;
-    const res = await fetch(`${config.serverUrl}/rest/getAlbum?u=${config.username}&t=${config.token}&s=${config.salt}&v=1.16.1&c=Yumusic&id=${firstAlbumId}&f=json`);
+    const res = await fetch(`${config.serverUrl}/rest/getAlbum?u=${config.username}&t=${config.token}&s=${config.salt}&v=1.16.1&c=YuMusic&id=${firstAlbumId}&f=json`);
     const data = await res.json();
     const songs = data['subsonic-response']?.album?.song;
     if (songs && songs.length > 0) {
@@ -108,10 +123,12 @@ export default function ArtistDetail() {
         </section>
       )}
 
-      {topSongs && topSongs.length > 0 && (
+      {displaySongs && displaySongs.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">{t('common.popular')}</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-primary">
+              {topSongs && topSongs.length > 0 ? t('common.popular') : (t('common.songs') || 'Songs')}
+            </h2>
             <button 
               className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
               onClick={() => navigate(`/artist/${id}/songs`)}
@@ -120,7 +137,7 @@ export default function ArtistDetail() {
             </button>
           </div>
           <div className="flex flex-col">
-            {topSongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
+            {displaySongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
               <div 
                 key={song.id} 
                 className={cn(
@@ -129,7 +146,7 @@ export default function ArtistDetail() {
                 )}
                 onClick={() => {
                   if (config) {
-                    setQueue(topSongs);
+                    setQueue(displaySongs);
                     setSong(song, config);
                   }
                 }}
@@ -168,7 +185,7 @@ export default function ArtistDetail() {
               </div>
             ))}
           </div>
-          {topSongs.length > 5 && (
+          {displaySongs.length > 5 && (
             <Button 
               variant="ghost" 
               size="sm" 
