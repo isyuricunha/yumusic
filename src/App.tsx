@@ -10,9 +10,10 @@ import Favorites from '@/pages/Favorites';
 import AlbumDetail from '@/pages/AlbumDetail';
 import Podcasts from '@/pages/Podcasts';
 import Radio from '@/pages/Radio';
+import Settings from '@/pages/Settings';
+import PlaylistDetail from '@/pages/PlaylistDetail';
 
 // Temporary stubs for missing pages
-const Settings = () => <div>Settings View</div>;
 
 export default function App() {
   const { initializeTheme } = useThemeStore();
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/library" element={<Library />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/album/:id" element={<AlbumDetail />} />
+          <Route path="/playlist/:id" element={<PlaylistDetail />} />
           <Route path="/podcasts" element={<Podcasts />} />
           <Route path="/radio" element={<Radio />} />
           <Route path="/settings" element={<Settings />} />

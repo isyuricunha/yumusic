@@ -24,6 +24,16 @@
     "connect": "Conectar",
     "connecting": "Conectando..."
   },
+  "settings": {
+    "appearance": "Aparência",
+    "appearance_desc": "Personalize o visual do seu player.",
+    "theme": "Tema",
+    "theme_desc": "Escolha sua paleta de cores.",
+    "language": "Idioma",
+    "language_desc": "Selecione o idioma de sua preferência.",
+    "server": "Servidor e Conta",
+    "server_desc": "Informações do servidor conectado."
+  },
   "player": {
     "not_playing": "Nada tocando agora"
   },

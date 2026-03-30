@@ -54,6 +54,7 @@ export default function Login() {
               <label htmlFor="serverUrl" className="text-sm font-medium">{t('login.server_url')}</label>
               <Input
                 id="serverUrl"
+                name="serverUrl"
                 type="url"
                 placeholder="https://music.example.com"
                 value={serverUrl}
@@ -65,6 +66,7 @@ export default function Login() {
               <label htmlFor="username" className="text-sm font-medium">{t('login.username')}</label>
               <Input
                 id="username"
+                name="username"
                 type="text"
                 placeholder="admin"
                 value={username}
@@ -76,6 +78,7 @@ export default function Login() {
               <label htmlFor="password" className="text-sm font-medium">{t('login.password')}</label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
