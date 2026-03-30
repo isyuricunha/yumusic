@@ -51,6 +51,8 @@ export const pingSubsonic = async (config: SubsonicConfig) => {
   return await fetchSubsonic('ping', config);
 };
 
-export const scrobbleSubsonic = async (id: string, config: SubsonicConfig) => {
-  return await fetchSubsonic('scrobble', config, { id, submission: 'true' });
+export const scrobbleSubsonic = async (id: string, config: SubsonicConfig, submission: boolean = true, time?: number) => {
+  const params: Record<string, string> = { id, submission: submission.toString() };
+  if (time) params.time = time.toString();
+  return await fetchSubsonic('scrobble', config, params);
 };

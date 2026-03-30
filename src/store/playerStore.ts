@@ -62,7 +62,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const newAudio = new Audio(streamUrl);
     newAudio.volume = get().volume;
 
-    newAudio.addEventListener('play', () => set({ isPlaying: true }));
+    newAudio.addEventListener('play', () => {
+      set({ isPlaying: true });
+      // Notify server "Now Playing" (submission = false)
+      if (song.id) {
+        scrobbleSubsonic(song.id, config, false).catch((err) => console.error('Now Playing notify error:', err));
+      }
+    });
+
     newAudio.addEventListener('pause', () => set({ isPlaying: false }));
     newAudio.addEventListener('timeupdate', () => {
       const { hasScrobbled, currentSong, duration } = get();
@@ -72,7 +79,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       // Auto-scrobble at 50% duration (standard practice)
       if (!hasScrobbled && currentSong && duration > 0 && currentTime > duration / 2) {
         set({ hasScrobbled: true });
-        scrobbleSubsonic(currentSong.id, config).catch((err) => console.error('Scrobble error:', err));
+        // Use submission=true and current timestamp for final scrobble
+        scrobbleSubsonic(currentSong.id, config, true, Date.now()).catch((err) => console.error('Scrobble submission error:', err));
       }
     });
 
@@ -82,7 +90,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       // Scrobble as a fallback if not already scrobbled
       if (!hasScrobbled && currentSong?.id) {
         set({ hasScrobbled: true });
-        scrobbleSubsonic(currentSong.id, config).catch((err) => console.error('Scrobble error:', err));
+        scrobbleSubsonic(currentSong.id, config, true, Date.now()).catch((err) => console.error('Scrobble fallback error:', err));
       }
       
       if (repeatMode === 'one' && currentSong) {
