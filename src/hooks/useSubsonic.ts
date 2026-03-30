@@ -76,26 +76,35 @@ export function useArtists() {
       const indices = res?.artists?.index || [];
       const allArtists: SubsonicArtist[] = [];
       indices.forEach((index: any) => {
-        if (index.artist) allArtists.push(...index.artist);
+        const artists = index.artist;
+        if (Array.isArray(artists)) {
+          allArtists.push(...artists);
+        } else if (artists) {
+          allArtists.push(artists);
+        }
       });
-      return allArtists;
+      return allArtists.sort((a, b) => a.name.localeCompare(b.name));
+    },
+    enabled: !!config,
+  });
+}
+
+export function useAlbumList(type: 'newest' | 'frequent' | 'recent' | 'random' = 'newest', size = 50) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['albumList', type, size, config?.serverUrl],
+    queryFn: async () => {
+      if (!config) throw new Error('No config');
+      // Using getAlbumList2 for better compatibility with Navidrome/Gonic
+      const res = await fetchSubsonic('getAlbumList2', config, { type, size: size.toString() });
+      return (res?.albumList2?.album || []) as SubsonicAlbum[];
     },
     enabled: !!config,
   });
 }
 
 export function useAlbums() {
-  const config = useConfigStore((state) => state.config);
-  return useQuery({
-    queryKey: ['albums', config?.serverUrl],
-    queryFn: async () => {
-      if (!config) throw new Error('No config');
-      // getAlbumList with type=newest as default library view
-      const res = await fetchSubsonic('getAlbumList', config, { type: 'newest', size: '50' });
-      return (res?.albumList?.album || []) as SubsonicAlbum[];
-    },
-    enabled: !!config,
-  });
+  return useAlbumList('newest', 50);
 }
 
 export function useSearch(query: string) {

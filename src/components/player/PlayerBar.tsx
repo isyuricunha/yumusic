@@ -5,6 +5,7 @@ import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { useCoverArtUrl } from '@/hooks/useSubsonic';
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/lib/utils';
 
 export function PlayerBar() {
   const { t } = useTranslation();
@@ -18,10 +19,20 @@ export function PlayerBar() {
     duration, 
     setProgress,
     next,
-    previous 
+    previous,
+    isShuffle,
+    repeatMode,
+    toggleShuffle,
+    setRepeatMode
   } = usePlayerStore();
   const config = useConfigStore((state) => state.config);
   const getCoverArt = useCoverArtUrl();
+
+  const handleRepeatToggle = () => {
+    if (repeatMode === 'none') setRepeatMode('all');
+    else if (repeatMode === 'all') setRepeatMode('one');
+    else setRepeatMode('none');
+  };
 
   const formatTime = (time: number) => {
     if (isNaN(time)) return '0:00';
@@ -69,8 +80,16 @@ export function PlayerBar() {
       {/* Main Controls */}
       <div className="flex flex-col items-center justify-center w-2/4 max-w-[722px]">
         <div className="flex items-center space-x-4 mb-2">
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
-            <Shuffle className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 transition-colors"
+            onClick={toggleShuffle}
+          >
+            <Shuffle className={cn(
+              "h-4 w-4",
+              isShuffle ? "text-primary" : "text-muted-foreground"
+            )} />
           </Button>
           <Button 
             variant="ghost" 
@@ -105,8 +124,21 @@ export function PlayerBar() {
           >
             <SkipForward className="h-5 w-5 fill-current" />
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
-            <Repeat className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 transition-colors"
+            onClick={handleRepeatToggle}
+          >
+            <div className="relative">
+              <Repeat className={cn(
+                "h-4 w-4",
+                repeatMode !== 'none' ? "text-primary" : "text-muted-foreground"
+              )} />
+              {repeatMode === 'one' && (
+                <span className="absolute -top-1 -right-1 text-[8px] font-bold text-primary">1</span>
+              )}
+            </div>
           </Button>
         </div>
         

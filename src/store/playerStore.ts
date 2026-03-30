@@ -10,6 +10,8 @@ interface PlayerState {
   progress: number;
   duration: number;
   audio: HTMLAudioElement | null;
+  isShuffle: boolean;
+  repeatMode: 'none' | 'one' | 'all';
   
   // Actions
   setSong: (song: SubsonicSong, config: SubsonicConfig) => void;
@@ -22,6 +24,8 @@ interface PlayerState {
   previous: (config: SubsonicConfig) => void;
   addToQueue: (song: SubsonicSong) => void;
   setQueue: (queue: SubsonicSong[]) => void;
+  toggleShuffle: () => void;
+  setRepeatMode: (mode: 'none' | 'one' | 'all') => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -32,6 +36,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   progress: 0,
   duration: 0,
   audio: null,
+  isShuffle: false,
+  repeatMode: 'none',
 
   setSong: (song, config) => {
     const { audio } = get();
@@ -64,7 +70,13 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       if (song.id) {
         scrobbleSubsonic(song.id, config).catch((err) => console.error('Scrobble error:', err));
       }
-      get().next(config);
+      
+      const { repeatMode, setSong, currentSong } = get();
+      if (repeatMode === 'one' && currentSong) {
+        setSong(currentSong, config);
+      } else {
+        get().next(config);
+      }
     });
 
     set({ currentSong: song, audio: newAudio, isPlaying: true });
@@ -113,17 +125,36 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   },
 
   next: (config) => {
-    const { queue, currentSong, setSong } = get();
+    const { queue, currentSong, setSong, isShuffle, repeatMode } = get();
     if (queue.length === 0 || !currentSong) return;
 
+    if (isShuffle) {
+      const randomIndex = Math.floor(Math.random() * queue.length);
+      setSong(queue[randomIndex], config);
+      return;
+    }
+
     const currentIndex = queue.findIndex((s) => s.id === currentSong.id);
+    const isLast = currentIndex === queue.length - 1;
+
+    if (isLast && repeatMode === 'none') {
+      set({ isPlaying: false });
+      return;
+    }
+
     const nextIndex = (currentIndex + 1) % queue.length;
     setSong(queue[nextIndex], config);
   },
 
   previous: (config) => {
-    const { queue, currentSong, setSong } = get();
+    const { queue, currentSong, setSong, isShuffle } = get();
     if (queue.length === 0 || !currentSong) return;
+
+    if (isShuffle) {
+      const randomIndex = Math.floor(Math.random() * queue.length);
+      setSong(queue[randomIndex], config);
+      return;
+    }
 
     const currentIndex = queue.findIndex((s) => s.id === currentSong.id);
     const prevIndex = (currentIndex - 1 + queue.length) % queue.length;
@@ -136,5 +167,13 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
   setQueue: (queue) => {
     set({ queue });
+  },
+
+  toggleShuffle: () => {
+    set((state) => ({ isShuffle: !state.isShuffle }));
+  },
+
+  setRepeatMode: (mode) => {
+    set({ repeatMode: mode });
   },
 }));

@@ -15,7 +15,15 @@
     "creating": "Creating...",
     "loading": "Loading",
     "not_found": "Not Found",
-    "no_playlists": "No Playlists Found"
+    "no_playlists": "No Playlists Found",
+    "see_all": "See All",
+    "play": "Play",
+    "podcast": "Podcast",
+    "episode": "Episode"
+  },
+  "home": {
+    "recently_added": "Recently Added",
+    "most_played": "Most Played"
   },
   "sidebar": {
     "menu": "Menu",
