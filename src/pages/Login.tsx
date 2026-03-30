@@ -47,9 +47,9 @@ export default function Login() {
       <Card className="w-full max-w-sm rounded-[var(--radius-xl)] shadow-lg">
         <CardHeader className="space-y-4 pb-8">
           <div className="flex justify-center mb-2">
-            <img src={logo} alt="Yumusic Logo" className="w-16 h-16 object-contain" />
+            <img src={logo} alt="YuMusic Logo" className="w-16 h-16 object-contain" />
           </div>
-          <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">Yumusic Player</CardTitle>
+          <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">YuMusic Player</CardTitle>
           <CardDescription className="text-center">{t('login.description')}</CardDescription>
         </CardHeader>
         <CardContent>

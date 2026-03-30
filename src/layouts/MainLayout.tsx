@@ -20,7 +20,7 @@ export function MainLayout() {
       <div className="flex h-screen items-center justify-center bg-background text-foreground">
         <div className="animate-pulse flex flex-col items-center space-y-4">
           <div className="w-12 h-12 bg-primary rounded-full" />
-          <span className="text-sm font-medium">Yumusic...</span>
+          <span className="text-sm font-medium">YuMusic...</span>
         </div>
       </div>
     );
@@ -40,10 +40,7 @@ export function MainLayout() {
         {/* Mobile Header */}
         <header className="h-16 border-b border-border flex items-center justify-between px-6 md:hidden bg-background/80 backdrop-blur-md sticky top-0 z-40">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl">y</span>
-            </div>
-            <span className="font-bold text-lg">Yumusic</span>
+            <span className="font-bold text-lg">YuMusic</span>
           </div>
           <Button 
             variant="ghost" 

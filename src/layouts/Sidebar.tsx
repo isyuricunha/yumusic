@@ -39,8 +39,8 @@ export function Sidebar() {
   return (
     <div className="w-64 bg-sidebar border-r border-sidebar-border hidden md:flex flex-col h-full">
       <div className="p-6 flex items-center space-x-3">
-        <img src={logo} alt="Yumusic Logo" className="w-8 h-8 object-contain" />
-        <span className="font-bold text-xl tracking-tight text-sidebar-foreground">Yumusic</span>
+        <img src={logo} alt="YuMusic Logo" className="w-8 h-8 object-contain" />
+        <span className="font-bold text-xl tracking-tight text-sidebar-foreground">YuMusic</span>
       </div>
 
       <ScrollArea className="flex-1 px-4">

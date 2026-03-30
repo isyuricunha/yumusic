@@ -81,7 +81,7 @@ export function PlayerBar() {
             className="text-xs text-muted-foreground hover:underline cursor-pointer truncate"
             onClick={() => currentSong && navigate(`/artist/${currentSong.artistId || ''}`)}
           >
-            {currentSong ? currentSong.artist : 'Yumusic Player'}
+            {currentSong ? currentSong.artist : 'YuMusic Player'}
           </div>
         </div>
       </div>
