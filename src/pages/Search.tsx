@@ -1,0 +1,110 @@
+import { useState } from 'react';
+import { useSearch, useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { Input } from '@/components/ui/input';
+import { Search as SearchIcon } from 'lucide-react';
+
+export default function Search() {
+  const [query, setQuery] = useState('');
+  const { data: results, isLoading } = useSearch(query);
+  const getCoverUrl = useGetCoverArtUrl;
+
+  return (
+    <div className="w-full space-y-6 pb-8">
+      <div className="flex flex-col space-y-4">
+        <h1 className="text-3xl font-bold tracking-tight text-primary">Search</h1>
+        <div className="relative max-w-md w-full">
+          <SearchIcon className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+          <Input 
+            value={query}
+            onChange={(e) => setQuery(e.currentTarget.value)}
+            className="pl-10 h-11 bg-muted/50 border-transparent rounded-[var(--radius-lg)] focus-visible:ring-1 focus-visible:ring-primary"
+            placeholder="What do you want to listen to?" 
+          />
+        </div>
+      </div>
+
+      <div className="mt-8">
+        {query.length > 1 && isLoading && (
+          <div className="text-muted-foreground animate-pulse">Searching...</div>
+        )}
+
+        {results && query.length > 1 && (
+          <div className="space-y-8">
+            
+            {/* Artists */}
+            {results.artist && results.artist.length > 0 && (
+              <section>
+                <h2 className="text-xl font-semibold mb-4">Artists</h2>
+                <div className="flex flex-wrap gap-4">
+                  {results.artist.slice(0, 5).map((artist: any) => (
+                    <div key={artist.id} className="cursor-pointer bg-muted/40 p-3 flex items-center space-x-4 rounded-full hover:bg-muted/80 pr-6 transition">
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-muted">
+                        <img src={getCoverUrl(artist.coverArt || '')} alt={artist.name} className="w-full h-full object-cover" loading="lazy" />
+                      </div>
+                      <span className="font-medium text-sm">{artist.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Albums */}
+            {results.album && results.album.length > 0 && (
+              <section>
+                <h2 className="text-xl font-semibold mb-4">Albums</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  {results.album.slice(0, 5).map((album: any) => (
+                    <div key={album.id} className="group cursor-pointer flex flex-col space-y-3">
+                      <div className="overflow-hidden rounded-md shadow-md bg-muted aspect-square relative transition-transform duration-300 group-hover:scale-[1.02]">
+                        <img
+                          src={getCoverUrl(album.coverArt || album.id)}
+                          alt={album.name}
+                          className="object-cover w-full h-full transition-all duration-300 group-hover:brightness-75"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-sm truncate" title={album.name}>{album.name}</span>
+                        <span className="text-xs text-muted-foreground truncate" title={album.artist}>{album.artist}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Songs */}
+            {results.song && results.song.length > 0 && (
+              <section>
+                <h2 className="text-xl font-semibold mb-4">Songs</h2>
+                <div className="flex flex-col space-y-2">
+                  {results.song.slice(0, 10).map((song: any) => (
+                    <div key={song.id} className="flex items-center p-2 rounded-md hover:bg-muted/50 cursor-pointer group transition">
+                      <div className="w-10 h-10 bg-muted rounded shrink-0 mr-4">
+                        <img 
+                          src={getCoverUrl(song.coverArt || song.albumId)} 
+                          alt={song.title} 
+                          className="w-full h-full object-cover rounded" 
+                          loading="lazy" 
+                        />
+                      </div>
+                      <div className="flex flex-col flex-1 truncate">
+                        <span className="text-sm font-medium truncate">{song.title}</span>
+                        <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
+            {results.artist?.length === 0 && results.album?.length === 0 && results.song?.length === 0 && (
+              <p className="text-muted-foreground">No results found for "{query}"</p>
+            )}
+            
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
