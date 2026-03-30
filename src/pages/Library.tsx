@@ -1,11 +1,13 @@
 import { useAlbums, useArtists, useGetCoverArtUrl } from '@/hooks/useSubsonic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useNavigate } from 'react-router';
 
 export default function Library() {
   const { data: albums, isLoading: loadingAlbums } = useAlbums();
   const { data: artists, isLoading: loadingArtists } = useArtists();
   const getCoverUrl = useGetCoverArtUrl;
+  const navigate = useNavigate();
 
   return (
     <div className="w-full space-y-6 pb-8">
@@ -25,7 +27,11 @@ export default function Library() {
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
               {albums?.map((album) => (
-                <div key={album.id} className="group cursor-pointer flex flex-col space-y-3">
+                <div 
+                  key={album.id} 
+                  className="group cursor-pointer flex flex-col space-y-3"
+                  onClick={() => navigate(`/album/${album.id}`)}
+                >
                   <div className="overflow-hidden rounded-md shadow-md bg-muted aspect-square relative transition-transform duration-300 group-hover:scale-[1.02]">
                     <img
                       src={getCoverUrl(album.coverArt || album.id)}

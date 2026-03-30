@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import Library from '@/pages/Library';
 import Search from '@/pages/Search';
 import Favorites from '@/pages/Favorites';
+import AlbumDetail from '@/pages/AlbumDetail';
 
 // Temporary stubs for missing pages
 const Settings = () => <div>Settings View</div>;
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/library" element={<Library />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/album/:id" element={<AlbumDetail />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>

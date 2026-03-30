@@ -111,3 +111,16 @@ export function useGetCoverArtUrl(id?: string) {
   const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
   return `${baseUrl}rest/getCoverArt?${query.toString()}`;
 }
+
+export function useAlbum(id?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['album', id, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !id) throw new Error('No config or id');
+      const res = await fetchSubsonic('getAlbum', config, { id });
+      return res?.album as SubsonicAlbum & { song: SubsonicSong[] };
+    },
+    enabled: !!config && !!id,
+  });
+}

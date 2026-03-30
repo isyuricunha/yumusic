@@ -1,12 +1,24 @@
 import { useState } from 'react';
-import { useSearch, useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { useSearch, useGetCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
 import { Input } from '@/components/ui/input';
-import { Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, Play } from 'lucide-react';
+import { usePlayerStore } from '@/store/playerStore';
+import { useConfigStore } from '@/store/configStore';
+import { cn } from '@/lib/utils';
 
 export default function Search() {
   const [query, setQuery] = useState('');
   const { data: results, isLoading } = useSearch(query);
   const getCoverUrl = useGetCoverArtUrl;
+  const config = useConfigStore((state) => state.config);
+  const { setSong, setQueue, currentSong } = usePlayerStore();
+
+  const handlePlaySong = (song: SubsonicSong, allSongs: SubsonicSong[]) => {
+    if (config) {
+      setQueue(allSongs);
+      setSong(song, config);
+    }
+  };
 
   return (
     <div className="w-full space-y-6 pb-8">
@@ -78,18 +90,31 @@ export default function Search() {
               <section>
                 <h2 className="text-xl font-semibold mb-4">Songs</h2>
                 <div className="flex flex-col space-y-2">
-                  {results.song.slice(0, 10).map((song: any) => (
-                    <div key={song.id} className="flex items-center p-2 rounded-md hover:bg-muted/50 cursor-pointer group transition">
-                      <div className="w-10 h-10 bg-muted rounded shrink-0 mr-4">
+                  {results.song.slice(0, 10).map((song: SubsonicSong, _: number, all: SubsonicSong[]) => (
+                    <div 
+                      key={song.id} 
+                      className={cn(
+                        "flex items-center p-2 rounded-md hover:bg-muted/50 cursor-pointer group transition relative",
+                        currentSong?.id === song.id && "bg-muted/40"
+                      )}
+                      onClick={() => handlePlaySong(song, all)}
+                    >
+                      <div className="w-10 h-10 bg-muted rounded shrink-0 mr-4 relative">
                         <img 
                           src={getCoverUrl(song.coverArt || song.albumId)} 
                           alt={song.title} 
                           className="w-full h-full object-cover rounded" 
                           loading="lazy" 
                         />
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Play className="h-4 w-4 fill-white text-white" />
+                        </div>
                       </div>
                       <div className="flex flex-col flex-1 truncate">
-                        <span className="text-sm font-medium truncate">{song.title}</span>
+                        <span className={cn(
+                          "text-sm font-medium truncate",
+                          currentSong?.id === song.id ? "text-primary" : "text-foreground"
+                        )}>{song.title}</span>
                         <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
                       </div>
                     </div>
