@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useArtistInfo, useCoverArtUrl } from '@/hooks/useSubsonic';
+import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
 import { useTranslation } from 'react-i18next';
 import { usePlayerStore } from '@/store/playerStore';
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function ArtistDetail() {
   const { t } = useTranslation();
@@ -13,10 +14,18 @@ export default function ArtistDetail() {
   const navigate = useNavigate();
   const { data: artist, isLoading } = useArtist(id);
   const { data: artistInfo } = useArtistInfo(id);
+  const { data: topSongs } = useTopSongs(artist?.name);
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
-  const { setSong, setQueue } = usePlayerStore();
+  const { setSong, setQueue, currentSong } = usePlayerStore();
   const [showFullBio, setShowFullBio] = useState(false);
+  const [showFullTracks, setShowFullTracks] = useState(false);
+
+  const formatDuration = (seconds: number) => {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec.toString().padStart(2, '0')}`;
+  };
 
   if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground">{t('common.loading')}...</div>;
   if (!artist) return <div className="p-8 text-muted-foreground">{t('common.not_found')}</div>;
@@ -96,6 +105,71 @@ export default function ArtistDetail() {
               <>Read More <ChevronDown className="ml-1 h-4 w-4" /></>
             )}
           </Button>
+        </section>
+      )}
+
+      {topSongs && topSongs.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-2xl font-bold tracking-tight">{t('common.popular') || 'Popular'}</h2>
+          <div className="flex flex-col">
+            {topSongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
+              <div 
+                key={song.id} 
+                className={cn(
+                  "grid grid-cols-[auto_1fr_auto] gap-4 px-4 py-3 rounded-md hover:bg-muted/50 cursor-pointer group transition items-center",
+                  currentSong?.id === song.id && "bg-muted/40"
+                )}
+                onClick={() => {
+                  if (config) {
+                    setQueue(topSongs);
+                    setSong(song, config);
+                  }
+                }}
+              >
+                <div className="flex w-6 justify-center items-center">
+                  {currentSong?.id === song.id ? (
+                    <div className="w-3 h-3 bg-primary rounded-full animate-bounce" />
+                  ) : (
+                    <span className="text-xs text-muted-foreground group-hover:hidden">{index + 1}</span>
+                  )}
+                  <Play className={cn(
+                    "h-3 w-3 fill-current hidden",
+                    currentSong?.id !== song.id && "group-hover:block"
+                  )} />
+                </div>
+                <div className="flex items-center space-x-3 truncate">
+                  <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">
+                    <img 
+                      src={getCoverUrl(song.coverArt || song.albumId)} 
+                      alt={song.title} 
+                      className="w-full h-full object-cover" 
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="flex flex-col truncate">
+                    <span className={cn(
+                      "text-sm font-medium truncate",
+                      currentSong?.id === song.id ? "text-primary" : "text-foreground"
+                    )}>{song.title}</span>
+                    <span className="text-xs text-muted-foreground truncate">{song.album}</span>
+                  </div>
+                </div>
+                <span className="text-xs text-muted-foreground tabular-nums">
+                  {formatDuration(song.duration)}
+                </span>
+              </div>
+            ))}
+          </div>
+          {topSongs.length > 5 && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-muted-foreground hover:text-foreground font-bold"
+              onClick={() => setShowFullTracks(!showFullTracks)}
+            >
+              {showFullTracks ? t('common.show_less') || 'Show Less' : t('common.show_more') || 'Show More'}
+            </Button>
+          )}
         </section>
       )}
 

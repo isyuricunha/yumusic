@@ -236,6 +236,25 @@ export function useAlbumInfo(id?: string) {
   });
 }
 
+export function useTopSongs(artistName?: string, count: number = 10) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['topSongs', artistName, count, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !artistName) throw new Error('No config or artist name');
+      try {
+        const res = await fetchSubsonic('getTopSongs', config, { artist: artistName, count: count.toString() });
+        return (res?.topSongs?.song || []) as SubsonicSong[];
+      } catch (e) {
+        console.warn('TopSongs not supported or failed', e);
+        return [];
+      }
+    },
+    enabled: !!config && !!artistName,
+    retry: false,
+  });
+}
+
 export function usePodcasts() {
   const config = useConfigStore((state) => state.config);
   return useQuery({
