@@ -81,6 +81,10 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
     }
   });
 
+  if (items.length === 0) {
+    throw new Error('Failed to parse RSS feed. No audio files found (this URL might be a blog, not a podcast).');
+  }
+
   return {
     title,
     description,
