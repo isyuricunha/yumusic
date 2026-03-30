@@ -15,6 +15,7 @@ import Settings from '@/pages/Settings';
 import PlaylistDetail from '@/pages/PlaylistDetail';
 import PodcastDetail from '@/pages/PodcastDetail';
 import ArtistDetail from '@/pages/ArtistDetail';
+import ArtistSongs from '@/pages/ArtistSongs';
 
 export default function App() {
   const { initializeTheme } = useThemeStore();
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/album/:id" element={<AlbumDetail />} />
           <Route path="/artist/:id" element={<ArtistDetail />} />
+          <Route path="/artist/:id/songs" element={<ArtistSongs />} />
           <Route path="/playlist/:id" element={<PlaylistDetail />} />
           <Route path="/podcasts" element={<Podcasts />} />
           <Route path="/podcast/:id" element={<PodcastDetail />} />

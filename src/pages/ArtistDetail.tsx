@@ -110,7 +110,15 @@ export default function ArtistDetail() {
 
       {topSongs && topSongs.length > 0 && (
         <section className="space-y-4">
-          <h2 className="text-2xl font-bold tracking-tight">{t('common.popular') || 'Popular'}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold tracking-tight text-primary">{t('common.popular')}</h2>
+            <button 
+              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
+              onClick={() => navigate(`/artist/${id}/songs`)}
+            >
+              {t('common.see_all')}
+            </button>
+          </div>
           <div className="flex flex-col">
             {topSongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
               <div 
@@ -167,7 +175,7 @@ export default function ArtistDetail() {
               className="text-muted-foreground hover:text-foreground font-bold"
               onClick={() => setShowFullTracks(!showFullTracks)}
             >
-              {showFullTracks ? t('common.show_less') || 'Show Less' : t('common.show_more') || 'Show More'}
+              {showFullTracks ? t('common.show_less') : t('common.show_more')}
             </Button>
           )}
         </section>
