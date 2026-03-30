@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { useSearch, useGetCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { useSearch, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
 import { Input } from '@/components/ui/input';
 import { Search as SearchIcon, Play } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
 
 export default function Search() {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const { data: results, isLoading } = useSearch(query);
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
 
@@ -119,6 +120,7 @@ export default function Search() {
                         )}>{song.title}</span>
                         <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
                       </div>
+                      <AddToPlaylistDropdown songId={song.id} />
                     </div>
                   ))}
                 </div>

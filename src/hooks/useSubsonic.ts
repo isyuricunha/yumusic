@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchSubsonic } from '@/services/apiClient';
 import { useConfigStore } from '@/store/configStore';
+import { useCallback } from 'react';
 
 // === Typings ===
 export interface SubsonicArtist {
@@ -123,21 +124,24 @@ export function useFavorites() {
   });
 }
 
-export function useGetCoverArtUrl(id?: string) {
+export function useCoverArtUrl() {
   const config = useConfigStore((state) => state.config);
-  if (!config || !id) return undefined;
   
-  const query = new URLSearchParams({
-    u: config.username,
-    t: config.token,
-    s: config.salt,
-    v: '1.16.1',
-    c: 'Yumusic',
-    id
-  });
-  
-  const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
-  return `${baseUrl}rest/getCoverArt?${query.toString()}`;
+  return useCallback((id?: string) => {
+    if (!config || !id) return undefined;
+    
+    const query = new URLSearchParams({
+      u: config.username,
+      t: config.token,
+      s: config.salt,
+      v: '1.16.1',
+      c: 'Yumusic',
+      id
+    });
+    
+    const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
+    return `${baseUrl}rest/getCoverArt?${query.toString()}`;
+  }, [config]);
 }
 
 export function useAlbum(id?: string) {
@@ -204,8 +208,6 @@ export function usePlaylist(id?: string) {
     enabled: !!config && !!id,
   });
 }
-
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function usePlaylistMutations() {
   const config = useConfigStore((state) => state.config);

@@ -3,7 +3,7 @@ import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
-import { useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { useCoverArtUrl } from '@/hooks/useSubsonic';
 import { useTranslation } from 'react-i18next';
 
 export function PlayerBar() {
@@ -21,7 +21,7 @@ export function PlayerBar() {
     previous 
   } = usePlayerStore();
   const config = useConfigStore((state) => state.config);
-  const getCoverArt = useGetCoverArtUrl;
+  const getCoverArt = useCoverArtUrl();
 
   const formatTime = (time: number) => {
     if (isNaN(time)) return '0:00';

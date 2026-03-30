@@ -1,18 +1,19 @@
 import { useParams, useNavigate } from 'react-router';
-import { useAlbum, useGetCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { useAlbum, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, Clock } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
 
 export default function AlbumDetail() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: album, isLoading } = useAlbum(id);
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
 
@@ -119,9 +120,12 @@ export default function AlbumDetail() {
                 </span>
                 <span className="text-xs text-muted-foreground truncate">{song.artist}</span>
               </div>
-              <span className="text-xs text-muted-foreground tabular-nums">
-                {formatDuration(song.duration)}
-              </span>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-muted-foreground tabular-nums">
+                  {formatDuration(song.duration)}
+                </span>
+                <AddToPlaylistDropdown songId={song.id} />
+              </div>
             </div>
           ))}
         </div>

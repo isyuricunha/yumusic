@@ -1,10 +1,10 @@
-import { usePodcasts, useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { usePodcasts, useCoverArtUrl } from '@/hooks/useSubsonic';
 import { useTranslation } from 'react-i18next';
 
 export default function Podcasts() {
   const { t } = useTranslation();
   const { data: podcasts, isLoading } = usePodcasts();
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
 
   return (
     <div className="w-full space-y-6 pb-8 text-foreground">

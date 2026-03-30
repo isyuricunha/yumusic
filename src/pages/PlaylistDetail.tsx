@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router';
-import { usePlaylist, useGetCoverArtUrl, SubsonicSong, usePlaylistMutations } from '@/hooks/useSubsonic';
+import { usePlaylist, useCoverArtUrl, SubsonicSong, usePlaylistMutations } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, Clock, Trash2 } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
@@ -13,7 +13,7 @@ export default function PlaylistDetail() {
   const navigate = useNavigate();
   const { data: playlist, isLoading } = usePlaylist(id);
   const { deletePlaylist, removeTracksFromPlaylist } = usePlaylistMutations();
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
 

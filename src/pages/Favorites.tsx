@@ -1,15 +1,16 @@
-import { useFavorites, useGetCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { useFavorites, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
 
 export default function Favorites() {
   const { t } = useTranslation();
   const { data: favorites, isLoading } = useFavorites();
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ export default function Favorites() {
                         )}>{song.title}</span>
                         <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
                       </div>
+                      <AddToPlaylistDropdown songId={song.id} />
                     </div>
                   ))}
                 </div>

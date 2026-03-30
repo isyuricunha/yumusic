@@ -1,4 +1,4 @@
-import { useAlbums, useArtists, useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { useAlbums, useArtists, useCoverArtUrl } from '@/hooks/useSubsonic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router';
@@ -8,7 +8,7 @@ export default function Library() {
   const { t } = useTranslation();
   const { data: albums, isLoading: loadingAlbums } = useAlbums();
   const { data: artists, isLoading: loadingArtists } = useArtists();
-  const getCoverUrl = useGetCoverArtUrl;
+  const getCoverUrl = useCoverArtUrl();
   const navigate = useNavigate();
 
   return (
