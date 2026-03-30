@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import logo from '@/assets/logo.png';
 
 export function Sidebar() {
   const { t } = useTranslation();
@@ -37,11 +38,9 @@ export function Sidebar() {
 
   return (
     <div className="w-64 bg-sidebar border-r border-sidebar-border hidden md:flex flex-col h-full">
-      <div className="p-6 flex items-center space-x-2">
-        <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-xl leading-none pt-0.5">y</span>
-        </div>
-        <span className="font-bold text-lg text-sidebar-foreground">Yumusic</span>
+      <div className="p-6 flex items-center space-x-3">
+        <img src={logo} alt="Yumusic Logo" className="w-8 h-8 object-contain" />
+        <span className="font-bold text-xl tracking-tight text-sidebar-foreground">Yumusic</span>
       </div>
 
       <ScrollArea className="flex-1 px-4">
@@ -77,12 +76,12 @@ export function Sidebar() {
             </h2>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger
-                render={
-                  <button className="text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors">
-                    <Plus className="h-4 w-4" />
-                  </button>
-                }
-              />
+              render={
+                <button className="text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors">
+                  <Plus className="h-4 w-4" />
+                </button>
+              }
+            />
               <DialogContent className="bg-card border-border">
                 <DialogHeader>
                   <DialogTitle>{t('playlists.create_new')}</DialogTitle>

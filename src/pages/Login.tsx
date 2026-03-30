@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { useConfigStore } from '@/store/configStore';
 import { generateSubsonicAuth, pingSubsonic } from '@/services/apiClient';
 import { useTranslation } from 'react-i18next';
+import logo from '@/assets/logo.png';
 
 export default function Login() {
   const { t } = useTranslation();
@@ -44,9 +45,12 @@ export default function Login() {
   return (
     <div className="flex h-screen items-center justify-center bg-background text-foreground">
       <Card className="w-full max-w-sm rounded-[var(--radius-xl)] shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-2xl text-primary font-bold">Yumusic Player</CardTitle>
-          <CardDescription>{t('login.description')}</CardDescription>
+        <CardHeader className="space-y-4 pb-8">
+          <div className="flex justify-center mb-2">
+            <img src={logo} alt="Yumusic Logo" className="w-16 h-16 object-contain" />
+          </div>
+          <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">Yumusic Player</CardTitle>
+          <CardDescription className="text-center">{t('login.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="login-form" onSubmit={handleLogin} className="space-y-4">
