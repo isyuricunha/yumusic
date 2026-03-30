@@ -38,20 +38,19 @@ export const fetchSubsonic = async (
     throw new Error(`[${response.status}] Subsonic API error: ${response.statusText}`);
   }
 
-  const contentType = response.headers.get('content-type');
-  if (!contentType || !contentType.includes('application/json')) {
-    const text = await response.text();
-    console.error('Non-JSON response received:', text.substring(0, 200));
-    throw new Error(`Server returned ${contentType || 'text'} instead of JSON. Ensure the server URL is correct.`);
+  const text = await response.text();
+  try {
+    const data = JSON.parse(text);
+    const res = data['subsonic-response'];
+    if (res && res.status === 'failed') {
+      throw new Error(res.error?.message || 'Unknown Subsonic API Error');
+    }
+    return res;
+  } catch (e) {
+    console.error(`[YuMusic] JSON Parse Error for endpoint "${endpoint}" at URL: ${restUrl}`);
+    console.error('Server returned:', text.substring(0, 300));
+    throw new Error(`Server returned an invalid response (likely HTML). Check your server URL.`);
   }
-
-  const data = await response.json();
-  const res = data['subsonic-response'];
-  if (res && res.status === 'failed') {
-    throw new Error(res.error?.message || 'Unknown Subsonic API Error');
-  }
-
-  return res;
 };
 
 export const pingSubsonic = async (config: SubsonicConfig) => {

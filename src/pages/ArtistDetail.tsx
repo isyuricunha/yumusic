@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router';
-import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl, useSearchSongs } from '@/hooks/useSubsonic';
+import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl, useSearchSongs, fetchSubsonic } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
@@ -69,16 +69,21 @@ export default function ArtistDetail() {
       return;
     }
 
-    if (!artist.album || artist.album.length === 0) return;
-    
-    // Fallback to first album if no songs list available
+    await handlePlayFirstAlbum();
+  };
+
+  const handlePlayFirstAlbum = async () => {
+    if (!artist?.album || artist.album.length === 0 || !config) return;
     const firstAlbumId = artist.album[0].id;
-    const res = await fetch(`${config.serverUrl}/rest/getAlbum?u=${config.username}&t=${config.token}&s=${config.salt}&v=1.16.1&c=YuMusic&id=${firstAlbumId}&f=json`);
-    const data = await res.json();
-    const songs = data['subsonic-response']?.album?.song;
-    if (songs && songs.length > 0) {
-      setQueue(songs);
-      setSong(songs[0], config);
+    try {
+      const res = await fetchSubsonic('getAlbum', config, { id: firstAlbumId });
+      const songs = res?.album?.song;
+      if (songs && songs.length > 0) {
+        setQueue(songs);
+        setSong(songs[0], config);
+      }
+    } catch (e) {
+      console.error('Play first album failed', e);
     }
   };
 

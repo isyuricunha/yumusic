@@ -1,6 +1,7 @@
-import { useAlbumList, useArtists, useCoverArtUrl } from '@/hooks/useSubsonic';
+import { useAlbumList, useArtists, useCoverArtUrl, fetchSubsonic, SubsonicArtist } from '@/hooks/useSubsonic';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 import { Play, User } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
@@ -15,16 +16,22 @@ export default function Home() {
   const { setSong, setQueue } = usePlayerStore();
 
   // Get a few random artists for the home page
-  const featuredArtists = allArtists ? [...allArtists].sort(() => 0.5 - Math.random()).slice(0, 6) : [];
+  const featuredArtists = useMemo(() => {
+    if (!allArtists || allArtists.length === 0) return [];
+    return [...allArtists].sort(() => 0.5 - Math.random()).slice(0, 8);
+  }, [allArtists]);
 
   const handleQuickPlay = async (albumId: string) => {
     if (!config) return;
-    const res = await fetch(`${config.serverUrl}/rest/getAlbum?u=${config.username}&t=${config.token}&s=${config.salt}&v=1.16.1&c=Yumusic&id=${albumId}&f=json`);
-    const data = await res.json();
-    const songs = data['subsonic-response']?.album?.song;
-    if (songs && songs.length > 0) {
-      setQueue(songs);
-      setSong(songs[0], config);
+    try {
+      const res = await fetchSubsonic('getAlbum', config, { id: albumId });
+      const songs = res?.album?.song;
+      if (songs && songs.length > 0) {
+        setQueue(songs);
+        setSong(songs[0], config);
+      }
+    } catch (e) {
+      console.error('Quick play failed', e);
     }
   };
 
@@ -50,7 +57,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
-            {featuredArtists.map((artist) => (
+            {featuredArtists.map((artist: SubsonicArtist) => (
               <div 
                 key={artist.id} 
                 className="group flex flex-col items-center space-y-2 cursor-pointer flex-shrink-0"

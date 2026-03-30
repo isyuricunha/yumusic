@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchSubsonic } from '@/services/apiClient';
+export { fetchSubsonic };
 import { useConfigStore } from '@/store/configStore';
 import { useCallback } from 'react';
 
