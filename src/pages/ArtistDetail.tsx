@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { usePlayerStore } from '@/store/playerStore';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
 export default function ArtistDetail() {
   const { t } = useTranslation();
@@ -22,6 +23,28 @@ export default function ArtistDetail() {
   
   const displaySongs = (topSongs && topSongs.length > 0) ? topSongs : (searchSongs || []);
   
+  const displayAlbums = useMemo(() => {
+    if (!artist) return [];
+    
+    // Start with albums from getArtist (primary albums)
+    const albumsMap = new Map<string, any>();
+    (artist.album || []).forEach(album => albumsMap.set(album.id, album));
+    
+    // Add albums found in the songs list (features, guest appearances, etc.)
+    displaySongs.forEach(song => {
+      if (!albumsMap.has(song.albumId)) {
+        albumsMap.set(song.albumId, {
+          id: song.albumId,
+          name: song.album,
+          coverArt: song.coverArt || song.albumId,
+          year: song.year || ''
+        });
+      }
+    });
+
+    return Array.from(albumsMap.values());
+  }, [artist, displaySongs]);
+
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
@@ -201,7 +224,7 @@ export default function ArtistDetail() {
       <div className="mt-12">
         <h2 className="text-2xl font-bold mb-6">{t('common.albums')}</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
-          {artist.album?.map((album) => (
+          {displayAlbums.map((album) => (
             <div 
               key={album.id} 
               className="group cursor-pointer flex flex-col space-y-3"
