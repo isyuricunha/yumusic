@@ -5,8 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { useConfigStore } from '@/store/configStore';
 import { generateSubsonicAuth, pingSubsonic } from '@/services/apiClient';
+import { useTranslation } from 'react-i18next';
 
 export default function Login() {
+  const { t } = useTranslation();
   const [serverUrl, setServerUrl] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -44,12 +46,12 @@ export default function Login() {
       <Card className="w-full max-w-sm rounded-[var(--radius-xl)] shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl text-primary font-bold">Yumusic Player</CardTitle>
-          <CardDescription>Connect to your Subsonic/Navidrome server</CardDescription>
+          <CardDescription>{t('login.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="login-form" onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="serverUrl" className="text-sm font-medium">Server URL</label>
+              <label htmlFor="serverUrl" className="text-sm font-medium">{t('login.server_url')}</label>
               <Input
                 id="serverUrl"
                 type="url"
@@ -60,7 +62,7 @@ export default function Login() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="username" className="text-sm font-medium">Username</label>
+              <label htmlFor="username" className="text-sm font-medium">{t('login.username')}</label>
               <Input
                 id="username"
                 type="text"
@@ -71,7 +73,7 @@ export default function Login() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">Password</label>
+              <label htmlFor="password" className="text-sm font-medium">{t('login.password')}</label>
               <Input
                 id="password"
                 type="password"
@@ -87,7 +89,7 @@ export default function Login() {
         </CardContent>
         <CardFooter>
           <Button form="login-form" type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Connecting...' : 'Connect'}
+            {loading ? t('login.connecting') : t('login.connect')}
           </Button>
         </CardFooter>
       </Card>

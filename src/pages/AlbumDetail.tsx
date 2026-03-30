@@ -5,8 +5,10 @@ import { Play, ArrowLeft, Clock } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export default function AlbumDetail() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: album, isLoading } = useAlbum(id);
@@ -34,8 +36,8 @@ export default function AlbumDetail() {
     }
   };
 
-  if (isLoading) return <div className="animate-pulse text-muted-foreground">Loading album...</div>;
-  if (!album) return <div>Album not found</div>;
+  if (isLoading) return <div className="animate-pulse text-muted-foreground">Loading...</div>;
+  if (!album) return <div>Not Found</div>;
 
   return (
     <div className="flex flex-col space-y-8 pb-12">
@@ -46,7 +48,7 @@ export default function AlbumDetail() {
         onClick={() => navigate(-1)}
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
-        Back
+        {t('common.back')}
       </Button>
 
       <div className="flex flex-col md:flex-row md:items-end space-y-6 md:space-y-0 md:space-x-8">
@@ -65,7 +67,7 @@ export default function AlbumDetail() {
             <span className="text-muted-foreground">•</span>
             <span className="text-muted-foreground">{album.year}</span>
             <span className="text-muted-foreground">•</span>
-            <span className="text-muted-foreground">{album.songCount} songs</span>
+            <span className="text-muted-foreground">{album.songCount} {t('search.songs')}</span>
           </div>
         </div>
       </div>
@@ -102,7 +104,6 @@ export default function AlbumDetail() {
                    <div className="w-3 h-3 bg-primary rounded-full animate-bounce" />
                 ) : (
                   <span className="text-sm text-muted-foreground group-hover:hidden">{index + 1}</span>
-                  // Optional: Show Play icon on hover if not active
                 )}
                 <Play className={cn(
                   "h-3 w-3 fill-current hidden",

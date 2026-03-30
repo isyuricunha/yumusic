@@ -33,6 +33,21 @@ export interface SubsonicSong {
   duration: number;
   albumId: string;
   artistId: string;
+  type?: string; // For distinguishing Podcasts/Radio
+}
+
+export interface SubsonicPodcast {
+  id: string;
+  title: string;
+  description?: string;
+  coverArt?: string;
+  episode?: SubsonicSong[];
+}
+
+export interface SubsonicRadioStation {
+  id: string;
+  name: string;
+  streamUrl: string;
 }
 
 // === Hooks ===
@@ -122,5 +137,31 @@ export function useAlbum(id?: string) {
       return res?.album as SubsonicAlbum & { song: SubsonicSong[] };
     },
     enabled: !!config && !!id,
+  });
+}
+
+export function usePodcasts() {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['podcasts', config?.serverUrl],
+    queryFn: async () => {
+      if (!config) throw new Error('No config');
+      const res = await fetchSubsonic('getPodcasts', config);
+      return (res?.podcasts?.channel || []) as SubsonicPodcast[];
+    },
+    enabled: !!config,
+  });
+}
+
+export function useRadioStations() {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['radiostations', config?.serverUrl],
+    queryFn: async () => {
+      if (!config) throw new Error('No config');
+      const res = await fetchSubsonic('getInternetRadioStations', config);
+      return (res?.internetRadioStations?.internetRadioStation || []) as SubsonicRadioStation[];
+    },
+    enabled: !!config,
   });
 }

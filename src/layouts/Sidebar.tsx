@@ -3,15 +3,18 @@ import { Home, Library, Heart, Radio, Settings, Search, Podcast } from 'lucide-r
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { useTranslation } from 'react-i18next';
 
 export function Sidebar() {
+  const { t } = useTranslation();
+  
   const navItems = [
-    { label: 'Home', icon: Home, to: '/' },
-    { label: 'Search', icon: Search, to: '/search' },
-    { label: 'Library', icon: Library, to: '/library' },
-    { label: 'Favorites', icon: Heart, to: '/favorites' },
-    { label: 'Podcasts', icon: Podcast, to: '/podcasts' },
-    { label: 'Radio', icon: Radio, to: '/radio' },
+    { label: t('common.home'), icon: Home, to: '/' },
+    { label: t('common.search'), icon: Search, to: '/search' },
+    { label: t('common.library'), icon: Library, to: '/library' },
+    { label: t('common.favorites'), icon: Heart, to: '/favorites' },
+    { label: t('common.podcasts'), icon: Podcast, to: '/podcasts' },
+    { label: t('common.radio'), icon: Radio, to: '/radio' },
   ];
 
   return (
@@ -26,7 +29,7 @@ export function Sidebar() {
       <ScrollArea className="flex-1 px-4">
         <nav className="space-y-1 pb-4">
           <h2 className="px-2 text-xs font-semibold text-sidebar-foreground/50 uppercase tracking-wider mb-2">
-            Menu
+            {t('sidebar.menu')}
           </h2>
           {navItems.map((item) => (
             <NavLink
@@ -51,7 +54,7 @@ export function Sidebar() {
         
         <nav className="space-y-1">
           <h2 className="px-2 text-xs font-semibold text-sidebar-foreground/50 uppercase tracking-wider mb-2">
-            Playlists
+            {t('sidebar.playlists')}
           </h2>
           {/* Static list for now, will connect to API later */}
           {['Liked Songs', 'Daily Mix 1', 'Focus'].map(playlist => (
@@ -75,7 +78,7 @@ export function Sidebar() {
           }
         >
           <Settings className="h-4 w-4" />
-          <span>Settings</span>
+          <span>{t('common.settings')}</span>
         </NavLink>
       </div>
     </div>

@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { useGetCoverArtUrl } from '@/hooks/useSubsonic';
+import { useTranslation } from 'react-i18next';
 
 export function PlayerBar() {
+  const { t } = useTranslation();
   const { 
     currentSong, 
     isPlaying, 
@@ -56,7 +58,7 @@ export function PlayerBar() {
         </div>
         <div className="ml-4 flex flex-col justify-center overflow-hidden">
           <div className="font-semibold text-sm hover:underline cursor-pointer truncate">
-            {currentSong ? currentSong.title : 'No Track Playing'}
+            {currentSong ? currentSong.title : t('player.not_playing')}
           </div>
           <div className="text-xs text-muted-foreground hover:underline cursor-pointer truncate">
             {currentSong ? currentSong.artist : 'Yumusic Player'}

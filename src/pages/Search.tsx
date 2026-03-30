@@ -5,8 +5,10 @@ import { Search as SearchIcon, Play } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export default function Search() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const { data: results, isLoading } = useSearch(query);
   const getCoverUrl = useGetCoverArtUrl;
@@ -23,21 +25,21 @@ export default function Search() {
   return (
     <div className="w-full space-y-6 pb-8">
       <div className="flex flex-col space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight text-primary">Search</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-primary">{t('common.search')}</h1>
         <div className="relative max-w-md w-full">
           <SearchIcon className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
           <Input 
             value={query}
             onChange={(e) => setQuery(e.currentTarget.value)}
             className="pl-10 h-11 bg-muted/50 border-transparent rounded-[var(--radius-lg)] focus-visible:ring-1 focus-visible:ring-primary"
-            placeholder="What do you want to listen to?" 
+            placeholder={t('search.placeholder')} 
           />
         </div>
       </div>
 
       <div className="mt-8">
         {query.length > 1 && isLoading && (
-          <div className="text-muted-foreground animate-pulse">Searching...</div>
+          <div className="text-muted-foreground animate-pulse">{t('search.searching')}</div>
         )}
 
         {results && query.length > 1 && (
@@ -46,7 +48,7 @@ export default function Search() {
             {/* Artists */}
             {results.artist && results.artist.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold mb-4">Artists</h2>
+                <h2 className="text-xl font-semibold mb-4">{t('search.artists')}</h2>
                 <div className="flex flex-wrap gap-4">
                   {results.artist.slice(0, 5).map((artist: any) => (
                     <div key={artist.id} className="cursor-pointer bg-muted/40 p-3 flex items-center space-x-4 rounded-full hover:bg-muted/80 pr-6 transition">
@@ -63,7 +65,7 @@ export default function Search() {
             {/* Albums */}
             {results.album && results.album.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold mb-4">Albums</h2>
+                <h2 className="text-xl font-semibold mb-4">{t('search.albums')}</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                   {results.album.slice(0, 5).map((album: any) => (
                     <div key={album.id} className="group cursor-pointer flex flex-col space-y-3">
@@ -88,7 +90,7 @@ export default function Search() {
             {/* Songs */}
             {results.song && results.song.length > 0 && (
               <section>
-                <h2 className="text-xl font-semibold mb-4">Songs</h2>
+                <h2 className="text-xl font-semibold mb-4">{t('search.songs')}</h2>
                 <div className="flex flex-col space-y-2">
                   {results.song.slice(0, 10).map((song: SubsonicSong, _: number, all: SubsonicSong[]) => (
                     <div 
@@ -124,7 +126,7 @@ export default function Search() {
             )}
             
             {results.artist?.length === 0 && results.album?.length === 0 && results.song?.length === 0 && (
-              <p className="text-muted-foreground">No results found for "{query}"</p>
+              <p className="text-muted-foreground">{t('search.no_results')} "{query}"</p>
             )}
             
           </div>

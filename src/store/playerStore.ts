@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { SubsonicSong } from '@/hooks/useSubsonic';
-import { SubsonicConfig } from '@/services/apiClient';
+import { SubsonicConfig, scrobbleSubsonic } from '@/services/apiClient';
 
 interface PlayerState {
   currentSong: SubsonicSong | null;
@@ -60,6 +60,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       set({ progress: newAudio.currentTime, duration: newAudio.duration || 0 });
     });
     newAudio.addEventListener('ended', () => {
+      // Scrobble when song finishes
+      if (song.id) {
+        scrobbleSubsonic(song.id, config).catch((err) => console.error('Scrobble error:', err));
+      }
       get().next(config);
     });
 

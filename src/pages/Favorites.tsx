@@ -4,8 +4,10 @@ import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 export default function Favorites() {
+  const { t } = useTranslation();
   const { data: favorites, isLoading } = useFavorites();
   const getCoverUrl = useGetCoverArtUrl;
   const config = useConfigStore((state) => state.config);
@@ -22,17 +24,17 @@ export default function Favorites() {
   return (
     <div className="w-full space-y-6 pb-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight text-primary">Favorites</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-primary">{t('common.favorites')}</h1>
       </div>
 
       <div className="mt-6">
         {isLoading ? (
-          <div className="text-muted-foreground animate-pulse">Loading favorites...</div>
+          <div className="text-muted-foreground animate-pulse">Loading...</div>
         ) : (
           <div className="space-y-8">
             {/* Starred Songs */}
             <section>
-              <h2 className="text-xl font-semibold mb-4">Starred Songs</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('search.songs')}</h2>
               {!favorites?.song || favorites.song.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No starred songs.</p>
               ) : (
@@ -72,7 +74,7 @@ export default function Favorites() {
             
             {/* Starred Albums */}
             <section>
-              <h2 className="text-xl font-semibold mb-4">Starred Albums</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('search.albums')}</h2>
               {!favorites?.album || favorites.album.length === 0 ? (
                  <p className="text-sm text-muted-foreground">No starred albums.</p>
               ) : (

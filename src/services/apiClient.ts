@@ -50,3 +50,7 @@ export const fetchSubsonic = async (
 export const pingSubsonic = async (config: SubsonicConfig) => {
   return await fetchSubsonic('ping', config);
 };
+
+export const scrobbleSubsonic = async (id: string, config: SubsonicConfig) => {
+  return await fetchSubsonic('scrobble', config, { id, submission: 'true' });
+};

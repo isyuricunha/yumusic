@@ -1,0 +1,43 @@
+{
+  "common": {
+    "welcome": "Bem-vindo ao Yumusic",
+    "search": "Buscar",
+    "library": "Biblioteca",
+    "favorites": "Favoritos",
+    "settings": "Configurações",
+    "home": "Início",
+    "podcasts": "Podcasts",
+    "radio": "Rádio",
+    "login": "Entrar",
+    "logout": "Sair",
+    "back": "Voltar"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "playlists": "Playlists"
+  },
+  "login": {
+    "description": "Conecte-se ao seu servidor Subsonic/Navidrome",
+    "server_url": "URL do Servidor",
+    "username": "Usuário",
+    "password": "Senha",
+    "connect": "Conectar",
+    "connecting": "Conectando..."
+  },
+  "player": {
+    "not_playing": "Nada tocando agora"
+  },
+  "library": {
+    "all_artists": "Todos os Artistas",
+    "recent_albums": "Álbuns Recentes",
+    "artists": "Artistas"
+  },
+  "search": {
+    "placeholder": "O que você quer ouvir?",
+    "songs": "Músicas",
+    "albums": "Álbuns",
+    "artists": "Artistas",
+    "no_results": "Nenhum resultado encontrado para",
+    "searching": "Buscando..."
+  }
+}
