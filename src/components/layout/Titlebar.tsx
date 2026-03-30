@@ -22,17 +22,12 @@ export function Titlebar() {
   }, [appWindow]);
 
   return (
-    <div
-      data-tauri-drag-region
-      className="h-8 select-none flex justify-between items-center fixed top-0 w-full z-50 bg-background border-b border-border/40"
-    >
-      <div 
-        className="flex items-center pl-4 text-xs font-semibold text-primary/80 tracking-widest pointer-events-none"
-        data-tauri-drag-region
-      >
+    <div className="h-8 select-none flex justify-between items-center fixed top-0 w-full z-50 bg-background border-b border-border/40">
+      
+      {/* Branding Section (No events to interrupt drag) */}
+      <div className="flex items-center pl-4 text-xs font-semibold text-primary/80 tracking-widest pointer-events-none z-10">
         <div className="w-4 h-4 mr-2 text-primary opacity-80 rounded flex items-center justify-center">
-            {/* Minimal App Icon / Logo representation */}
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
                  <path d="M9 18V5l12-2v13"></path>
                  <circle cx="6" cy="18" r="3"></circle>
                  <circle cx="18" cy="16" r="3"></circle>
@@ -41,7 +36,11 @@ export function Titlebar() {
         YUMUSIC
       </div>
 
-      <div className="flex h-full">
+      {/* Invisible flex-filler that handles the dragging, so it doesn't wrap the buttons */}
+      <div data-tauri-drag-region className="flex-1 h-full cursor-default" />
+
+      {/* Window Action Buttons */}
+      <div className="flex h-full z-10">
         <button
           className="inline-flex justify-center items-center w-10 h-full hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => appWindow.minimize()}
