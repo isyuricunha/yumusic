@@ -5,6 +5,7 @@ import { Play, ArrowLeft, Clock, Trash2, Loader2 } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { usePodcastStore } from '@/store/podcastStore';
+import { useDialogStore } from '@/store/dialogStore';
 import { fetchRSS } from '@/services/rssService';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -67,9 +68,18 @@ export default function PodcastDetail() {
   };
 
   const handleDeleteLocal = async () => {
-    if (id && window.confirm(t('common.confirm_delete'))) {
-      await removePodcast(id);
-      navigate('/podcasts');
+    if (id) {
+      const { openDialog } = useDialogStore.getState();
+      const confirmed = await openDialog({
+        title: t('common.confirm_title') || 'Confirm Deletion',
+        description: t('common.confirm_delete') || 'Are you sure you want to delete this podcast?',
+        destructive: true,
+        confirmText: t('common.delete') || 'Delete'
+      });
+      if (confirmed) {
+        await removePodcast(id);
+        navigate('/podcasts');
+      }
     }
   };
 
@@ -182,7 +192,9 @@ export default function PodcastDetail() {
                 </div>
               </div>
               <span className="text-xs text-muted-foreground tabular-nums opacity-50">
-                {Math.floor(episode.duration / 60)}:{(episode.duration % 60).toString().padStart(2, '0')}
+                {episode.duration >= 3600 
+                  ? `${Math.floor(episode.duration / 3600)}:${Math.floor((episode.duration % 3600) / 60).toString().padStart(2, '0')}:${(episode.duration % 60).toString().padStart(2, '0')}`
+                  : `${Math.floor(episode.duration / 60)}:${(episode.duration % 60).toString().padStart(2, '0')}`}
               </span>
             </div>
           ))}

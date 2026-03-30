@@ -49,7 +49,11 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
     const itemTitle = item.querySelector('title')?.textContent || 'Untitled Episode';
     const enclosure = item.querySelector('enclosure');
     const streamUrl = enclosure?.getAttribute('url');
-    const durationStr = item.querySelector('itunes\\:duration')?.textContent || '0';
+    
+    // Fallback through multiple iteration nodes for duration
+    const durationStr = item.getElementsByTagName('itunes:duration')[0]?.textContent || 
+                        item.querySelector('itunes\\:duration')?.textContent || 
+                        item.getElementsByTagName('duration')[0]?.textContent || '0';
     
     // Parse duration (could be HH:MM:SS or seconds)
     let duration = 0;

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useRadioStore } from '@/store/radioStore';
 import { AddRadioDialog } from '@/components/modals/AddRadioDialog';
 import { useEffect } from 'react';
+import { useDialogStore } from '@/store/dialogStore';
 
 export default function Radio() {
   const { t } = useTranslation();
@@ -38,7 +39,14 @@ export default function Radio() {
 
   const handleDeleteLocal = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (window.confirm(t('common.confirm_delete') || 'Are you sure you want to delete this radio station?')) {
+    const { openDialog } = useDialogStore.getState();
+    const confirmed = await openDialog({
+      title: t('common.confirm_title') || 'Confirm Deletion',
+      description: t('common.confirm_delete') || 'Are you sure you want to delete this radio station?',
+      destructive: true,
+      confirmText: t('common.delete') || 'Delete'
+    });
+    if (confirmed) {
       await removeRadio(id);
     }
   };
