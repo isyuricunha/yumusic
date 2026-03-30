@@ -12,6 +12,7 @@ interface PlayerState {
   audio: HTMLAudioElement | null;
   isShuffle: boolean;
   repeatMode: 'none' | 'one' | 'all';
+  hasScrobbled: boolean;
   
   // Actions
   setSong: (song: SubsonicSong, config: SubsonicConfig) => void;
@@ -38,6 +39,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   audio: null,
   isShuffle: false,
   repeatMode: 'none',
+  hasScrobbled: false,
 
   setSong: (song, config) => {
     const { audio } = get();
@@ -63,15 +65,26 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     newAudio.addEventListener('play', () => set({ isPlaying: true }));
     newAudio.addEventListener('pause', () => set({ isPlaying: false }));
     newAudio.addEventListener('timeupdate', () => {
-      set({ progress: newAudio.currentTime, duration: newAudio.duration || 0 });
+      const { hasScrobbled, currentSong, duration } = get();
+      const currentTime = newAudio.currentTime;
+      set({ progress: currentTime, duration: newAudio.duration || 0 });
+      
+      // Auto-scrobble at 50% duration (standard practice)
+      if (!hasScrobbled && currentSong && duration > 0 && currentTime > duration / 2) {
+        set({ hasScrobbled: true });
+        scrobbleSubsonic(currentSong.id, config).catch((err) => console.error('Scrobble error:', err));
+      }
     });
+
     newAudio.addEventListener('ended', () => {
-      // Scrobble when song finishes
-      if (song.id) {
-        scrobbleSubsonic(song.id, config).catch((err) => console.error('Scrobble error:', err));
+      const { hasScrobbled, currentSong, repeatMode, setSong } = get();
+      
+      // Scrobble as a fallback if not already scrobbled
+      if (!hasScrobbled && currentSong?.id) {
+        set({ hasScrobbled: true });
+        scrobbleSubsonic(currentSong.id, config).catch((err) => console.error('Scrobble error:', err));
       }
       
-      const { repeatMode, setSong, currentSong } = get();
       if (repeatMode === 'one' && currentSong) {
         setSong(currentSong, config);
       } else {
@@ -79,7 +92,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       }
     });
 
-    set({ currentSong: song, audio: newAudio, isPlaying: true });
+    set({ currentSong: song, audio: newAudio, isPlaying: true, hasScrobbled: false });
     newAudio.play();
   },
 
