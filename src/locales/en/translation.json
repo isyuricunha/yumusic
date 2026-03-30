@@ -96,5 +96,16 @@
     "local_podcasts": "Local Podcasts (RSS)",
     "server_podcasts": "Server Podcasts",
     "unsupported_server": "Your server does not support the Podcast API, but you can manually add RSS feeds below."
+  },
+  "radio": {
+    "add_station": "Add Station",
+    "add_station_title": "Add Local Radio",
+    "add_station_desc": "Enter the name and streaming URL (MP3, AAC) to add a local web radio.",
+    "name_label": "Station Name",
+    "url_label": "Stream URL",
+    "name_placeholder": "Ex: SomaFM Groove Salad",
+    "url_placeholder": "http://ice1.somafm.com/groovesalad-128-mp3",
+    "local_stations": "Local Stations",
+    "server_stations": "Server Stations"
   }
 }
