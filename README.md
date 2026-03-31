@@ -34,7 +34,7 @@ yumusic is built with tauri and ships native binaries for the following platform
 
 ## installing from a release
 
-1. go to the [releases page](https://github.com/isyuricunha/yumusic-windows/releases)
+1. go to the [releases page](https://github.com/isyuricunha/yumusic/releases)
 2. pick the latest release
 3. download the file that matchs your operating system:
    - windows: grab the `.exe` (nsis installer) or the `.msi` file
@@ -58,8 +58,8 @@ if you want to build yumusic yourself, here is what you need installed first:
 clone the repository:
 
 ```
-git clone https://github.com/isyuricunha/yumusic-windows.git
-cd yumusic-windows
+git clone https://github.com/isyuricunha/yumusic.git
+cd yumusic
 ```
 
 install dependencies:
