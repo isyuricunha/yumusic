@@ -1,6 +1,6 @@
 # yumusic
 
-yumusic is a desktop music player built for people who self-host their own music library. it connects to a navidrome server and gives you a clean, dark interface to listen to your songs, albums, artists, and playlists without needing to open a browser.
+yumusic is a desktop music player built for people who self-host their own music library. it connects to a navidrome/gonic/subsonic/gonic/subsonic  server and gives you a clean, dark interface to listen to your songs, albums, artists, and playlists without needing to open a browser.
 
 beyond just playing music from a server, yumusic also supports local podcast feeds via rss and lets you add custom internet radio stations. everything runs as a native desktop app, so it feels fast and stays out of your way.
 
@@ -8,7 +8,7 @@ beyond just playing music from a server, yumusic also supports local podcast fee
 
 ## what it does
 
-- connects to any navidrome-compatible server using the subsonic api
+- connects to any navidrome/gonic/subsonic-compatible server using the subsonic api
 - browse and play songs, albums, artists, and playlists
 - search across your entire library
 - mark songs as favorites
@@ -25,10 +25,10 @@ beyond just playing music from a server, yumusic also supports local podcast fee
 
 yumusic is built with tauri and ships native binaries for the following platforms:
 
-- windows (x86_64) — installer .exe and .msi
-- macos (apple silicon, m1 and later) — .dmg
-- macos (intel) — .dmg
-- linux (x86_64) — .deb and .appimage
+- windows (x86_64) - installer .exe and .msi
+- macos (apple silicon, m1 and later) - .dmg
+- macos (intel) - .dmg
+- linux (x86_64) - .deb and .appimage
 
 ---
 
@@ -53,7 +53,7 @@ if you want to build yumusic yourself, here is what you need installed first:
 - [node.js](https://nodejs.org) (v20 or later)
 - [pnpm](https://pnpm.io) (used as the package manager)
 - [rust](https://www.rust-lang.org/tools/install) (stable toolchain)
-- on linux, a few system libraries are required — the build will tell you if something is missing
+- on linux, a few system libraries are required - the build will tell you if something is missing
 
 clone the repository:
 
@@ -86,7 +86,7 @@ the output files will be inside `src-tauri/target/release/bundle/`.
 
 ## setting it up
 
-when you first open yumusic, it will ask for your navidrome server url, username, and password. once you log in, your library loads automatically.
+when you first open yumusic, it will ask for your navidrome/gonic/subsonic server url, username, and password. once you log in, your library loads automatically.
 
 to add a podcast, go to the podcasts section and paste any valid rss feed url. to add a radio station, go to the radio section and click the add button.
 
