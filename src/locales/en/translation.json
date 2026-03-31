@@ -127,7 +127,6 @@
     "explore_more": "Explore more tracks from {{artist}} in their profile."
   },
   "artist": {
-    "monthly_listeners": "{{count}} monthly listeners",
     "follow": "Follow",
     "following": "Following",
     "full_discography": "Full Discography",

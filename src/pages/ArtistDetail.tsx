@@ -139,9 +139,6 @@ export default function ArtistDetail() {
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
             {artist.name}
           </h1>
-          <div className="flex items-center gap-2 text-white/90 text-sm font-bold pl-1 drop-shadow-md">
-             <span>{t('artist.monthly_listeners', { count: Math.floor(Math.random() * 500000 + 100000) })}</span>
-          </div>
         </div>
       </div>
 
@@ -249,9 +246,6 @@ export default function ArtistDetail() {
                         "text-sm font-bold truncate transition-colors",
                         currentSong?.id === song.id ? "text-primary" : "text-white"
                       )}>{song.title}</span>
-                      <span className="text-xs text-muted-foreground truncate font-medium">
-                         {Math.floor(Math.random() * 1000000 + 100000).toLocaleString()}
-                      </span>
                     </div>
                   </div>
                   
