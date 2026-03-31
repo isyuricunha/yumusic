@@ -1,3 +1,9 @@
+## [1.4.2](https://github.com/isyuricunha/yumusic/compare/v1.4.1...v1.4.2) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **build:** synchronize notification plugin version to resolve build failure ([7643f98](https://github.com/isyuricunha/yumusic/commit/7643f984882c20b426c1b1c8371145734e29db1d))
+
 ## [1.4.1](https://github.com/isyuricunha/yumusic/compare/v1.4.0...v1.4.1) (2026-03-31)
 
 ### 🐛 Bug Fixes
