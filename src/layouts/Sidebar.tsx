@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router';
 import { Home, Library, Settings, Search, ListMusic, Mic2, Disc, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTranslation } from 'react-i18next';
 import { usePlaylists, usePlaylistMutations, useCoverArtUrl, useAlbumList } from '@/hooks/useSubsonic';
 import { useState } from 'react';
@@ -43,10 +42,10 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="w-72 hidden md:flex flex-col h-full gap-2 transition-all duration-300 select-none">
+    <div className="w-72 hidden md:flex flex-col h-full gap-2 transition-all duration-300 select-none overflow-hidden">
       
       {/* Top Segment: Home/Search */}
-      <div className="bg-card rounded-xl p-2 space-y-1 shadow-md">
+      <div className="flex-shrink-0 bg-card rounded-xl p-2 space-y-1 shadow-md">
         {navItems.map((item) => (
           <NavLink
             key={item.label}
@@ -67,8 +66,8 @@ export function Sidebar() {
       </div>
 
       {/* Bottom Segment: Your Library */}
-      <div className="flex-1 bg-card rounded-xl flex flex-col min-h-0 shadow-md">
-        <div className="p-4 flex items-center justify-between sticky top-0 bg-card z-10 rounded-t-xl">
+      <div className="flex-1 bg-card rounded-xl flex flex-col min-h-0 shadow-md overflow-hidden">
+        <div className="flex-shrink-0 p-4 flex items-center justify-between sticky top-0 bg-card z-10 rounded-t-xl">
           <div className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group">
             <Library className="h-6 w-6 group-hover:scale-110 transition-transform" />
             <span className="font-bold text-base">{t('sidebar.your_library')}</span>
@@ -104,7 +103,7 @@ export function Sidebar() {
         </div>
 
         {/* Category Chips */}
-        <div className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+        <div className="flex-shrink-0 px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
           {categories.map(cat => (
             <button
               key={cat.id}
@@ -125,7 +124,8 @@ export function Sidebar() {
           ))}
         </div>
 
-        <ScrollArea className="flex-1 px-2 mt-2">
+        {/* Library Scroll Container */}
+        <div className="flex-1 overflow-y-auto px-2 mt-2 custom-scrollbar">
           <div className="space-y-1 pb-4">
             
             {/* Download Progress if active */}
@@ -204,9 +204,9 @@ export function Sidebar() {
               ))
             )}
           </div>
-        </ScrollArea>
+        </div>
         
-        <div className="p-4 mt-auto">
+        <div className="flex-shrink-0 p-4 mt-auto">
            <NavLink 
               to="/settings"
               className={({ isActive }: { isActive: boolean }) =>
