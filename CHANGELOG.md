@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/isyuricunha/yumusic/compare/v1.6.0...v1.7.0) (2026-03-31)
+
+### ✨ Features
+
+* **i18n:** project-wide translation sweep for settings, playlists, radio, podcasts and more ([871a384](https://github.com/isyuricunha/yumusic/commit/871a384ff897f534446d1bde9bf7d17eb9467d5a))
+
 ## [1.6.0](https://github.com/isyuricunha/yumusic/compare/v1.5.0...v1.6.0) (2026-03-31)
 
 ### ✨ Features
