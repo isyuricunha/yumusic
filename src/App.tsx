@@ -5,6 +5,7 @@ import { useThemeStore } from '@/store/themeStore';
 import { useEffect } from 'react';
 import { Titlebar } from '@/components/layout/Titlebar';
 import { ConfirmDialog } from '@/components/modals/ConfirmDialog';
+import { useDownloadStore } from '@/store/downloadStore';
 
 import Library from '@/pages/Library';
 import Home from '@/pages/Home';
@@ -24,6 +25,7 @@ export default function App() {
 
   useEffect(() => {
     initializeTheme();
+    useDownloadStore.getState().init();
   }, [initializeTheme]);
 
   return (

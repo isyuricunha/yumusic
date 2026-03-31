@@ -24,8 +24,10 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
     if (get().initialized) return;
     try {
       const data = (await store.get<Record<string, string>>('downloadedIds')) || {};
+      console.log('[DownloadStore] Initialized. Found', Object.keys(data).length, 'downloaded songs.');
       set({ downloadedIds: data, initialized: true });
-    } catch {
+    } catch (err) {
+      console.error('[DownloadStore] Initialization failed:', err);
       set({ initialized: true });
     }
   },

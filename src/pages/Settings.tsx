@@ -8,8 +8,10 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Palette, Server, RefreshCw, BellRing, AppWindow, DownloadCloud, FolderOpen } from 'lucide-react';
+import { Palette, Server, RefreshCw, BellRing, AppWindow, DownloadCloud, FolderOpen, ExternalLink, HardDrive } from 'lucide-react';
 import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
+import { openDownloadFolder, calculateTotalDownloadSize } from '@/services/downloadService';
+import { useEffect } from 'react';
 import type { Update } from '@tauri-apps/plugin-updater';
 import { open } from '@tauri-apps/plugin-dialog';
 
@@ -36,6 +38,15 @@ export default function Settings() {
   const [updateInfo, setUpdateInfo] = useState<string>('');
   const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
   const [installing, setInstalling] = useState(false);
+  const [totalDiskUsage, setTotalDiskUsage] = useState<string>('Calculating...');
+
+  useEffect(() => {
+    calculateTotalDownloadSize().then(size => {
+      if (size === 0) setTotalDiskUsage('0 MB');
+      else if (size < 1024 * 1024 * 1024) setTotalDiskUsage(`${(size / (1024 * 1024)).toFixed(1)} MB`);
+      else setTotalDiskUsage(`${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`);
+    });
+  }, []);
 
   const handleLanguageChange = (value: string) => {
     i18n.changeLanguage(value);
@@ -320,10 +331,27 @@ export default function Settings() {
                   {settings.downloadFolder || "System Default Downloads"}
                 </div>
               </div>
-              <Button variant="outline" size="sm" onClick={handleSelectFolder} className="gap-2">
-                <FolderOpen className="h-3.5 w-3.5" />
-                Change
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" onClick={openDownloadFolder} className="gap-2">
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Open Folder
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleSelectFolder} className="gap-2">
+                  <FolderOpen className="h-3.5 w-3.5" />
+                  Change
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              <div className="flex items-center space-x-3">
+                <HardDrive className="h-4 w-4 text-primary" />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">Disk Usage</span>
+                  <span className="text-xs text-muted-foreground">Total storage used by offline files.</span>
+                </div>
+              </div>
+              <span className="text-sm font-bold tabular-nums text-primary">{totalDiskUsage}</span>
             </div>
 
             <div className="pt-4 border-t border-border/50">

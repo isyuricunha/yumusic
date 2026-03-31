@@ -1,6 +1,7 @@
 import { fetch } from '@tauri-apps/plugin-http';
-import { writeFile, mkdir } from '@tauri-apps/plugin-fs';
+import { writeFile, mkdir, readDir, stat } from '@tauri-apps/plugin-fs';
 import { join, downloadDir } from '@tauri-apps/api/path';
+import { openPath } from '@tauri-apps/plugin-opener';
 import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { useDownloadStore } from '@/store/downloadStore';
 import { SubsonicSong } from '@/hooks/useSubsonic';
@@ -22,6 +23,7 @@ export async function downloadSong(song: SubsonicSong) {
       targetDir = await downloadDir();
       targetDir = await join(targetDir, 'YuMusic');
     }
+    console.log('[Download] Target directory:', targetDir);
 
     // Ensure the folder exists
     try {
@@ -36,6 +38,7 @@ export async function downloadSong(song: SubsonicSong) {
     const safeArtist = song.artist.replace(/[<>:"/\\|?*]/g, '');
     const fileName = `${safeArtist} - ${safeTitle}.${ext}`;
     const filePath = await join(targetDir, fileName);
+    console.log('[Download] Starting download for:', fileName, 'to', filePath);
 
     // 3. Build Stream/Download URL
     const query = new URLSearchParams({
@@ -66,10 +69,20 @@ export async function downloadSong(song: SubsonicSong) {
     const buffer = await response.arrayBuffer();
     
     // 5. Save File
+    console.log('[Download] Writing file to disk...');
     await writeFile(filePath, new Uint8Array(buffer));
 
-    // 6. Track state
-    await addDownloaded(song.id, filePath);
+    // Verify file exists and has size
+    try {
+      const info = await stat(filePath);
+      console.log('[Download] File written successfully. Size:', info.size, 'bytes');
+      
+      // 6. Track state
+      await addDownloaded(song.id, filePath);
+    } catch (err) {
+      console.error('[Download] Verification failed after write:', err);
+      throw new Error('File verification failed');
+    }
   } catch (error) {
     console.error('Download error for song', song.id, error);
   } finally {
@@ -84,3 +97,44 @@ export async function downloadPodcastEpisodes(_: string, episodes: SubsonicSong[
     await downloadSong(ep);
   }
 }
+
+export async function getDownloadPath() {
+  const { settings } = useAppSettingsStore.getState();
+  let targetDir = settings.downloadFolder;
+  if (!targetDir) {
+    targetDir = await downloadDir();
+    targetDir = await join(targetDir, 'YuMusic');
+  }
+  return targetDir;
+}
+
+export async function openDownloadFolder() {
+  const path = await getDownloadPath();
+  await openPath(path);
+}
+
+export async function calculateTotalDownloadSize(): Promise<number> {
+  const path = await getDownloadPath();
+  let total = 0;
+
+  async function walk(dir: string) {
+    try {
+      const entries = await readDir(dir);
+      for (const entry of entries) {
+        const fullPath = await join(dir, entry.name);
+        if (entry.isDirectory) {
+          await walk(fullPath);
+        } else {
+          const s = await stat(fullPath);
+          total += s.size;
+        }
+      }
+    } catch (e) {
+      // Folder might not exist yet
+    }
+  }
+
+  await walk(path);
+  return total;
+}
+

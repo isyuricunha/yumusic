@@ -28,6 +28,17 @@
     "fs:allow-write-file",
     "fs:allow-mkdir",
     "fs:allow-read-file",
+    "fs:allow-read-dir",
+    "fs:allow-stat",
+    "opener:allow-open-path",
+    {
+      "identifier": "fs:default",
+      "allow": [{ "path": "$DOWNLOAD/**" }]
+    },
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [{ "path": "$DOWNLOAD/**" }]
+    },
     "core:path:default"
   ]
 }
