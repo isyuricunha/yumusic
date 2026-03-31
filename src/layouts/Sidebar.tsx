@@ -103,7 +103,7 @@ export function Sidebar() {
         </div>
 
         {/* Category Chips */}
-        <div className="flex-shrink-0 px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+        <div className="flex-shrink-0 px-4 pb-2 flex flex-row flex-nowrap gap-2 overflow-x-auto no-scrollbar scroll-smooth pr-6">
           {categories.map(cat => (
             <button
               key={cat.id}
