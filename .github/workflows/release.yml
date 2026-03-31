@@ -10,6 +10,10 @@ concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
+# Force all JavaScript actions to run on Node.js 24 to avoid deprecation warnings.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # Job 1: Semantic Release
@@ -47,6 +51,7 @@ jobs:
             conventional-changelog-conventionalcommits
             @semantic-release/changelog
             @semantic-release/git
+            @semantic-release/exec
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           GIT_AUTHOR_NAME: github-actions[bot]
