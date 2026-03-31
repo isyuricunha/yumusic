@@ -1,16 +1,17 @@
 import { useParams, useNavigate } from 'react-router';
-import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong, useArtist } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, Clock } from 'lucide-react';
+import { Play, Clock, Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
 import { useState, useMemo, useEffect } from 'react';
-import { Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
+import { AlbumCard } from '@/components/AlbumCard';
+import { Footer } from '@/components/layout/Footer';
 
 export default function AlbumDetail() {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ export default function AlbumDetail() {
   const navigate = useNavigate();
   const { data: album, isLoading } = useAlbum(id);
   const { data: albumInfo } = useAlbumInfo(id);
+  const { data: artistAlbums } = useArtist(album?.artistId);
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
@@ -55,11 +57,9 @@ export default function AlbumDetail() {
   };
 
   const onScroll = (e: any) => {
-    // Check if the scroll container (parent) has scrolled
     setIsHeaderSticky(e.target.scrollTop > 350);
   };
 
-  // Attach scroll listener to the main content area after mount
   useEffect(() => {
     const mainContent = document.querySelector('main');
     if (mainContent) {
@@ -85,8 +85,6 @@ export default function AlbumDetail() {
 
   return (
     <div className="-mx-6 px-6 -mt-16 pt-16 flex flex-col min-h-full transition-all duration-700 relative">
-      
-      {/* Sticky Top Bar (Spotify style) */}
       <div className={cn(
         "sticky top-0 z-50 -mx-6 px-10 h-16 flex items-center bg-background/80 backdrop-blur-xl border-b border-white/5 transition-all duration-500",
         isHeaderSticky ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
@@ -110,7 +108,6 @@ export default function AlbumDetail() {
         }}
       />
 
-      {/* Header Segment */}
       <div className="relative z-10 pt-12 pb-8 flex flex-col md:flex-row md:items-end space-y-6 md:space-y-0 md:space-x-8">
         <div className="w-48 h-48 md:w-60 md:h-60 shadow-[0_15px_50px_rgba(0,0,0,0.4)] rounded-lg overflow-hidden shrink-0 bg-muted group relative">
           <img 
@@ -148,10 +145,7 @@ export default function AlbumDetail() {
         </div>
       </div>
 
-      {/* Main Content & Actions */}
       <div className="relative z-10 bg-black/20 backdrop-blur-3xl -mx-6 px-6 pt-6 flex flex-col flex-1 pb-16">
-        
-        {/* Actions Bar */}
         <div className="flex items-center space-x-8 mb-8">
           <Button 
             size="lg" 
@@ -198,11 +192,10 @@ export default function AlbumDetail() {
             size="icon"
             className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
           >
-            <Play className="h-6 w-6 rotate-90" /> {/* Placeholder for 'More' ellipsis or similar context button */}
+            <Play className="h-6 w-6 rotate-90" />
           </Button>
         </div>
 
-        {/* Songs List */}
         <div className="w-full">
           <div className="grid grid-cols-[auto_1fr_auto] gap-4 px-4 py-2 border-b border-white/10 text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">
             <span className="w-8 text-center ml-2">#</span>
@@ -272,13 +265,11 @@ export default function AlbumDetail() {
             ))}
           </div>
 
-          {/* Release Info */}
           <div className="mt-12 px-4 opacity-40 hover:opacity-100 transition-opacity">
             <p className="text-xs font-bold">{album.year}</p>
             <p className="text-[10px] mt-1 uppercase tracking-tighter">© {album.artist} • {t('common.distributed_by')} YuMusic</p>
           </div>
 
-          {/* Review section if exists */}
           {albumInfo?.notes && (
             <div className="mt-16 px-4 max-w-3xl">
               <h2 className="text-lg font-bold mb-4">{t('common.about')}</h2>
@@ -289,8 +280,7 @@ export default function AlbumDetail() {
             </div>
           )}
 
-          {/* More by Artist (Spotify style detail) */}
-          <div className="mt-24 px-4 pb-24">
+          <div className="mt-24 px-4 pb-12 transition-all duration-700 animate-in fade-in slide-in-from-bottom-4">
              <div className="flex justify-between items-end mb-6">
                 <h2 className="text-2xl font-black group cursor-pointer">
                   {t('common.more_by')} {album.artist}
@@ -299,11 +289,32 @@ export default function AlbumDetail() {
                   </span>
                 </h2>
              </div>
-             {/* Simple placeholder for actual cards since we need to fetch artist albums */}
-             <div className="text-sm text-muted-foreground italic opacity-50">
-                {t('album.explore_more', { artist: album.artist })}
-             </div>
+             
+             {!artistAlbums ? (
+               <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                 {[...Array(6)].map((_, i) => (
+                   <div key={i} className="aspect-square bg-muted rounded-md animate-pulse" />
+                 ))}
+               </div>
+             ) : (
+               <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                 {artistAlbums.album
+                   ?.filter((a: any) => a.id !== id)
+                   ?.slice(0, 12)
+                   ?.map((featuredAlbum: any) => (
+                    <AlbumCard 
+                      key={featuredAlbum.id} 
+                      album={featuredAlbum} 
+                      getCoverArt={getCoverUrl} 
+                      navigate={navigate}
+                      onPlay={() => {}} 
+                    />
+                 ))}
+               </div>
+             )}
           </div>
+
+          <Footer />
         </div>
       </div>
     </div>
