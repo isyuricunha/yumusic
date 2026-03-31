@@ -1,6 +1,7 @@
 import { fetch } from '@tauri-apps/plugin-http';
 import { writeFile, mkdir, readDir, stat, remove } from '@tauri-apps/plugin-fs';
 import { join, downloadDir } from '@tauri-apps/api/path';
+import { isTauri } from '@tauri-apps/api/core';
 import { openPath } from '@tauri-apps/plugin-opener';
 import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { useDownloadStore } from '@/store/downloadStore';
@@ -13,8 +14,11 @@ export async function downloadSong(song: SubsonicSong) {
   const config = useConfigStore.getState().config;
   const { addDownloaded, setDownloading, setBatchProgress } = useDownloadStore.getState();
 
-  if (!config) return;
-
+  if (!config || !isTauri()) {
+    if (!isTauri()) console.warn('[Download] Download is only supported in the desktop app.');
+    return;
+  }
+  
   setDownloading(song.id, true);
 
   try {

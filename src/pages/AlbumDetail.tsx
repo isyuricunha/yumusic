@@ -253,14 +253,10 @@ export default function AlbumDetail() {
           </Button>
 
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button 
-                variant="ghost"
-                size="icon"
-                className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
-              >
-                <MoreHorizontal className="h-7 w-7" />
-              </Button>
+            <DropdownMenuTrigger
+              className="rounded-full h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-all outline-none"
+            >
+              <MoreHorizontal className="h-7 w-7" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56 bg-zinc-900 border-white/10">
               <DropdownMenuItem onClick={handleAddAlbumToQueue} className="cursor-pointer">
