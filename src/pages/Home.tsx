@@ -43,36 +43,36 @@ export default function Home() {
   }, [t]);
 
   return (
-    <div className="w-full space-y-8 pb-12 pt-4">
+    <div className="w-full space-y-10 pb-12 pt-4">
       
-      {/* Greeting & Quick Play Grid */}
+      {/* Greeting & Quick Play Grid (4x2 Spotify-style) */}
       <section>
-        <h1 className="text-3xl font-black tracking-tight mb-6">{greeting}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {recentAlbums?.slice(0, 6).map((album) => (
+        <h1 className="text-3xl font-black tracking-tight mb-6">{greeting}, {config?.username}</h1>
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-3">
+          {recentAlbums?.slice(0, 8).map((album) => (
             <div 
               key={album.id}
-              className="flex items-center bg-white/5 hover:bg-white/10 transition-colors rounded-md overflow-hidden cursor-pointer group relative shadow-md"
+              className="flex items-center bg-white/5 hover:bg-white/10 transition-all duration-300 rounded-md overflow-hidden cursor-pointer group relative shadow-md h-16 md:h-20"
               onClick={() => navigate(`/album/${album.id}`)}
             >
-              <div className="w-12 h-12 sm:w-20 sm:h-20 flex-shrink-0 shadow-lg">
+              <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 shadow-lg">
                 <img 
                   src={getCoverArt(album.coverArt || album.id)} 
                   alt={album.name} 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-1 px-4 py-2 overflow-hidden">
-                <span className="font-bold text-sm sm:text-base line-clamp-2 leading-tight">{album.name}</span>
+              <div className="flex-1 px-4 overflow-hidden pr-12">
+                <span className="font-bold text-xs md:text-sm lg:text-base line-clamp-2 leading-tight tracking-tight">{album.name}</span>
               </div>
               <button 
-                className="absolute right-4 w-12 h-12 bg-primary rounded-full shadow-xl flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all hover:scale-105 active:scale-95"
+                className="absolute right-3 w-10 h-10 bg-primary rounded-full shadow-2xl flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 active:scale-95"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleQuickPlay(album.id);
                 }}
               >
-                <Play className="h-6 w-6 fill-current text-primary-foreground ml-1" />
+                <Play className="h-5 w-5 fill-current text-primary-foreground ml-0.5" />
               </button>
             </div>
           ))}
@@ -84,7 +84,7 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.featured_artists') || 'Featured Artists'}</h2>
           <button 
-            className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors"
+            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
             onClick={() => navigate('/library')}
           >
             {t('common.see_all')}
@@ -94,18 +94,18 @@ export default function Home() {
         {loadingArtists ? (
           <div className="flex space-x-4 overflow-hidden">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-muted animate-pulse flex-shrink-0" />
+              <div key={i} className="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-muted animate-pulse flex-shrink-0" />
             ))}
           </div>
         ) : (
-          <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
+          <div className="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth">
             {featuredArtists.map((artist: SubsonicArtist) => (
               <div 
                 key={artist.id} 
-                className="group flex flex-col items-center space-y-2 cursor-pointer flex-shrink-0"
+                className="group flex flex-col items-center space-y-3 cursor-pointer flex-shrink-0 w-24 sm:w-32"
                 onClick={() => navigate(`/artist/${artist.id}`)}
               >
-                <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl bg-muted relative">
+                <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-lg transition-all duration-500 group-hover:scale-105 group-hover:shadow-xl bg-muted relative">
                   {artist.coverArt ? (
                     <img 
                       src={getCoverArt(artist.coverArt)} 
@@ -113,12 +113,12 @@ export default function Home() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                      <User className="h-8 w-8" />
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted/30">
+                      <User className="h-8 w-8 opacity-40" />
                     </div>
                   )}
                 </div>
-                <span className="font-semibold text-xs sm:text-sm text-center line-clamp-1 max-w-[100px] sm:max-w-[130px]">
+                <span className="font-bold text-[11px] sm:text-xs text-center line-clamp-1 w-full px-1">
                   {artist.name}
                 </span>
               </div>
@@ -127,20 +127,27 @@ export default function Home() {
         )}
       </section>
 
+      {/* Recently Added */}
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.recently_added')}</h2>
+          <button 
+            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
+            onClick={() => navigate('/library?tab=recent')}
+          >
+            {t('common.see_all')}
+          </button>
         </div>
         
         {loadingRecent ? (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
-            {[...Array(12)].map((_, i) => (
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            {[...Array(8)].map((_, i) => (
               <div key={i} className="aspect-square bg-muted rounded-md animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
-            {recentAlbums?.map((album) => (
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            {recentAlbums?.slice(0, 16).map((album) => (
               <AlbumCard 
                 key={album.id} 
                 album={album} 
@@ -153,14 +160,27 @@ export default function Home() {
         )}
       </section>
 
-      {!loadingFrequent && frequentAlbums && frequentAlbums.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.most_played')}</h2>
+      {/* Most Played */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.most_played')}</h2>
+          <button 
+            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
+            onClick={() => navigate('/library?tab=frequent')}
+          >
+            {t('common.see_all')}
+          </button>
+        </div>
+        
+        {(loadingFrequent || !frequentAlbums) ? (
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="aspect-square bg-muted rounded-md animate-pulse" />
+            ))}
           </div>
-          
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
-            {frequentAlbums?.map((album) => (
+        ) : (
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+            {frequentAlbums?.slice(0, 16).map((album) => (
               <AlbumCard 
                 key={album.id} 
                 album={album} 
@@ -170,21 +190,8 @@ export default function Home() {
               />
             ))}
           </div>
-        </section>
-      )}
-
-      {loadingFrequent && (
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.most_played')}</h2>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-3 sm:gap-4">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="aspect-square bg-muted rounded-md animate-pulse" />
-            ))}
-          </div>
-        </section>
-      )}
+        )}
+      </section>
     </div>
   );
 }
