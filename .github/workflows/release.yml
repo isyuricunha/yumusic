@@ -5,66 +5,62 @@ on:
     branches:
       - main
 
-# Prevent concurrent releases
+# Prevent concurrent releases from running in parallel.
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   # ─────────────────────────────────────────────────────────────────────────────
-  # Job 1: Determine the next version with semantic-release.
-  # Runs on Ubuntu (fast, cheap). Creates the GitHub Release as a DRAFT and
-  # outputs the new tag so the build matrix can upload assets to it.
+  # Job 1: Semantic Release
+  # Analyses conventional commits, bumps the version, creates a GitHub Release
+  # draft, and pushes a CHANGELOG.md update. Exposes the new tag as an output
+  # so the build matrix can reference it.
   # ─────────────────────────────────────────────────────────────────────────────
   release:
     name: Semantic Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       new_release_published: ${{ steps.semantic.outputs.new_release_published }}
       new_release_version: ${{ steps.semantic.outputs.new_release_version }}
       new_release_tag: ${{ steps.semantic.outputs.new_release_git_tag }}
     steps:
-      - name: Checkout repository
+      - name: Checkout repository (full history)
         uses: actions/checkout@v4
         with:
-          # Full history is required for semantic-release to analyse all commits.
           fetch-depth: 0
-          # Use the PAT so that semantic-release can push the version bump commit
-          # and the tag even when branch protection is enabled.
           token: ${{ secrets.GH_PAT }}
 
-      - name: Set up Node.js
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      - name: Install semantic-release and plugins
-        run: >
-          npm install --no-save
-          semantic-release
-          conventional-changelog-conventionalcommits
-          @semantic-release/commit-analyzer
-          @semantic-release/release-notes-generator
-          @semantic-release/changelog
-          @semantic-release/git
-          @semantic-release/github
+          node-version: '24'
 
       - name: Run semantic-release
         id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          # Extra plugins not bundled with semantic-release itself.
+          extra_plugins: |
+            conventional-changelog-conventionalcommits
+            @semantic-release/changelog
+            @semantic-release/git
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           GIT_AUTHOR_NAME: github-actions[bot]
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
-        run: npx semantic-release
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # Job 2: Build the Tauri app on every target platform and upload the
-  # produced bundles to the GitHub Release created in Job 1.
+  # Job 2: Multi-platform Tauri build
+  # Runs in parallel on Windows, macOS (arm64 + x86_64), and Ubuntu.
+  # Each runner uploads its bundles to the draft release created above.
   # ─────────────────────────────────────────────────────────────────────────────
   build:
-    name: Build (${{ matrix.platform }})
+    name: Build (${{ matrix.label }})
     needs: release
     if: needs.release.outputs.new_release_published == 'true'
     permissions:
@@ -73,22 +69,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Windows x86_64
           - platform: windows-latest
             args: ''
             label: windows-x86_64
 
-          # macOS Apple Silicon (M1/M2/M3)
           - platform: macos-latest
             args: '--target aarch64-apple-darwin'
             label: macos-arm64
 
-          # macOS Intel
           - platform: macos-latest
             args: '--target x86_64-apple-darwin'
             label: macos-x86_64
 
-          # Linux x86_64
           - platform: ubuntu-22.04
             args: ''
             label: linux-x86_64
@@ -100,10 +92,10 @@ jobs:
         with:
           ref: ${{ needs.release.outputs.new_release_tag }}
 
-      - name: Set up Node.js
+      - name: Set up Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -113,7 +105,6 @@ jobs:
       - name: Install Rust (stable)
         uses: dtolnay/rust-toolchain@stable
         with:
-          # macOS builds need both targets available on the runner.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install Linux system dependencies
@@ -126,7 +117,7 @@ jobs:
             librsvg2-dev \
             patchelf
 
-      - name: Cache Rust build artefacts
+      - name: Cache Rust build artifacts
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
@@ -134,22 +125,21 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install
 
-      - name: Build Tauri app and upload to release
+      - name: Build & upload to release
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
-          # tauri-action will find the existing release by tag and upload to it.
           tagName: ${{ needs.release.outputs.new_release_tag }}
           releaseName: YuMusic ${{ needs.release.outputs.new_release_version }}
-          # The release already exists (created by semantic-release); treat it
-          # as a draft so tauri-action can attach the assets.
+          # Release already exists as draft; attach assets to it.
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # Job 3: Once ALL platform builds succeed, publish the release (undraft it).
+  # Job 3: Publish
+  # Removes the draft flag only after ALL platform builds have succeeded.
   # ─────────────────────────────────────────────────────────────────────────────
   publish:
     name: Publish Release
@@ -157,7 +147,7 @@ jobs:
     if: needs.release.outputs.new_release_published == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Publish GitHub Release
+      - name: Undraft GitHub Release
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_PAT }}
@@ -169,7 +159,7 @@ jobs:
             });
             const release = releases.find(r => r.tag_name === tag);
             if (!release) {
-              core.setFailed(`Release with tag ${tag} not found.`);
+              core.setFailed(`Release with tag "${tag}" not found.`);
               return;
             }
             await github.rest.repos.updateRelease({
@@ -178,4 +168,4 @@ jobs:
               release_id: release.id,
               draft: false,
             });
-            console.log(`Released: ${release.html_url}`);
+            console.log(`✅ Published: ${release.html_url}`);
