@@ -133,14 +133,14 @@ export default function ArtistDetail() {
                 <Check className="h-3 w-3 text-white" />
             </div>
             <span className="text-xs font-black uppercase tracking-[0.2em] text-white drop-shadow-md">
-                {t('common.artist')} {t('common.verified') || 'Verificado'}
+                {t('common.artist')} {t('common.verified')}
             </span>
           </div>
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
             {artist.name}
           </h1>
           <div className="flex items-center gap-2 text-white/90 text-sm font-bold pl-1 drop-shadow-md">
-             <span>{Math.floor(Math.random() * 500000 + 100000).toLocaleString()} ouvintes mensais</span>
+             <span>{t('artist.monthly_listeners', { count: Math.floor(Math.random() * 500000 + 100000) })}</span>
           </div>
         </div>
       </div>
@@ -174,9 +174,9 @@ export default function ArtistDetail() {
             onClick={handleToggleStar}
         >
             {isStarred ? (
-                <> <Check className="h-4 w-4 mr-2" /> Seguindo </>
+                <> <Check className="h-4 w-4 mr-2" /> {t('artist.following')} </>
             ) : (
-                <> <UserPlus className="h-4 w-4 mr-2" /> Seguir </>
+                <> <UserPlus className="h-4 w-4 mr-2" /> {t('artist.follow')} </>
             )}
         </Button>
 
@@ -190,10 +190,10 @@ export default function ArtistDetail() {
             />
             <DropdownMenuContent className="bg-zinc-900 border-white/10 text-white w-48">
                 <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
-                    {t('common.report_issue') || 'Denunciar'}
+                    {t('common.report_issue')}
                 </DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
-                    {t('common.go_to_artist') || 'Ir para o artista'}
+                    {t('common.go_to_artist')}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -206,7 +206,7 @@ export default function ArtistDetail() {
         {displaySongs && displaySongs.length > 0 && (
           <section className="space-y-6">
             <h2 className="text-2xl font-black tracking-tight text-white mb-4">
-              {t('common.popular') || 'Populares'}
+              {t('common.popular')}
             </h2>
             <div className="flex flex-col max-w-5xl">
               {displaySongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
@@ -270,7 +270,7 @@ export default function ArtistDetail() {
                 className="text-muted-foreground hover:text-white font-black uppercase tracking-widest text-[10px] pl-4"
                 onClick={() => setShowFullTracks(!showFullTracks)}
               >
-                {showFullTracks ? t('common.show_less') : (t('common.see_all') || 'Ver mais')}
+                {showFullTracks ? t('common.show_less') : t('common.show_more')}
               </Button>
             )}
           </section>
@@ -280,7 +280,9 @@ export default function ArtistDetail() {
         <div className="pt-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-black tracking-tight text-white">{t('common.albums')}</h2>
-            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors cursor-pointer">Discografia completa</span>
+            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors cursor-pointer">
+                {t('artist.full_discography')}
+            </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
             {displayAlbums.slice(0, 14).map((album) => (
@@ -304,7 +306,9 @@ export default function ArtistDetail() {
                 </div>
                 <div className="flex flex-col px-1">
                   <span className="font-bold text-sm truncate text-white" title={album.name}>{album.name}</span>
-                  <span className="text-[11px] text-muted-foreground truncate uppercase font-black tracking-widest pt-1">{album.year || 'Álbum'}</span>
+                  <span className="text-[11px] text-muted-foreground truncate uppercase font-black tracking-widest pt-1">
+                    {album.year || t('common.album')}
+                  </span>
                 </div>
               </div>
             ))}
@@ -314,7 +318,9 @@ export default function ArtistDetail() {
         {/* About Card Section (Spotify style) */}
         {artistInfo?.biography && (
           <section className="pt-12 max-w-4xl">
-            <h2 className="text-2xl font-black tracking-tight text-white mb-6">Sobre o Artista</h2>
+            <h2 className="text-2xl font-black tracking-tight text-white mb-6">
+                {t('artist.about')}
+            </h2>
             <div 
                 className="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-2xl border border-white/5"
                 onClick={() => setShowFullBio(!showFullBio)}
@@ -330,7 +336,9 @@ export default function ArtistDetail() {
                 <div className="absolute bottom-10 left-10 right-10 z-10 space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-white">Artistas Similares</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-white">
+                                {t('artist.similar_artists')}
+                            </span>
                         </div>
                     </div>
                     <div 
@@ -341,7 +349,9 @@ export default function ArtistDetail() {
                         dangerouslySetInnerHTML={{ __html: artistInfo.biography.slice(0, 300) + '...' }}
                     />
                     <div className="pt-2">
-                        <span className="text-xs font-black uppercase tracking-widest text-primary group-hover:underline">Ver mais</span>
+                        <span className="text-xs font-black uppercase tracking-widest text-primary group-hover:underline">
+                            {t('common.show_more')}
+                        </span>
                     </div>
                 </div>
 
@@ -359,7 +369,9 @@ export default function ArtistDetail() {
                             className="text-lg leading-relaxed text-white prose prose-invert prose-lg max-w-none"
                             dangerouslySetInnerHTML={{ __html: artistInfo.biography }}
                          />
-                         <Button className="mt-8 rounded-full font-bold px-8" onClick={() => setShowFullBio(false)}>Fechar</Button>
+                         <Button className="mt-8 rounded-full font-bold px-8" onClick={() => setShowFullBio(false)}>
+                            {t('common.close')}
+                         </Button>
                     </div>
                 )}
             </div>

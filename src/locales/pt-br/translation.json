@@ -41,7 +41,9 @@
     "feature_not_implemented": "Esta funcionalidade não foi implementada pelo seu servidor (ex: Navidrome ainda não suporta Podcasts).",
     "add_to_queue": "Adicionar à Fila",
     "go_to_artist": "Ir para o Artista",
-    "report_issue": "Relatar um Problema"
+    "report_issue": "Relatar um Problema",
+    "verified": "Verificado",
+    "close": "Fechar"
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
@@ -123,5 +125,13 @@
   },
   "album": {
     "explore_more": "Explore mais faixas de {{artist}} em seu perfil."
+  },
+  "artist": {
+    "monthly_listeners": "{{count}} ouvintes mensais",
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "full_discography": "Discografia completa",
+    "about": "Sobre o Artista",
+    "similar_artists": "Artistas Similares"
   }
 }

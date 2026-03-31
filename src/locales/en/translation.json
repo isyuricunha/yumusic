@@ -41,7 +41,9 @@
     "feature_not_implemented": "This feature is not implemented by your server (e.g. Navidrome).",
     "add_to_queue": "Add to Queue",
     "go_to_artist": "Go to Artist",
-    "report_issue": "Report an Issue"
+    "report_issue": "Report an Issue",
+    "verified": "Verified",
+    "close": "Close"
   },
   "home": {
     "recently_added": "Recently Added",
@@ -123,5 +125,13 @@
   },
   "album": {
     "explore_more": "Explore more tracks from {{artist}} in their profile."
+  },
+  "artist": {
+    "monthly_listeners": "{{count}} monthly listeners",
+    "follow": "Follow",
+    "following": "Following",
+    "full_discography": "Full Discography",
+    "about": "About the Artist",
+    "similar_artists": "Similar Artists"
   }
 }
