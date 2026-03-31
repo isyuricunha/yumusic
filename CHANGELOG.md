@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/isyuricunha/yumusic-windows/compare/v1.0.1...v1.0.2) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **ci:** force node 24, sync app version with semantic-release via exec plugin ([8542252](https://github.com/isyuricunha/yumusic-windows/commit/854225202a983d65782620693ac0165b16194f36))
+* **ci:** rename update-version to .cjs to avoid esm require error ([72d06aa](https://github.com/isyuricunha/yumusic-windows/commit/72d06aac0b79297127c526602f72c57985e1520b))
+
 ## [1.0.1](https://github.com/isyuricunha/yumusic-windows/compare/v1.0.0...v1.0.1) (2026-03-31)
 
 ### 🐛 Bug Fixes
