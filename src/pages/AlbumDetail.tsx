@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong, useArtist } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, Clock, Check, Loader2, ArrowDownToLine } from 'lucide-react';
+import { Play, Clock, Check, Loader2, ArrowDownToLine, MoreVertical, Heart } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
@@ -127,33 +127,33 @@ export default function AlbumDetail() {
           <span className="text-xs font-black uppercase tracking-widest text-foreground drop-shadow-md">
             {t('common.album')}
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black tracking-tighter leading-none py-2">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-[6rem] font-black tracking-tighter leading-none py-2 mb-2">
              {album.name}
           </h1>
-          <div className="flex items-center space-x-2 text-sm font-bold flex-wrap gap-y-2">
+          <div className="flex items-center space-x-1.5 text-sm font-bold flex-wrap">
             <span 
               className="hover:underline cursor-pointer flex items-center gap-2"
               onClick={() => navigate(`/artist/${album.artistId}`)}
             >
-              <div className="w-6 h-6 rounded-full bg-muted overflow-hidden">
+              <div className="w-6 h-6 rounded-full bg-muted overflow-hidden shadow-md">
                 <img src={getCoverUrl(album.artistId || album.id)} className="w-full h-full object-cover" />
               </div>
               {album.artist}
             </span>
-            <span className="text-foreground/60">•</span>
+            <span className="text-foreground font-black opacity-90">•</span>
             <span className="text-foreground/90">{album.year}</span>
-            <span className="text-foreground/40">•</span>
+            <span className="text-foreground font-black opacity-90">•</span>
             <span className="text-foreground/90">{album.songCount} {t('common.songs')}</span>
-            <span className="text-foreground/40 font-normal">,</span>
-            <span className="text-foreground/40 font-normal">
-              {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} min
+            <span className="text-white/60 font-normal">,</span>
+            <span className="text-white/60 font-normal pl-0.5">
+              {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} min {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) % 60)} sec
             </span>
           </div>
         </div>
       </div>
 
       <div className="relative z-10 bg-black/20 backdrop-blur-3xl -mx-6 px-6 pt-6 flex flex-col flex-1 pb-16">
-        <div className="flex items-center space-x-8 mb-8">
+        <div className="flex items-center space-x-6 mb-8 pt-6">
           <Button 
             size="lg" 
             className="rounded-full h-14 w-14 shadow-2xl bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all" 
@@ -165,10 +165,18 @@ export default function AlbumDetail() {
           <Button 
             variant="ghost"
             size="icon"
+            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+          >
+            <Heart className="h-8 w-8" />
+          </Button>
+
+          <Button 
+            variant="ghost"
+            size="icon"
             className={cn(
               "rounded-full h-10 w-10 transition-all duration-300",
               isAlbumDownloaded 
-                ? "text-[var(--success)] shadow-[0_0_15px_rgba(29,185,84,0.2)]" 
+                ? "text-[var(--primary)]" 
                 : "text-muted-foreground hover:text-foreground"
             )}
             onClick={async (e) => {
@@ -188,9 +196,9 @@ export default function AlbumDetail() {
             {isAlbumDownloading ? (
                <Loader2 className="h-6 w-6 animate-spin text-primary" />
             ) : isAlbumDownloaded ? (
-               <Check className="h-6 w-6 stroke-[3px]" />
+               <ArrowDownToLine className="h-7 w-7 stroke-[2.5px] text-primary" />
             ) : (
-               <ArrowDownToLine className="h-6 w-6" />
+               <ArrowDownToLine className="h-7 w-7 stroke-[2.5px]" />
             )}
           </Button>
 
@@ -199,7 +207,7 @@ export default function AlbumDetail() {
             size="icon"
             className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
           >
-            <Play className="h-6 w-6 rotate-90" />
+            <MoreVertical className="h-7 w-7" />
           </Button>
         </div>
 

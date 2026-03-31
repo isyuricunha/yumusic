@@ -22,15 +22,15 @@ export function useImageColor(imageUrl?: string, fallback: string = 'var(--prima
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Small sample size for performance
-      canvas.width = 10;
-      canvas.height = 10;
-      ctx.drawImage(img, 0, 0, 10, 10);
+      // Higher resolution sample for better accuracy
+      canvas.width = 20;
+      canvas.height = 20;
+      ctx.drawImage(img, 0, 0, 20, 20);
 
       try {
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
         let vibrantColor = fallback;
-        let maxIntensity = -1;
+        let maxSecondaryScore = -1;
 
         for (let i = 0; i < imageData.length; i += 4) {
           const r = imageData[i];
@@ -38,20 +38,19 @@ export function useImageColor(imageUrl?: string, fallback: string = 'var(--prima
           const b = imageData[i + 2];
           const a = imageData[i + 3];
 
-          // Skip transparent or very dark/bright pixels (Spotify excludes extremes)
           const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-          if (a < 128 || brightness < 30 || brightness > 220) continue;
+          if (a < 128 || brightness < 40 || brightness > 220) continue;
 
-          // Simple saturation check to find "vibrant" colors
           const max = Math.max(r, g, b);
           const min = Math.min(r, g, b);
           const saturation = max === 0 ? 0 : (max - min) / max;
           
-          // Spotify favors vibrant colors over muddy ones
-          const intensity = saturation * brightness;
+          // Spotify-like algorithm: heavily weighted saturation with a brightness boost
+          // This avoids the common "muddy brown" issue and pulls out the intense reds/blues.
+          const score = (saturation * 3) + (brightness / 255);
           
-          if (intensity > maxIntensity) {
-            maxIntensity = intensity;
+          if (score > maxSecondaryScore) {
+            maxSecondaryScore = score;
             vibrantColor = `rgb(${r}, ${g}, ${b})`;
           }
         }
