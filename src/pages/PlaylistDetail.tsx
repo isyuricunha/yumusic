@@ -1,11 +1,14 @@
 import { useParams, useNavigate } from 'react-router';
 import { usePlaylist, useCoverArtUrl, SubsonicSong, usePlaylistMutations } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, ArrowLeft, Clock, Trash2 } from 'lucide-react';
+import { Play, ArrowLeft, Clock, Trash2, CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { useDownloadStore } from '@/store/downloadStore';
+import { downloadSong } from '@/services/downloadService';
 
 export default function PlaylistDetail() {
   const { t } = useTranslation();
@@ -16,6 +19,17 @@ export default function PlaylistDetail() {
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
+  const { downloadedIds, downloadingIds } = useDownloadStore();
+
+  const isPlaylistDownloaded = useMemo(() => {
+    if (!playlist?.entry) return false;
+    return playlist.entry.every(s => !!downloadedIds[s.id]);
+  }, [playlist?.entry, downloadedIds]);
+
+  const isPlaylistDownloading = useMemo(() => {
+    if (!playlist?.entry) return false;
+    return playlist.entry.some(s => downloadingIds.has(s.id));
+  }, [playlist?.entry, downloadingIds]);
 
   const formatDuration = (seconds: number) => {
     const min = Math.floor(seconds / 60);
@@ -109,6 +123,31 @@ export default function PlaylistDetail() {
         >
           <Trash2 className="h-5 w-5" />
         </Button>
+
+        <Button 
+          variant="outline"
+          size="icon"
+          className={cn(
+            "rounded-full h-10 w-10 border-2 transition-all",
+            isPlaylistDownloaded ? "bg-primary/20 border-primary text-primary" : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
+          )}
+          onClick={async () => {
+            if (playlist?.entry) {
+              for (const song of playlist.entry) {
+                if (!downloadedIds[song.id]) await downloadSong(song);
+              }
+            }
+          }}
+          disabled={isPlaylistDownloading}
+        >
+          {isPlaylistDownloading ? (
+             <Loader2 className="h-5 w-5 animate-spin" />
+          ) : isPlaylistDownloaded ? (
+             <CheckCircle2 className="h-5 w-5 fill-current" />
+          ) : (
+             <ArrowDownToLine className="h-5 w-5" />
+          )}
+        </Button>
       </div>
 
       <div className="w-full">
@@ -186,6 +225,25 @@ export default function PlaylistDetail() {
               <span className="text-xs text-muted-foreground tabular-nums min-w-[40px]">
                 {formatDuration(song.duration)}
               </span>
+
+              {downloadingIds.has(song.id) ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+              ) : downloadedIds[song.id] ? (
+                <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-current" />
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-primary transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    downloadSong(song);
+                  }}
+                >
+                  <ArrowDownToLine className="h-3.5 w-3.5" />
+                </Button>
+              )}
+
               <Button 
                 variant="ghost" 
                 size="icon" 

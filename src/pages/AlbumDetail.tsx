@@ -7,7 +7,10 @@ import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { useDownloadStore } from '@/store/downloadStore';
+import { downloadSong } from '@/services/downloadService';
 
 export default function AlbumDetail() {
   const { t } = useTranslation();
@@ -19,6 +22,17 @@ export default function AlbumDetail() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const [showFullReview, setShowFullReview] = useState(false);
+  const { downloadedIds, downloadingIds } = useDownloadStore();
+
+  const isAlbumDownloaded = useMemo(() => {
+    if (!album?.song) return false;
+    return album.song.every(s => !!downloadedIds[s.id]);
+  }, [album?.song, downloadedIds]);
+
+  const isAlbumDownloading = useMemo(() => {
+    if (!album?.song) return false;
+    return album.song.some(s => downloadingIds.has(s.id));
+  }, [album?.song, downloadingIds]);
 
   const formatDuration = (seconds: number) => {
     const min = Math.floor(seconds / 60);
@@ -116,6 +130,31 @@ export default function AlbumDetail() {
         >
           <Play className="h-6 w-6 fill-current ml-1" />
         </Button>
+
+        <Button 
+          variant="outline"
+          size="icon"
+          className={cn(
+            "rounded-full h-10 w-10 border-2 transition-all",
+            isAlbumDownloaded ? "bg-primary/20 border-primary text-primary" : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
+          )}
+          onClick={async () => {
+            if (album?.song) {
+              for (const song of album.song) {
+                if (!downloadedIds[song.id]) await downloadSong(song);
+              }
+            }
+          }}
+          disabled={isAlbumDownloading}
+        >
+          {isAlbumDownloading ? (
+             <Loader2 className="h-5 w-5 animate-spin" />
+          ) : isAlbumDownloaded ? (
+             <CheckCircle2 className="h-5 w-5 fill-current" />
+          ) : (
+             <ArrowDownToLine className="h-5 w-5" />
+          )}
+        </Button>
       </div>
 
       <div className="w-full">
@@ -167,6 +206,25 @@ export default function AlbumDetail() {
                 <span className="text-xs text-muted-foreground tabular-nums">
                   {formatDuration(song.duration)}
                 </span>
+                
+                {downloadingIds.has(song.id) ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                ) : downloadedIds[song.id] ? (
+                  <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-current" />
+                ) : (
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-primary transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      downloadSong(song);
+                    }}
+                  >
+                    <ArrowDownToLine className="h-3.5 w-3.5" />
+                  </Button>
+                )}
+
                 <AddToPlaylistDropdown songId={song.id} />
               </div>
             </div>

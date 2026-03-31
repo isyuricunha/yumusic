@@ -10,6 +10,9 @@ import { fetchRSS } from '@/services/rssService';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useMemo } from 'react';
+import { CheckCircle2, ArrowDownToLine } from 'lucide-react';
+import { useDownloadStore } from '@/store/downloadStore';
+import { downloadSong, downloadPodcastEpisodes } from '@/services/downloadService';
 
 export default function PodcastDetail() {
   const { t } = useTranslation();
@@ -24,6 +27,7 @@ export default function PodcastDetail() {
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
+  const { downloadedIds, downloadingIds } = useDownloadStore();
 
   const [localPodcastData, setLocalPodcastData] = useState<SubsonicPodcast | null>(null);
   const [loadingLocal, setLoadingLocal] = useState(false);
@@ -152,6 +156,31 @@ export default function PodcastDetail() {
               <Play className="h-6 w-6 mr-2 fill-current" />
               {t('common.play')}
             </Button>
+
+            <Button 
+              variant="outline"
+              size="icon"
+              className={cn(
+                "rounded-full h-14 w-14 border-2 transition-all",
+                episodes.slice(0, 5).every(ep => !!downloadedIds[ep.id]) 
+                  ? "bg-primary/20 border-primary text-primary" 
+                  : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
+              )}
+              onClick={async () => {
+                if (episodes.length > 0) {
+                  await downloadPodcastEpisodes(podcast.id, episodes, 5);
+                }
+              }}
+              disabled={episodes.slice(0, 5).some(ep => downloadingIds.has(ep.id))}
+            >
+              {episodes.slice(0, 5).some(ep => downloadingIds.has(ep.id)) ? (
+                 <Loader2 className="h-6 w-6 animate-spin" />
+              ) : episodes.slice(0, 5).every(ep => !!downloadedIds[ep.id]) ? (
+                 <CheckCircle2 className="h-6 w-6 fill-current" />
+              ) : (
+                 <ArrowDownToLine className="h-6 w-6" />
+              )}
+            </Button>
           </div>
         </div>
       </div>
@@ -191,11 +220,31 @@ export default function PodcastDetail() {
                   <span className="text-xs text-muted-foreground truncate">{episode.year || ''}</span>
                 </div>
               </div>
-              <span className="text-xs text-muted-foreground tabular-nums opacity-50">
-                {episode.duration >= 3600 
-                  ? `${Math.floor(episode.duration / 3600)}:${Math.floor((episode.duration % 3600) / 60).toString().padStart(2, '0')}:${(episode.duration % 60).toString().padStart(2, '0')}`
-                  : `${Math.floor(episode.duration / 60)}:${(episode.duration % 60).toString().padStart(2, '0')}`}
-              </span>
+              <div className="flex items-center space-x-4">
+                <span className="text-xs text-muted-foreground tabular-nums opacity-50">
+                  {episode.duration >= 3600 
+                    ? `${Math.floor(episode.duration / 3600)}:${Math.floor((episode.duration % 3600) / 60).toString().padStart(2, '0')}:${(episode.duration % 60).toString().padStart(2, '0')}`
+                    : `${Math.floor(episode.duration / 60)}:${(episode.duration % 60).toString().padStart(2, '0')}`}
+                </span>
+
+                {downloadingIds.has(episode.id) ? (
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                ) : downloadedIds[episode.id] ? (
+                  <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
+                ) : (
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-primary transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      downloadSong(episode);
+                    }}
+                  >
+                    <ArrowDownToLine className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </div>
           ))}
 

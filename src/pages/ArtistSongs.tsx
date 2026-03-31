@@ -6,6 +6,9 @@ import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { useDownloadStore } from '@/store/downloadStore';
+import { downloadSong } from '@/services/downloadService';
 
 export default function ArtistSongs() {
   const { t } = useTranslation();
@@ -19,6 +22,7 @@ export default function ArtistSongs() {
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
+  const { downloadedIds, downloadingIds } = useDownloadStore();
 
   const formatDuration = (seconds: number) => {
     const min = Math.floor(seconds / 60);
@@ -104,8 +108,25 @@ export default function ArtistSongs() {
               }}>{song.album}</span>
             </div>
 
-            <div className="flex justify-end text-sm text-muted-foreground tabular-nums">
-              {formatDuration(song.duration)}
+            <div className="flex justify-end items-center space-x-3 text-sm text-muted-foreground tabular-nums">
+              {downloadingIds.has(song.id) ? (
+                <Loader2 className="h-4 w-4 animate-spin text-primary" />
+              ) : downloadedIds[song.id] ? (
+                <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-primary transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    downloadSong(song);
+                  }}
+                >
+                  <ArrowDownToLine className="h-4 w-4" />
+                </Button>
+              )}
+              <span>{formatDuration(song.duration)}</span>
             </div>
           </div>
         ))}

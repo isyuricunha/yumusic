@@ -2,10 +2,13 @@ import { useFavorites, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic'
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
-import { Play } from 'lucide-react';
+import { Play, CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
+import { downloadSong } from '@/services/downloadService';
+import { useDownloadStore } from '@/store/downloadStore';
+import { Button } from '@/components/ui/button';
 
 export default function Favorites() {
   const { t } = useTranslation();
@@ -14,6 +17,7 @@ export default function Favorites() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const navigate = useNavigate();
+  const { downloadedIds, downloadingIds } = useDownloadStore();
 
   const handlePlaySong = (song: SubsonicSong, allSongs: SubsonicSong[]) => {
     if (config) {
@@ -67,6 +71,25 @@ export default function Favorites() {
                         )}>{song.title}</span>
                         <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
                       </div>
+
+                      {downloadingIds.has(song.id) ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                      ) : downloadedIds[song.id] ? (
+                        <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
+                      ) : (
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-primary transition"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            downloadSong(song);
+                          }}
+                        >
+                          <ArrowDownToLine className="h-4 w-4" />
+                        </Button>
+                      )}
+
                       <AddToPlaylistDropdown songId={song.id} />
                     </div>
                   ))}
