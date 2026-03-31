@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 import { usePlaylist, useCoverArtUrl, SubsonicSong, usePlaylistMutations } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, ArrowLeft, Clock, Trash2, CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { Play, ArrowLeft, Clock, Trash2, Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
@@ -128,10 +128,13 @@ export default function PlaylistDetail() {
           variant="outline"
           size="icon"
           className={cn(
-            "rounded-full h-10 w-10 border-2 transition-all",
-            isPlaylistDownloaded ? "bg-primary/20 border-primary text-primary" : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
+            "rounded-full h-11 w-11 border-2 transition-all duration-300 shadow-md",
+            isPlaylistDownloaded 
+              ? "bg-[var(--success)] border-[var(--success)] text-[var(--success-foreground)] hover:scale-105" 
+              : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50 hover:text-primary"
           )}
-          onClick={async () => {
+          onClick={async (e) => {
+            e.stopPropagation();
             if (playlist?.entry) {
               for (const song of playlist.entry) {
                 if (!downloadedIds[song.id]) await downloadSong(song);
@@ -143,7 +146,7 @@ export default function PlaylistDetail() {
           {isPlaylistDownloading ? (
              <Loader2 className="h-5 w-5 animate-spin" />
           ) : isPlaylistDownloaded ? (
-             <CheckCircle2 className="h-5 w-5 fill-current" />
+             <Check className="h-6 w-6 stroke-[3px]" />
           ) : (
              <ArrowDownToLine className="h-5 w-5" />
           )}
@@ -184,7 +187,7 @@ export default function PlaylistDetail() {
               <div className="flex flex-col truncate">
                 <span 
                   className={cn(
-                    "text-sm font-medium truncate hover:underline",
+                    "text-sm font-medium truncate hover:underline flex items-center gap-2",
                     currentSong?.id === song.id ? "text-primary" : "text-foreground"
                   )}
                   onClick={(e) => {
@@ -193,6 +196,11 @@ export default function PlaylistDetail() {
                   }}
                 >
                   {song.title}
+                  {downloadedIds[song.id] && !downloadingIds.has(song.id) && (
+                    <div className="bg-[var(--success)] rounded-full p-[2px] shrink-0">
+                      <Check className="h-2.5 w-2.5 text-white stroke-[4px]" />
+                    </div>
+                  )}
                 </span>
                 <span 
                   className="text-xs text-muted-foreground truncate md:hidden hover:underline"
@@ -228,9 +236,7 @@ export default function PlaylistDetail() {
 
               {downloadingIds.has(song.id) ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
-              ) : downloadedIds[song.id] ? (
-                <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-current" />
-              ) : (
+              ) : !downloadedIds[song.id] && (
                 <Button 
                   variant="ghost" 
                   size="icon" 

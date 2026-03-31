@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
 import { useState, useMemo } from 'react';
-import { CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
 
@@ -135,10 +135,13 @@ export default function AlbumDetail() {
           variant="outline"
           size="icon"
           className={cn(
-            "rounded-full h-10 w-10 border-2 transition-all",
-            isAlbumDownloaded ? "bg-primary/20 border-primary text-primary" : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
+            "rounded-full h-11 w-11 border-2 transition-all duration-300 shadow-md",
+            isAlbumDownloaded 
+              ? "bg-[var(--success)] border-[var(--success)] text-[var(--success-foreground)] hover:scale-105" 
+              : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50 hover:text-primary"
           )}
-          onClick={async () => {
+          onClick={async (e) => {
+            e.stopPropagation();
             if (album?.song) {
               for (const song of album.song) {
                 if (!downloadedIds[song.id]) await downloadSong(song);
@@ -150,7 +153,7 @@ export default function AlbumDetail() {
           {isAlbumDownloading ? (
              <Loader2 className="h-5 w-5 animate-spin" />
           ) : isAlbumDownloaded ? (
-             <CheckCircle2 className="h-5 w-5 fill-current" />
+             <Check className="h-6 w-6 stroke-[3px]" />
           ) : (
              <ArrowDownToLine className="h-5 w-5" />
           )}
@@ -187,10 +190,15 @@ export default function AlbumDetail() {
               </div>
               <div className="flex flex-col truncate">
                 <span className={cn(
-                  "text-sm font-medium truncate",
+                  "text-sm font-medium truncate flex items-center gap-2",
                   currentSong?.id === song.id ? "text-primary" : "text-foreground"
                 )}>
                   {song.title}
+                  {downloadedIds[song.id] && !downloadingIds.has(song.id) && (
+                    <div className="bg-[var(--success)] rounded-full p-[2px] shrink-0">
+                      <Check className="h-2.5 w-2.5 text-white stroke-[4px]" />
+                    </div>
+                  )}
                 </span>
                 <span 
                   className="text-xs text-muted-foreground truncate hover:underline"
@@ -209,9 +217,7 @@ export default function AlbumDetail() {
                 
                 {downloadingIds.has(song.id) ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
-                ) : downloadedIds[song.id] ? (
-                  <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-current" />
-                ) : (
+                ) : !downloadedIds[song.id] && (
                   <Button 
                     variant="ghost" 
                     size="icon" 

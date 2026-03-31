@@ -2,7 +2,7 @@ import { useFavorites, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic'
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
-import { Play, CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { Play, Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
@@ -66,17 +66,22 @@ export default function Favorites() {
                       </div>
                       <div className="flex flex-col flex-1 truncate">
                         <span className={cn(
-                          "text-sm font-medium truncate",
+                          "text-sm font-medium truncate flex items-center gap-2",
                           currentSong?.id === song.id ? "text-primary" : "text-foreground"
-                        )}>{song.title}</span>
+                        )}>
+                          {song.title}
+                          {downloadedIds[song.id] && !downloadingIds.has(song.id) && (
+                            <div className="bg-[var(--success)] rounded-full p-[2px] shrink-0">
+                              <Check className="h-2.5 w-2.5 text-white stroke-[4px]" />
+                            </div>
+                          )}
+                        </span>
                         <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
                       </div>
 
                       {downloadingIds.has(song.id) ? (
                         <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                      ) : downloadedIds[song.id] ? (
-                        <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
-                      ) : (
+                      ) : !downloadedIds[song.id] && (
                         <Button 
                           variant="ghost" 
                           size="icon" 

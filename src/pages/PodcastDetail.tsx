@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 import { usePodcasts, useCoverArtUrl, SubsonicSong, SubsonicPodcast } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, ArrowLeft, Clock, Trash2, Loader2 } from 'lucide-react';
+import { Play, ArrowLeft, Clock, Trash2, Loader2, Check } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { usePodcastStore } from '@/store/podcastStore';
@@ -10,7 +10,7 @@ import { fetchRSS } from '@/services/rssService';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect, useMemo } from 'react';
-import { CheckCircle2, ArrowDownToLine } from 'lucide-react';
+import { ArrowDownToLine } from 'lucide-react';
 import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong, downloadPodcastEpisodes } from '@/services/downloadService';
 
@@ -161,12 +161,13 @@ export default function PodcastDetail() {
               variant="outline"
               size="icon"
               className={cn(
-                "rounded-full h-14 w-14 border-2 transition-all",
+                "rounded-full h-14 w-14 border-2 transition-all duration-300 shadow-lg",
                 episodes.slice(0, 5).every(ep => !!downloadedIds[ep.id]) 
-                  ? "bg-primary/20 border-primary text-primary" 
+                  ? "bg-[var(--success)] border-[var(--success)] text-[var(--success-foreground)] hover:scale-105" 
                   : "text-muted-foreground border-muted-foreground/30 hover:border-primary/50"
               )}
-              onClick={async () => {
+              onClick={async (e) => {
+                e.stopPropagation();
                 if (episodes.length > 0) {
                   await downloadPodcastEpisodes(podcast.id, episodes, 5);
                 }
@@ -176,7 +177,7 @@ export default function PodcastDetail() {
               {episodes.slice(0, 5).some(ep => downloadingIds.has(ep.id)) ? (
                  <Loader2 className="h-6 w-6 animate-spin" />
               ) : episodes.slice(0, 5).every(ep => !!downloadedIds[ep.id]) ? (
-                 <CheckCircle2 className="h-6 w-6 fill-current" />
+                 <Check className="h-7 w-7 stroke-[3px]" />
               ) : (
                  <ArrowDownToLine className="h-6 w-6" />
               )}
@@ -214,9 +215,16 @@ export default function PodcastDetail() {
                 )} />
                 <div className="flex flex-col overflow-hidden">
                   <span className={cn(
-                    "font-medium text-sm truncate",
+                    "font-medium text-sm truncate flex items-center gap-2",
                     currentSong?.id === episode.id ? "text-primary" : "text-foreground"
-                  )}>{episode.title}</span>
+                  )}>
+                    {episode.title}
+                    {downloadedIds[episode.id] && !downloadingIds.has(episode.id) && (
+                      <div className="bg-[var(--success)] rounded-full p-[2px] shrink-0">
+                        <Check className="h-2.5 w-2.5 text-white stroke-[4px]" />
+                      </div>
+                    )}
+                  </span>
                   <span className="text-xs text-muted-foreground truncate">{episode.year || ''}</span>
                 </div>
               </div>
@@ -229,9 +237,7 @@ export default function PodcastDetail() {
 
                 {downloadingIds.has(episode.id) ? (
                   <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                ) : downloadedIds[episode.id] ? (
-                  <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
-                ) : (
+                ) : !downloadedIds[episode.id] && (
                   <Button 
                     variant="ghost" 
                     size="icon" 

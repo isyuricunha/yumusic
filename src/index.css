@@ -64,6 +64,8 @@
   --border: #e5e5e5;
   --input: #e5e5e5;
   --ring: #FFB800;
+  --success: #1DB954;
+  --success-foreground: #ffffff;
   --radius: 0.75rem; /* Rounded */
   --sidebar: #ffffff;
   --sidebar-foreground: #121212;
@@ -95,6 +97,8 @@
   --border: #282828;
   --input: #282828;
   --ring: #FFB800;
+  --success: #1DB954;
+  --success-foreground: #ffffff;
   --radius: 0.75rem; 
   --sidebar: #000000;
   --sidebar-foreground: #ffffff;

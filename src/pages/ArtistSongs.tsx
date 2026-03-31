@@ -6,7 +6,7 @@ import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle2, Loader2, ArrowDownToLine } from 'lucide-react';
+import { Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
 
@@ -95,9 +95,16 @@ export default function ArtistSongs() {
               </div>
               <div className="flex flex-col truncate">
                 <span className={cn(
-                  "text-sm font-medium truncate",
+                  "text-sm font-medium truncate flex items-center gap-2",
                   currentSong?.id === song.id ? "text-primary" : "text-foreground"
-                )}>{song.title}</span>
+                )}>
+                  {song.title}
+                  {downloadedIds[song.id] && !downloadingIds.has(song.id) && (
+                    <div className="bg-[var(--success)] rounded-full p-[2px] shrink-0">
+                      <Check className="h-2.5 w-2.5 text-white stroke-[4px]" />
+                    </div>
+                  )}
+                </span>
               </div>
             </div>
 
@@ -111,9 +118,7 @@ export default function ArtistSongs() {
             <div className="flex justify-end items-center space-x-3 text-sm text-muted-foreground tabular-nums">
               {downloadingIds.has(song.id) ? (
                 <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              ) : downloadedIds[song.id] ? (
-                <CheckCircle2 className="h-4 w-4 text-primary fill-current" />
-              ) : (
+              ) : !downloadedIds[song.id] && (
                 <Button 
                   variant="ghost" 
                   size="icon" 
