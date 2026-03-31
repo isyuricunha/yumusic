@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
+import { useDialogStore } from '@/store/dialogStore';
 
 export default function PlaylistDetail() {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ export default function PlaylistDetail() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
+  const openDialog = useDialogStore((state) => state.openDialog);
 
   const isPlaylistDownloaded = useMemo(() => {
     if (!playlist?.entry) return false;
@@ -53,7 +55,13 @@ export default function PlaylistDetail() {
 
   const handleDeletePlaylist = async () => {
     if (!id) return;
-    if (confirm(t('playlists.delete_confirm'))) {
+    const confirmed = await openDialog({
+      title: t('playlists.delete_confirm_title', 'Remover Playlist'),
+      description: t('playlists.delete_confirm', 'Tem certeza que deseja excluir esta playlist permanentemente?'),
+      destructive: true,
+      confirmText: t('common.delete', 'Excluir')
+    });
+    if (confirmed) {
       await deletePlaylist.mutateAsync(id);
       navigate('/');
     }

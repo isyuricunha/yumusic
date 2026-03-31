@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { useDownloadStore } from '@/store/downloadStore';
 import { deleteDownloadedSong } from '@/services/downloadService';
-import { confirm } from '@tauri-apps/plugin-dialog';
+import { useDialogStore } from '@/store/dialogStore';
 import { Separator } from '@/components/ui/separator';
 
 interface AddToPlaylistDropdownProps {
@@ -17,6 +17,7 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
   const { data: playlists } = usePlaylists();
   const { addTracksToPlaylist } = usePlaylistMutations();
   const { downloadedIds } = useDownloadStore();
+  const openDialog = useDialogStore((state) => state.openDialog);
   const isDownloaded = !!downloadedIds[songId];
 
   const handleAddTrack = async (playlistId: string) => {
@@ -25,10 +26,12 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const confirmed = await confirm(
-      'Tem certeza que deseja remover esta música do seu dispositivo?',
-      { title: 'Remover Download', kind: 'warning' }
-    );
+    const confirmed = await openDialog({
+      title: 'Remover Download',
+      description: 'Tem certeza que deseja remover esta música do seu dispositivo?',
+      destructive: true,
+      confirmText: 'Remover'
+    });
     if (confirmed) {
       await deleteDownloadedSong(songId);
     }
