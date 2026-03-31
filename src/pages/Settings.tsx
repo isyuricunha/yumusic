@@ -1,22 +1,35 @@
 import { useState } from 'react';
 import { useThemeStore, Theme } from '@/store/themeStore';
 import { useConfigStore } from '@/store/configStore';
-import { useAppSettingsStore, type UpdateMode } from '@/store/appSettingsStore';
+import { useAppSettingsStore, type UpdateMode, type DownloadQuality, type DownloadFormat } from '@/store/appSettingsStore';
 import { useDialogStore } from '@/store/dialogStore';
 import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { Palette, Server, RefreshCw, BellRing, AppWindow } from 'lucide-react';
+import { Palette, Server, RefreshCw, BellRing, AppWindow, DownloadCloud, FolderOpen } from 'lucide-react';
 import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
 import type { Update } from '@tauri-apps/plugin-updater';
+import { open } from '@tauri-apps/plugin-dialog';
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useThemeStore();
   const config = useConfigStore((state) => state.config);
-  const { settings, setUpdateMode, setCloseToTray, setLaunchOnStartup } = useAppSettingsStore();
+  const {
+    settings,
+    setUpdateMode,
+    setCloseToTray,
+    setLaunchOnStartup,
+    setDownloadQuality,
+    setDownloadFormat,
+    setDownloadFolder,
+    setDownloadAlbums,
+    setDownloadPlaylists,
+    setDownloadPodcasts,
+    setAutoDownloadLiked,
+  } = useAppSettingsStore();
   const openDialog = useDialogStore((state) => state.openDialog);
 
   const [checkStatus, setCheckStatus] = useState<'idle' | 'checking' | 'available' | 'uptodate' | 'error'>('idle');
@@ -67,6 +80,21 @@ export default function Settings() {
     });
     if (confirmed) {
       useConfigStore.getState().clearConfig();
+    }
+  };
+
+  const handleSelectFolder = async () => {
+    try {
+      const selected = await open({
+        directory: true,
+        multiple: false,
+        title: 'Select Download Folder',
+      });
+      if (typeof selected === 'string') {
+        setDownloadFolder(selected);
+      }
+    } catch (err) {
+      console.error('Failed to open directory picker:', err);
     }
   };
 
@@ -230,6 +258,125 @@ export default function Settings() {
                 checked={settings.launchOnStartup}
                 onCheckedChange={(v: boolean) => setLaunchOnStartup(v)}
               />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ── Downloads ──────────────────────────────────────────────────── */}
+        <Card className="bg-card/50 border-border shadow-sm">
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <DownloadCloud className="h-5 w-5 text-primary" />
+              <CardTitle>Downloads</CardTitle>
+            </div>
+            <CardDescription>Manage your offline music preferences.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Audio quality</div>
+                <div className="text-xs text-muted-foreground">Higher quality uses more disk space.</div>
+              </div>
+              <Select
+                value={settings.downloadQuality}
+                onValueChange={(v) => v && setDownloadQuality(v as DownloadQuality)}
+              >
+                <SelectTrigger className="w-44 bg-muted/50 border-transparent text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low (96kbps)</SelectItem>
+                  <SelectItem value="normal">Normal (160kbps)</SelectItem>
+                  <SelectItem value="high">High (256kbps)</SelectItem>
+                  <SelectItem value="very_high">Very High (320kbps)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Audio format</div>
+                <div className="text-xs text-muted-foreground">Preferred file format for downloads.</div>
+              </div>
+              <Select
+                value={settings.downloadFormat}
+                onValueChange={(v) => v && setDownloadFormat(v as DownloadFormat)}
+              >
+                <SelectTrigger className="w-44 bg-muted/50 border-transparent text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="mp3">MP3</SelectItem>
+                  <SelectItem value="flac">FLAC (Lossless)</SelectItem>
+                  <SelectItem value="ogg">OGG</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Download location</div>
+                <div className="text-xs text-muted-foreground truncate max-w-[300px]">
+                  {settings.downloadFolder || "System Default Downloads"}
+                </div>
+              </div>
+              <Button variant="outline" size="sm" onClick={handleSelectFolder} className="gap-2">
+                <FolderOpen className="h-3.5 w-3.5" />
+                Change
+              </Button>
+            </div>
+
+            <div className="pt-4 border-t border-border/50">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Auto-Download Preferences</h4>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-medium">Download Albums</div>
+                    <div className="text-xs text-muted-foreground">Automatically download all tracks in an album.</div>
+                  </div>
+                  <Switch
+                    id="download-albums"
+                    checked={settings.downloadAlbums}
+                    onCheckedChange={(v: boolean) => setDownloadAlbums(v)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-medium">Download Playlists</div>
+                    <div className="text-xs text-muted-foreground">Sync your playlists for offline use.</div>
+                  </div>
+                  <Switch
+                    id="download-playlists"
+                    checked={settings.downloadPlaylists}
+                    onCheckedChange={(v: boolean) => setDownloadPlaylists(v)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-medium">Download Podcasts</div>
+                    <div className="text-xs text-muted-foreground">Keep your favorite episodes ready.</div>
+                  </div>
+                  <Switch
+                    id="download-podcasts"
+                    checked={settings.downloadPodcasts}
+                    onCheckedChange={(v: boolean) => setDownloadPodcasts(v)}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-sm font-medium">Auto-download Liked songs</div>
+                    <div className="text-xs text-muted-foreground">Download songs immediately when you like them.</div>
+                  </div>
+                  <Switch
+                    id="auto-download-liked"
+                    checked={settings.autoDownloadLiked}
+                    onCheckedChange={(v: boolean) => setAutoDownloadLiked(v)}
+                  />
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>

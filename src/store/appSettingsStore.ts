@@ -3,11 +3,26 @@ import { LazyStore } from '@tauri-apps/plugin-store';
 import { enable, disable, isEnabled } from '@tauri-apps/plugin-autostart';
 
 export type UpdateMode = 'auto' | 'notify' | 'disabled';
+export type DownloadQuality = 'low' | 'normal' | 'high' | 'very_high';
+export type DownloadFormat = 'mp3' | 'flac' | 'ogg';
 
 interface AppSettings {
   updateMode: UpdateMode;
   closeToTray: boolean;
   launchOnStartup: boolean;
+  // ── Download ──────────────────────────────────────────────────────────────
+  downloadQuality: DownloadQuality;
+  downloadFormat: DownloadFormat;
+  /** Absolute path chosen by the user. Empty string = OS default downloads. */
+  downloadFolder: string;
+  /** Allow downloading full albums. */
+  downloadAlbums: boolean;
+  /** Allow downloading full playlists. */
+  downloadPlaylists: boolean;
+  /** Allow downloading podcast episodes. */
+  downloadPodcasts: boolean;
+  /** Auto-download songs as you add them to Liked. */
+  autoDownloadLiked: boolean;
 }
 
 interface AppSettingsStore {
@@ -17,29 +32,61 @@ interface AppSettingsStore {
   setUpdateMode: (mode: UpdateMode) => Promise<void>;
   setCloseToTray: (enabled: boolean) => Promise<void>;
   setLaunchOnStartup: (enabled: boolean) => Promise<void>;
+  setDownloadQuality: (q: DownloadQuality) => Promise<void>;
+  setDownloadFormat: (f: DownloadFormat) => Promise<void>;
+  setDownloadFolder: (path: string) => Promise<void>;
+  setDownloadAlbums: (v: boolean) => Promise<void>;
+  setDownloadPlaylists: (v: boolean) => Promise<void>;
+  setDownloadPodcasts: (v: boolean) => Promise<void>;
+  setAutoDownloadLiked: (v: boolean) => Promise<void>;
 }
 
 const DEFAULT_SETTINGS: AppSettings = {
   updateMode: 'notify',
   closeToTray: true,
   launchOnStartup: false,
+  downloadQuality: 'high',
+  downloadFormat: 'mp3',
+  downloadFolder: '',
+  downloadAlbums: true,
+  downloadPlaylists: true,
+  downloadPodcasts: true,
+  autoDownloadLiked: false,
 };
 
 // Persisted via tauri-plugin-store so settings survive reinstalls.
 const store = new LazyStore('app-settings.json');
 
-export const useAppSettingsStore = create<AppSettingsStore>((set, get) => ({
+async function get<T>(key: string, fallback: T): Promise<T> {
+  return (await store.get<T>(key)) ?? fallback;
+}
+
+async function save<T>(key: string, value: T): Promise<void> {
+  await store.set(key, value);
+  await store.save();
+}
+
+export const useAppSettingsStore = create<AppSettingsStore>((set, getStore) => ({
   settings: { ...DEFAULT_SETTINGS },
   initialized: false,
 
   init: async () => {
-    if (get().initialized) return;
+    if (getStore().initialized) return;
     try {
-      const updateMode = (await store.get<UpdateMode>('updateMode')) ?? DEFAULT_SETTINGS.updateMode;
-      const closeToTray = (await store.get<boolean>('closeToTray')) ?? DEFAULT_SETTINGS.closeToTray;
-      const launchOnStartup =
-        (await store.get<boolean>('launchOnStartup')) ?? DEFAULT_SETTINGS.launchOnStartup;
-      set({ settings: { updateMode, closeToTray, launchOnStartup }, initialized: true });
+      const d = DEFAULT_SETTINGS;
+      const settings: AppSettings = {
+        updateMode: await get('updateMode', d.updateMode),
+        closeToTray: await get('closeToTray', d.closeToTray),
+        launchOnStartup: await get('launchOnStartup', d.launchOnStartup),
+        downloadQuality: await get('downloadQuality', d.downloadQuality),
+        downloadFormat: await get('downloadFormat', d.downloadFormat),
+        downloadFolder: await get('downloadFolder', d.downloadFolder),
+        downloadAlbums: await get('downloadAlbums', d.downloadAlbums),
+        downloadPlaylists: await get('downloadPlaylists', d.downloadPlaylists),
+        downloadPodcasts: await get('downloadPodcasts', d.downloadPodcasts),
+        autoDownloadLiked: await get('autoDownloadLiked', d.autoDownloadLiked),
+      };
+      set({ settings, initialized: true });
     } catch {
       // Running in browser dev mode — use defaults.
       set({ settings: { ...DEFAULT_SETTINGS }, initialized: true });
@@ -47,30 +94,59 @@ export const useAppSettingsStore = create<AppSettingsStore>((set, get) => ({
   },
 
   setUpdateMode: async (mode) => {
-    await store.set('updateMode', mode);
-    await store.save();
+    await save('updateMode', mode);
     set((s) => ({ settings: { ...s.settings, updateMode: mode } }));
   },
 
   setCloseToTray: async (enabled) => {
-    await store.set('closeToTray', enabled);
-    await store.save();
+    await save('closeToTray', enabled);
     set((s) => ({ settings: { ...s.settings, closeToTray: enabled } }));
   },
 
   setLaunchOnStartup: async (enabled) => {
     try {
-      if (enabled) {
-        await enable();
-      } else {
-        await disable();
-      }
+      if (enabled) await enable();
+      else await disable();
     } catch {
-      // Best-effort — may fail in dev mode.
+      // best-effort — may fail in dev mode
     }
-    await store.set('launchOnStartup', enabled);
-    await store.save();
+    await save('launchOnStartup', enabled);
     set((s) => ({ settings: { ...s.settings, launchOnStartup: enabled } }));
+  },
+
+  setDownloadQuality: async (q) => {
+    await save('downloadQuality', q);
+    set((s) => ({ settings: { ...s.settings, downloadQuality: q } }));
+  },
+
+  setDownloadFormat: async (f) => {
+    await save('downloadFormat', f);
+    set((s) => ({ settings: { ...s.settings, downloadFormat: f } }));
+  },
+
+  setDownloadFolder: async (path) => {
+    await save('downloadFolder', path);
+    set((s) => ({ settings: { ...s.settings, downloadFolder: path } }));
+  },
+
+  setDownloadAlbums: async (v) => {
+    await save('downloadAlbums', v);
+    set((s) => ({ settings: { ...s.settings, downloadAlbums: v } }));
+  },
+
+  setDownloadPlaylists: async (v) => {
+    await save('downloadPlaylists', v);
+    set((s) => ({ settings: { ...s.settings, downloadPlaylists: v } }));
+  },
+
+  setDownloadPodcasts: async (v) => {
+    await save('downloadPodcasts', v);
+    set((s) => ({ settings: { ...s.settings, downloadPodcasts: v } }));
+  },
+
+  setAutoDownloadLiked: async (v) => {
+    await save('autoDownloadLiked', v);
+    set((s) => ({ settings: { ...s.settings, autoDownloadLiked: v } }));
   },
 }));
 
