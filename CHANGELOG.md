@@ -1,3 +1,9 @@
+## [1.4.3](https://github.com/isyuricunha/yumusic/compare/v1.4.2...v1.4.3) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **ci:** ensure builds run on every main branch push and upload artifacts ([5c88039](https://github.com/isyuricunha/yumusic/commit/5c88039a7bc73e548bcd9f586aa99f0a9ad964c5))
+
 ## [1.4.2](https://github.com/isyuricunha/yumusic/compare/v1.4.1...v1.4.2) (2026-03-31)
 
 ### 🐛 Bug Fixes
