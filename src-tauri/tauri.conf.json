@@ -21,7 +21,11 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self' tauri://localhost localhost; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: https: data:; media-src 'self' asset: http://asset.localhost; connect-src 'self' https: http:;",
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["$DOWNLOAD/**"]
+      }
     }
   },
   "bundle": {

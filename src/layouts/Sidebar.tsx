@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Progress } from '@/components/ui/progress';
+import { useDownloadStore } from '@/store/downloadStore';
 import logo from '@/assets/logo.png';
 
 export function Sidebar() {
@@ -125,7 +127,10 @@ export function Sidebar() {
         </nav>
       </ScrollArea>
       
-      <div className="p-4 border-t border-sidebar-border mt-auto pb-28">
+      <div className="p-4 border-t border-sidebar-border mt-auto mb-20 space-y-4">
+        {/* Global Download Progress */}
+        <DownloadProgress />
+
         <NavLink 
           to="/settings"
           className={({ isActive }: { isActive: boolean }) =>
@@ -141,6 +146,23 @@ export function Sidebar() {
           <span>{t('common.settings')}</span>
         </NavLink>
       </div>
+    </div>
+  );
+}
+function DownloadProgress() {
+  const { batchCompleted, batchTotal } = useDownloadStore();
+  
+  if (batchTotal === 0) return null;
+
+  const progress = Math.round((batchCompleted / batchTotal) * 100);
+
+  return (
+    <div className="px-3 py-2 rounded-lg bg-sidebar-accent/20 border border-sidebar-accent/10 space-y-2 animate-in fade-in slide-in-from-bottom-2">
+      <div className="flex justify-between text-[10px] font-semibold text-sidebar-foreground/50 uppercase tracking-wider">
+        <span>Baixando...</span>
+        <span>{batchCompleted} de {batchTotal}</span>
+      </div>
+      <Progress value={progress} className="h-1.5" />
     </div>
   );
 }

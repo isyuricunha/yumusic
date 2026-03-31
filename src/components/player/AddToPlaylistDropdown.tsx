@@ -1,8 +1,12 @@
 import { usePlaylists, usePlaylistMutations } from '@/hooks/useSubsonic';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Plus, MoreVertical } from 'lucide-react';
+import { Plus, MoreVertical, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
+import { useDownloadStore } from '@/store/downloadStore';
+import { deleteDownloadedSong } from '@/services/downloadService';
+import { confirm } from '@tauri-apps/plugin-dialog';
+import { Separator } from '@/components/ui/separator';
 
 interface AddToPlaylistDropdownProps {
   songId: string;
@@ -12,9 +16,22 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
   const { t } = useTranslation();
   const { data: playlists } = usePlaylists();
   const { addTracksToPlaylist } = usePlaylistMutations();
+  const { downloadedIds } = useDownloadStore();
+  const isDownloaded = !!downloadedIds[songId];
 
   const handleAddTrack = async (playlistId: string) => {
     await addTracksToPlaylist.mutateAsync({ playlistId, songIds: [songId] });
+  };
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const confirmed = await confirm(
+      'Tem certeza que deseja remover esta música do seu dispositivo?',
+      { title: 'Remover Download', kind: 'warning' }
+    );
+    if (confirmed) {
+      await deleteDownloadedSong(songId);
+    }
   };
 
   return (
@@ -51,6 +68,19 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
               <span className="truncate">{playlist.name}</span>
             </DropdownMenuItem>
           ))
+        )}
+
+        {isDownloaded && (
+          <>
+            <Separator className="my-1 opacity-50" />
+            <DropdownMenuItem 
+              onClick={handleDelete}
+              className="flex items-center space-x-2 text-destructive focus:text-destructive focus:bg-destructive/10"
+            >
+              <Trash2 className="h-4 w-4 shrink-0" />
+              <span>Remover do dispositivo</span>
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

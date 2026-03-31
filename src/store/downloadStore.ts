@@ -7,10 +7,13 @@ interface DownloadState {
   /** IDs currently being downloaded */
   downloadingIds: Set<string>;
   initialized: boolean;
+  batchTotal: number;
+  batchCompleted: number;
   init: () => Promise<void>;
   addDownloaded: (id: string, path: string) => Promise<void>;
   removeDownloaded: (id: string) => Promise<void>;
   setDownloading: (id: string, isDownloading: boolean) => void;
+  setBatchProgress: (completed: number, total?: number) => void;
 }
 
 const store = new LazyStore('downloads.json');
@@ -19,6 +22,8 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
   downloadedIds: {},
   downloadingIds: new Set(),
   initialized: false,
+  batchTotal: 0,
+  batchCompleted: 0,
 
   init: async () => {
     if (get().initialized) return;
@@ -54,5 +59,12 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
       else next.delete(id);
       return { downloadingIds: next };
     });
+  },
+
+  setBatchProgress: (completed, total) => {
+    set((state) => ({
+      batchCompleted: completed,
+      batchTotal: total !== undefined ? total : state.batchTotal,
+    }));
   },
 }));

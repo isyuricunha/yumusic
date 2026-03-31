@@ -1,16 +1,17 @@
 import { fetch } from '@tauri-apps/plugin-http';
-import { writeFile, mkdir, readDir, stat } from '@tauri-apps/plugin-fs';
+import { writeFile, mkdir, readDir, stat, remove } from '@tauri-apps/plugin-fs';
 import { join, downloadDir } from '@tauri-apps/api/path';
 import { openPath } from '@tauri-apps/plugin-opener';
 import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { useDownloadStore } from '@/store/downloadStore';
 import { SubsonicSong } from '@/hooks/useSubsonic';
 import { useConfigStore } from '@/store/configStore';
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 
 export async function downloadSong(song: SubsonicSong) {
   const { settings } = useAppSettingsStore.getState();
   const config = useConfigStore.getState().config;
-  const { addDownloaded, setDownloading } = useDownloadStore.getState();
+  const { addDownloaded, setDownloading, setBatchProgress } = useDownloadStore.getState();
 
   if (!config) return;
 
@@ -79,6 +80,20 @@ export async function downloadSong(song: SubsonicSong) {
       
       // 6. Track state
       await addDownloaded(song.id, filePath);
+
+      // Update batch progress
+      const currentStore = useDownloadStore.getState();
+      if (currentStore.batchTotal > 0) {
+        const nextCompleted = currentStore.batchCompleted + 1;
+        setBatchProgress(nextCompleted);
+        
+        // If batch finished, notify
+        if (nextCompleted >= currentStore.batchTotal) {
+          await notifyBatchComplete(currentStore.batchTotal);
+          // Reset batch after a delay
+          setTimeout(() => setBatchProgress(0, 0), 5000);
+        }
+      }
     } catch (err) {
       console.error('[Download] Verification failed after write:', err);
       throw new Error('File verification failed');
@@ -90,8 +105,46 @@ export async function downloadSong(song: SubsonicSong) {
   }
 }
 
+async function notifyBatchComplete(count: number) {
+  try {
+    let permission = await isPermissionGranted();
+    if (!permission) {
+      const permissionResponse = await requestPermission();
+      permission = permissionResponse === 'granted';
+    }
+    if (permission) {
+      sendNotification({
+        title: 'Download Concluído',
+        body: `${count} músicas prontas para ouvir offline!`,
+      });
+    }
+  } catch (e) {
+    console.error('Notification error:', e);
+  }
+}
+
+export async function deleteDownloadedSong(id: string) {
+  const { downloadedIds, removeDownloaded } = useDownloadStore.getState();
+  const filePath = downloadedIds[id];
+  if (!filePath) return;
+
+  try {
+    console.log('[Download] Deleting file:', filePath);
+    await remove(filePath);
+    await removeDownloaded(id);
+    return true;
+  } catch (error) {
+    console.error('[Download] Failed to delete file:', error);
+    return false;
+  }
+}
+
 export async function downloadPodcastEpisodes(_: string, episodes: SubsonicSong[], limit: number = 5) {
   const episodesToDownload = episodes.slice(0, limit);
+  const { setBatchProgress } = useDownloadStore.getState();
+  
+  setBatchProgress(0, episodesToDownload.length);
+
   // Download in sequence to avoid network/server overwhelm
   for (const ep of episodesToDownload) {
     await downloadSong(ep);
@@ -137,4 +190,3 @@ export async function calculateTotalDownloadSize(): Promise<number> {
   await walk(path);
   return total;
 }
-

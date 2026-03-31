@@ -136,8 +136,12 @@ export default function PlaylistDetail() {
           onClick={async (e) => {
             e.stopPropagation();
             if (playlist?.entry) {
-              for (const song of playlist.entry) {
-                if (!downloadedIds[song.id]) await downloadSong(song);
+              const songsToDownload = playlist.entry.filter(s => !downloadedIds[s.id]);
+              if (songsToDownload.length > 0) {
+                useDownloadStore.getState().setBatchProgress(0, songsToDownload.length);
+                for (const song of songsToDownload) {
+                  await downloadSong(song);
+                }
               }
             }
           }}

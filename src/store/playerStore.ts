@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { SubsonicSong } from '@/hooks/useSubsonic';
 import { SubsonicConfig, scrobbleSubsonic } from '@/services/apiClient';
+import { convertFileSrc } from '@tauri-apps/api/core';
+import { useDownloadStore } from './downloadStore';
 
 interface PlayerState {
   currentSong: SubsonicSong | null;
@@ -57,9 +59,18 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     });
 
     const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
-    const streamUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
+    
+    // Switch to local file if downloaded
+    const { downloadedIds } = useDownloadStore.getState();
+    const localPath = downloadedIds[song.id];
+    let finalUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
+    
+    if (localPath) {
+      console.log('[Player] Using local file for playback:', localPath);
+      finalUrl = convertFileSrc(localPath);
+    }
 
-    const newAudio = new Audio(streamUrl);
+    const newAudio = new Audio(finalUrl);
     newAudio.volume = get().volume;
 
     newAudio.addEventListener('play', () => {

@@ -30,9 +30,15 @@
     "fs:allow-read-file",
     "fs:allow-read-dir",
     "fs:allow-stat",
+    "fs:allow-remove",
     "opener:allow-open-path",
+    "notification:default",
     {
       "identifier": "fs:default",
+      "allow": [{ "path": "$DOWNLOAD/**" }]
+    },
+    {
+      "identifier": "fs:allow-remove",
       "allow": [{ "path": "$DOWNLOAD/**" }]
     },
     {
