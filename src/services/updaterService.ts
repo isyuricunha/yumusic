@@ -1,15 +1,10 @@
 import { check, type Update } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
 
-/** Returns an update object if one is available, or null if already up-to-date. */
+/** Returns an update object if one is available, or null if already up-to-date. Throws on network/parse errors. */
 export async function checkForUpdate(): Promise<Update | null> {
-  try {
-    const update = await check();
-    return update ?? null;
-  } catch (err) {
-    console.warn('[updater] check failed:', err);
-    return null;
-  }
+  const update = await check();
+  return update ?? null;
 }
 
 /**

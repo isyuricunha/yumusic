@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getVersion } from '@tauri-apps/api/app';
 import { useThemeStore, Theme } from '@/store/themeStore';
 import { useConfigStore } from '@/store/configStore';
 import { useAppSettingsStore, type UpdateMode, type DownloadQuality, type DownloadFormat } from '@/store/appSettingsStore';
@@ -11,7 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Palette, Server, RefreshCw, BellRing, AppWindow, DownloadCloud, FolderOpen, ExternalLink, HardDrive } from 'lucide-react';
 import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
 import { openDownloadFolder, calculateTotalDownloadSize } from '@/services/downloadService';
-import { useEffect } from 'react';
+
 import type { Update } from '@tauri-apps/plugin-updater';
 import { open } from '@tauri-apps/plugin-dialog';
 
@@ -39,6 +40,7 @@ export default function Settings() {
   const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
   const [installing, setInstalling] = useState(false);
   const [totalDiskUsage, setTotalDiskUsage] = useState<string>('Calculating...');
+  const [appVersion, setAppVersion] = useState<string>('');
 
   useEffect(() => {
     calculateTotalDownloadSize().then(size => {
@@ -46,6 +48,7 @@ export default function Settings() {
       else if (size < 1024 * 1024 * 1024) setTotalDiskUsage(`${(size / (1024 * 1024)).toFixed(1)} MB`);
       else setTotalDiskUsage(`${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`);
     });
+    getVersion().then(v => setAppVersion(v)).catch(() => {});
   }, []);
 
   const handleLanguageChange = (value: string) => {
@@ -66,7 +69,8 @@ export default function Settings() {
         setCheckStatus('uptodate');
         setUpdateInfo('You are on the latest version.');
       }
-    } catch {
+    } catch (err) {
+      console.warn('[updater] check failed:', err);
       setCheckStatus('error');
       setUpdateInfo('Failed to check for updates.');
     }
@@ -191,6 +195,16 @@ export default function Settings() {
                 </SelectContent>
               </Select>
             </div>
+
+            {appVersion && (
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <div className="text-sm font-medium">Current version</div>
+                  <div className="text-xs text-muted-foreground">The version installed on this machine.</div>
+                </div>
+                <span className="text-sm font-bold tabular-nums text-primary">v{appVersion}</span>
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
