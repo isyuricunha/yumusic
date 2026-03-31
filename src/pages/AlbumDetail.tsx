@@ -109,9 +109,9 @@ export default function AlbumDetail() {
       </div>
 
       <div 
-        className="absolute inset-0 h-[500px] pointer-events-none opacity-40 transition-all duration-1000 z-0"
+        className="absolute inset-0 h-[600px] pointer-events-none opacity-100 transition-all duration-1000 z-0"
         style={{
-          background: `linear-gradient(to bottom, ${ambientColor} -20%, transparent 100%)`
+          background: `linear-gradient(to bottom, ${ambientColor} 0%, rgba(0,0,0,0) 100%)`
         }}
       />
 

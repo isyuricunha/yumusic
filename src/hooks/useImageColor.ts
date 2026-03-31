@@ -39,15 +39,16 @@ export function useImageColor(imageUrl?: string, fallback: string = 'var(--prima
           const a = imageData[i + 3];
 
           const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-          if (a < 128 || brightness < 40 || brightness > 220) continue;
+          // Spotify favors colors that aren't too dark nor too washed out
+          if (a < 128 || brightness < 50 || brightness > 230) continue;
 
           const max = Math.max(r, g, b);
           const min = Math.min(r, g, b);
           const saturation = max === 0 ? 0 : (max - min) / max;
           
-          // Spotify-like algorithm: heavily weighted saturation with a brightness boost
-          // This avoids the common "muddy brown" issue and pulls out the intense reds/blues.
-          const score = (saturation * 3) + (brightness / 255);
+          // CRITICAL: We weight saturation extremely high (8x) to get that "vivid" look
+          // and add a brightness boost to ensure the color "pops".
+          const score = (saturation * 8) + (brightness / 100);
           
           if (score > maxSecondaryScore) {
             maxSecondaryScore = score;
