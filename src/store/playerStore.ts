@@ -60,15 +60,26 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     const baseUrl = config.serverUrl.endsWith('/') ? config.serverUrl : `${config.serverUrl}/`;
 
-    // Always attempt online streaming first; fall back to local file on error.
-    const onlineUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
-    const newAudio = new Audio(onlineUrl);
+    const { downloadedIds } = useDownloadStore.getState();
+    const localPath = downloadedIds[song.id];
+    const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
+
+    // Decide which URL to try first (Online-First or Offline-Only)
+    let initialUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
+    
+    // If we're strictly offline and have the file, use it now.
+    if (isOffline && localPath) {
+      console.log('[Player] Offline detected, using local file immediately:', localPath);
+      initialUrl = convertFileSrc(localPath);
+    }
+
+    const newAudio = new Audio(initialUrl);
     newAudio.volume = get().volume;
 
     newAudio.addEventListener('play', () => {
       set({ isPlaying: true });
       // Notify server "Now Playing" (submission = false)
-      if (song.id) {
+      if (song.id && !isOffline) {
         scrobbleSubsonic(song.id, config, false).catch((err) => console.error('Now Playing notify error:', err));
       }
     });
@@ -81,7 +92,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       set({ progress: currentTime, duration: newAudio.duration || 0 });
 
       // Auto-scrobble at 50% duration (standard practice)
-      if (!hasScrobbled && currentSong && duration > 0 && currentTime > duration / 2) {
+      // Only scrobble if online
+      if (!isOffline && !hasScrobbled && currentSong && duration > 0 && currentTime > duration / 2) {
         set({ hasScrobbled: true });
         scrobbleSubsonic(currentSong.id, config, true, Date.now()).catch((err) => console.error('Scrobble submission error:', err));
       }
@@ -90,8 +102,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     newAudio.addEventListener('ended', () => {
       const { hasScrobbled, currentSong, repeatMode, setSong } = get();
 
-      // Scrobble as a fallback if not already scrobbled
-      if (!hasScrobbled && currentSong?.id) {
+      // Scrobble fallback (if online)
+      if (!isOffline && !hasScrobbled && currentSong?.id) {
         set({ hasScrobbled: true });
         scrobbleSubsonic(currentSong.id, config, true, Date.now()).catch((err) => console.error('Scrobble fallback error:', err));
       }
@@ -105,16 +117,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     // Offline fallback: if the online stream fails, try the local downloaded file.
     newAudio.addEventListener('error', () => {
-      const { downloadedIds } = useDownloadStore.getState();
-      const localPath = downloadedIds[song.id];
-
+      // If we already tried local, or there isn't one, log error
       if (localPath && newAudio.src !== convertFileSrc(localPath)) {
         console.warn('[Player] Online stream failed, falling back to local file:', localPath);
         newAudio.src = convertFileSrc(localPath);
         newAudio.load();
         newAudio.play().catch((err) => console.error('[Player] Local file playback also failed:', err));
       } else {
-        console.error('[Player] Playback failed and no local file is available for song:', song.id);
+        console.error('[Player] Playback failed for song:', song.id);
       }
     });
 
