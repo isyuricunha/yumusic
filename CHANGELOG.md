@@ -1,3 +1,9 @@
+## [1.4.7](https://github.com/isyuricunha/yumusic/compare/v1.4.6...v1.4.7) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **player:** fix CSP blocking remote streams and improve offline fallback ([94e4990](https://github.com/isyuricunha/yumusic/commit/94e4990c878192c8326949bc32fc9607d33193cd))
+
 ## [1.4.6](https://github.com/isyuricunha/yumusic/compare/v1.4.5...v1.4.6) (2026-03-31)
 
 ### 🐛 Bug Fixes
