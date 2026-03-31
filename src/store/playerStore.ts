@@ -32,6 +32,16 @@ interface PlayerState {
   setRepeatMode: (mode: 'none' | 'one' | 'all') => void;
 }
 
+let audioInstance: HTMLAudioElement | null = null;
+
+function getAudioInstance(): HTMLAudioElement {
+  if (typeof window === 'undefined') return {} as HTMLAudioElement;
+  if (!audioInstance) {
+    audioInstance = new Audio();
+  }
+  return audioInstance;
+}
+
 /**
  * Updates the Windows/System Media Transport Controls (SMTC) via Media Session API.
  * This provides the taskbar thumbnail buttons, keyboard media keys, and the "Now Playing" HUD.
@@ -65,12 +75,33 @@ function updateMediaMetadata(song: SubsonicSong, config: SubsonicConfig) {
   }
 }
 
+function updateMediaPosition() {
+  if ('mediaSession' in navigator && 'setPositionState' in navigator.mediaSession) {
+    const audio = getAudioInstance();
+    if (audio.duration && !isNaN(audio.duration)) {
+      try {
+        navigator.mediaSession.setPositionState({
+          duration: audio.duration,
+          playbackRate: audio.playbackRate,
+          position: audio.currentTime
+        });
+      } catch (e) {
+        console.error('[MediaSession] Failed to set position state:', e);
+      }
+    }
+  }
+}
+
 export const usePlayerStore = create<PlayerState>((set, get) => {
   // Initialize Media Session action handlers once.
   // These allow Windows taskbar and media keys to control the app.
   if ('mediaSession' in navigator) {
     navigator.mediaSession.setActionHandler('play', () => get().play());
     navigator.mediaSession.setActionHandler('pause', () => get().pause());
+    navigator.mediaSession.setActionHandler('stop', () => {
+      get().pause();
+      get().setProgress(0);
+    });
     navigator.mediaSession.setActionHandler('previoustrack', () => {
       const config = useConfigStore.getState().config;
       if (config) get().previous(config);
@@ -79,6 +110,17 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
       const config = useConfigStore.getState().config;
       if (config) get().next(config);
     });
+    
+    // Support seeking from the system HUD/Taskbar
+    try {
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime !== undefined) {
+          get().setProgress(details.seekTime);
+        }
+      });
+    } catch(e) {
+      // seekto is not supported by all browsers/versions
+    }
   }
 
   return {
@@ -88,16 +130,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
     volume: 1,
     progress: 0,
     duration: 0,
-    audio: null,
+    audio: getAudioInstance(),
     isShuffle: false,
     repeatMode: 'none',
     hasScrobbled: false,
 
     setSong: (song, config) => {
-      const { audio } = get();
-      if (audio) {
-        audio.pause();
-      }
+      const audio = getAudioInstance();
+      audio.pause();
 
       updateMediaMetadata(song, config);
       if ('mediaSession' in navigator) {
@@ -128,31 +168,39 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
         initialUrl = convertFileSrc(localPath);
       }
 
-      const newAudio = new Audio(initialUrl);
-      newAudio.volume = get().volume;
+      // Reuse the same instance
+      audio.src = initialUrl;
+      audio.volume = get().volume;
 
-      newAudio.addEventListener('play', () => {
+      // Remove existing listeners to avoid multiple attachments on the same element
+      audio.onplay = () => {
         set({ isPlaying: true });
         if ('mediaSession' in navigator) {
           navigator.mediaSession.playbackState = 'playing';
         }
+        updateMediaPosition();
         // Notify server "Now Playing" (submission = false)
         if (song.id && !isOffline) {
           scrobbleSubsonic(song.id, config, false).catch((err) => console.error('Now Playing notify error:', err));
         }
-      });
+      };
 
-      newAudio.addEventListener('pause', () => {
+      audio.onpause = () => {
         set({ isPlaying: false });
         if ('mediaSession' in navigator) {
           navigator.mediaSession.playbackState = 'paused';
         }
-      });
+      };
 
-      newAudio.addEventListener('timeupdate', () => {
+      audio.ontimeupdate = () => {
         const { hasScrobbled, currentSong, duration } = get();
-        const currentTime = newAudio.currentTime;
-        set({ progress: currentTime, duration: newAudio.duration || 0 });
+        const currentTime = audio.currentTime;
+        set({ progress: currentTime, duration: audio.duration || 0 });
+
+        // Update system position state periodically (HUD support)
+        if (Math.floor(currentTime) % 2 === 0) { // Throttled update
+           updateMediaPosition();
+        }
 
         // Auto-scrobble at 50% duration (standard practice)
         // Only scrobble if online
@@ -160,9 +208,9 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
           set({ hasScrobbled: true });
           scrobbleSubsonic(currentSong.id, config, true, Date.now()).catch((err) => console.error('Scrobble submission error:', err));
         }
-      });
+      };
 
-      newAudio.addEventListener('ended', () => {
+      audio.onended = () => {
         const { hasScrobbled, currentSong, repeatMode, setSong } = get();
 
         // Scrobble fallback (if online)
@@ -176,45 +224,46 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
         } else {
           get().next(config);
         }
-      });
+      };
 
-      // Offline fallback: if the online stream fails, try the local downloaded file.
-      newAudio.addEventListener('error', () => {
+      audio.onerror = () => {
         // If we already tried local, or there isn't one, log error
-        if (localPath && newAudio.src !== convertFileSrc(localPath)) {
+        if (localPath && audio.src !== convertFileSrc(localPath)) {
           console.warn('[Player] Online stream failed, falling back to local file:', localPath);
-          newAudio.src = convertFileSrc(localPath);
-          newAudio.load();
-          newAudio.play().catch((err) => console.error('[Player] Local file playback also failed:', err));
+          audio.src = convertFileSrc(localPath);
+          audio.load();
+          audio.play().catch((err) => console.error('[Player] Local file playback also failed:', err));
         } else {
           console.error('[Player] Playback failed for song:', song.id);
         }
-      });
+      };
 
-      set({ currentSong: song, audio: newAudio, isPlaying: true, hasScrobbled: false });
-      newAudio.play();
+      set({ currentSong: song, isPlaying: true, hasScrobbled: false });
+      audio.play();
     },
 
 
     play: () => {
-      const { audio } = get();
+      const audio = getAudioInstance();
       if (audio) {
         audio.play();
         set({ isPlaying: true });
         if ('mediaSession' in navigator) {
           navigator.mediaSession.playbackState = 'playing';
         }
+        updateMediaPosition();
       }
     },
 
     pause: () => {
-      const { audio } = get();
+      const audio = getAudioInstance();
       if (audio) {
         audio.pause();
         set({ isPlaying: false });
         if ('mediaSession' in navigator) {
           navigator.mediaSession.playbackState = 'paused';
         }
+        updateMediaPosition();
       }
     },
 
@@ -228,7 +277,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
     },
 
     setVolume: (volume) => {
-      const { audio } = get();
+      const audio = getAudioInstance();
       if (audio) {
         audio.volume = volume;
       }
@@ -236,9 +285,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
     },
 
     setProgress: (progress) => {
-      const { audio } = get();
+      const audio = getAudioInstance();
       if (audio) {
         audio.currentTime = progress;
+        updateMediaPosition();
       }
       set({ progress });
     },
@@ -257,7 +307,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
       const isLast = currentIndex === queue.length - 1;
 
       if (isLast && repeatMode === 'none') {
-        set({ isPlaying: false });
+        get().pause();
         if ('mediaSession' in navigator) {
           navigator.mediaSession.playbackState = 'none';
         }

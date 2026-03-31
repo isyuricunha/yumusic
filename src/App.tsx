@@ -19,6 +19,7 @@ import PlaylistDetail from '@/pages/PlaylistDetail';
 import PodcastDetail from '@/pages/PodcastDetail';
 import ArtistDetail from '@/pages/ArtistDetail';
 import ArtistSongs from '@/pages/ArtistSongs';
+import { usePlayerStore } from '@/store/playerStore';
 
 export default function App() {
   const { initializeTheme } = useThemeStore();
@@ -26,6 +27,35 @@ export default function App() {
   useEffect(() => {
     initializeTheme();
     useDownloadStore.getState().init();
+
+    // Prevent F5 and Ctrl+R Refresh
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === 'F5' ||
+        ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))
+      ) {
+        e.preventDefault();
+        console.log('[App] Refresh blocked to prevent music interruption.');
+      }
+    };
+
+    // Warn before closing/refreshing if music is playing
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const isPlaying = usePlayerStore.getState().isPlaying;
+      
+      if (isPlaying) {
+        e.preventDefault();
+        e.returnValue = ''; 
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [initializeTheme]);
 
   return (
