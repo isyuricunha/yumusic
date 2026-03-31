@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/isyuricunha/yumusic/compare/v1.0.2...v1.1.0) (2026-03-31)
+
+### ✨ Features
+
+* **app:** add system tray, auto-updater, autostart, and spotify theme ([fca2d7d](https://github.com/isyuricunha/yumusic/commit/fca2d7d0e8f7585d4575510ec061518cc0a61369)), closes [#1DB954](https://github.com/isyuricunha/yumusic/issues/1DB954)
+
 ## [1.0.2](https://github.com/isyuricunha/yumusic/compare/v1.0.1...v1.0.2) (2026-03-31)
 
 ### 🐛 Bug Fixes
