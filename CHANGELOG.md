@@ -1,3 +1,9 @@
+## [1.4.5](https://github.com/isyuricunha/yumusic/compare/v1.4.4...v1.4.5) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **ci:** add createUpdaterArtifacts flag and fix release workflow for latest.json generation ([48e2ae8](https://github.com/isyuricunha/yumusic/commit/48e2ae834db8ea68a294a6d1b08303cd5cf42d02))
+
 ## [1.4.4](https://github.com/isyuricunha/yumusic/compare/v1.4.3...v1.4.4) (2026-03-31)
 
 ### 🐛 Bug Fixes
