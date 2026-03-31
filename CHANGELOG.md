@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/isyuricunha/yumusic/compare/v1.4.7...v1.5.0) (2026-03-31)
+
+### ✨ Features
+
+* **player:** implement Media Session API for taskbar controls and media keys ([d21f54c](https://github.com/isyuricunha/yumusic/commit/d21f54c5cc2f2c88a4b845d1b9beb33a6b020f35))
+
 ## [1.4.7](https://github.com/isyuricunha/yumusic/compare/v1.4.6...v1.4.7) (2026-03-31)
 
 ### 🐛 Bug Fixes
