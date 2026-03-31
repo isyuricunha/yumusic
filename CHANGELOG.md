@@ -1,3 +1,11 @@
+## [1.3.0](https://github.com/isyuricunha/yumusic/compare/v1.2.0...v1.3.0) (2026-03-31)
+
+### ✨ Features
+
+* **desktop:** implement native download system with tauri and fix build errors ([88a8512](https://github.com/isyuricunha/yumusic/commit/88a851216ba44dab15560d7eafe31dd3774eac99))
+* **download:** add disk usage and open folder support with scoped permissions ([ad1b89f](https://github.com/isyuricunha/yumusic/commit/ad1b89fd2983e6bea99dde1e2b8c3394098e0354))
+* implement music library pages, download service, and Tauri file system capabilities ([ebf6f1c](https://github.com/isyuricunha/yumusic/commit/ebf6f1ca46b224ce618e7bf98bc91aca676f6945))
+
 ## [1.2.0](https://github.com/isyuricunha/yumusic/compare/v1.1.2...v1.2.0) (2026-03-31)
 
 ### ✨ Features
