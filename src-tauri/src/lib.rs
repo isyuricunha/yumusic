@@ -1,5 +1,4 @@
 use tauri::{
-    image::Image,
     menu::{Menu, MenuItem},
     tray::TrayIconBuilder,
     Manager, WindowEvent,
@@ -30,7 +29,13 @@ pub fn run() {
             let quit_item = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show_item, &quit_item])?;
 
-            let icon = Image::from_bytes(include_bytes!("../icons/icon.png"))?;
+            // Use the icon already configured in tauri.conf.json rather than
+            // decoding PNG bytes manually (Image::from_bytes is not available
+            // in tauri 2.x; default_window_icon() is the correct API).
+            let icon = app
+                .default_window_icon()
+                .cloned()
+                .expect("no window icon configured in tauri.conf.json");
 
             TrayIconBuilder::new()
                 .icon(icon)
@@ -67,15 +72,11 @@ pub fn run() {
             Ok(())
         })
         // ── Close-to-tray behavior ──────────────────────────────────────────
-        // We read the preference from localStorage via a custom invoke command
-        // instead of reading from Rust-side store to keep things simple.
-        // The frontend sets window.__closeToTray = true|false on init.
+        // Always intercept CloseRequested and hide the window. The only true
+        // exit path is the "Quit" option in the tray icon menu — same behavior
+        // as Spotify, Discord, etc.
         .on_window_event(|window, event| {
             if let WindowEvent::CloseRequested { api, .. } = event {
-                // Hide window instead of closing; the JS side has already
-                // set data-close-to-tray on the document element if enabled.
-                // We always intercept and hide; the Quit menu item is the
-                // only true exit path — this matches Spotify/Discord behavior.
                 api.prevent_close();
                 let _ = window.hide();
             }
