@@ -35,7 +35,8 @@ export default function AlbumDetail() {
   const { setSong, setQueue, currentSong, addSongsToQueue, toggleShuffle, isShuffle, isPlaying, togglePlay } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
-
+  const [showAddedToQueue, setShowAddedToQueue] = useState(false);
+  
   const { data: favorites } = useFavorites();
   const starMutation = useStarMutation();
   const isStarred = useMemo(() => 
@@ -79,8 +80,17 @@ export default function AlbumDetail() {
   };
 
   const handleAddAlbumToQueue = () => {
-    if (album?.song) {
+    if (config && album?.song && album.song.length > 0) {
       addSongsToQueue(album.song);
+      
+      // If nothing is playing, start the first song from the added album
+      if (!currentSong) {
+        setSong(album.song[0], config);
+      }
+
+      // Visual feedback
+      setShowAddedToQueue(true);
+      setTimeout(() => setShowAddedToQueue(false), 2000);
     }
   };
 
@@ -259,14 +269,12 @@ export default function AlbumDetail() {
               <MoreHorizontal className="h-7 w-7" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56 bg-zinc-900 border-white/10">
-              <DropdownMenuItem onClick={handleAddAlbumToQueue} className="cursor-pointer">
-                {t('common.add_to_queue')}
+              <DropdownMenuItem onClick={handleAddAlbumToQueue} className="cursor-pointer flex items-center justify-between">
+                <span>{t('common.add_to_queue')}</span>
+                {showAddedToQueue && <Check className="h-4 w-4 text-primary animate-in zoom-in" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate(`/artist/${album.artistId}`)} className="cursor-pointer">
                 {t('common.go_to_artist')}
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-red-400">
-                {t('common.report_issue')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
