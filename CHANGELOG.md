@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/isyuricunha/yumusic/compare/v1.1.2...v1.2.0) (2026-03-31)
+
+### ✨ Features
+
+* **settings:** add download preferences (quality, format, folder) and auto-download toggles ([b262bc2](https://github.com/isyuricunha/yumusic/commit/b262bc23c0ceced22c8b003158050988386ab43f))
+
 ## [1.1.2](https://github.com/isyuricunha/yumusic/compare/v1.1.1...v1.1.2) (2026-03-31)
 
 ### 🐛 Bug Fixes
