@@ -130,9 +130,9 @@ export default function AlbumDetail() {
           <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-[6rem] font-black tracking-tighter leading-none py-2 mb-2">
              {album.name}
           </h1>
-          <div className="flex items-center space-x-1.5 text-sm font-bold flex-wrap">
+          <div className="flex items-center space-x-1.5 text-sm flex-wrap">
             <span 
-              className="hover:underline cursor-pointer flex items-center gap-2"
+              className="hover:underline cursor-pointer flex items-center gap-2 font-bold"
               onClick={() => navigate(`/artist/${album.artistId}`)}
             >
               <div className="w-6 h-6 rounded-full bg-muted overflow-hidden shadow-md">
@@ -140,12 +140,12 @@ export default function AlbumDetail() {
               </div>
               {album.artist}
             </span>
-            <span className="text-foreground font-black opacity-90">•</span>
-            <span className="text-foreground/90">{album.year}</span>
-            <span className="text-foreground font-black opacity-90">•</span>
-            <span className="text-foreground/90">{album.songCount} {t('common.songs')}</span>
-            <span className="text-white/60 font-normal">,</span>
-            <span className="text-white/60 font-normal pl-0.5">
+            <span className="text-white/70 font-black">•</span>
+            <span className="text-white/70 font-medium">{album.year}</span>
+            <span className="text-white/70 font-black">•</span>
+            <span className="text-white/70 font-medium">{album.songCount} {t('common.songs').toLowerCase()}</span>
+            <span className="text-white/70 font-medium">,</span>
+            <span className="text-white/70 font-medium pl-0.5">
               {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} min {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) % 60)} sec
             </span>
           </div>
