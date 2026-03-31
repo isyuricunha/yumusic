@@ -103,7 +103,14 @@ export function Sidebar() {
         </div>
 
         {/* Category Chips */}
-        <div className="flex-shrink-0 px-4 pb-2 flex flex-row flex-nowrap gap-2 overflow-x-auto no-scrollbar scroll-smooth pr-6">
+        <div 
+          className="flex-shrink-0 px-4 pb-2 flex flex-row flex-nowrap gap-2 overflow-x-auto no-scrollbar scroll-smooth pr-6"
+          onWheel={(e) => {
+            if (e.deltaY !== 0) {
+              e.currentTarget.scrollLeft += e.deltaY;
+            }
+          }}
+        >
           {categories.map(cat => (
             <button
               key={cat.id}
