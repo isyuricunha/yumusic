@@ -94,4 +94,13 @@ to add a podcast, go to the podcasts section and paste any valid rss feed url. t
 
 ## license
 
-mit
+AGPL-3.0
+
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/daeea203-2bbf-4088-ba5c-2a8dbdeffabf" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/2dd56243-4c67-413f-b354-b3f7ead263b0" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/90783b7e-f290-4f10-b047-2a6e9a4277d0" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/02b6c041-8030-4912-8f5a-49adcda05227" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/292fdf94-bf55-4206-b9d8-02709c84861e" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/aea3b3c7-1cf4-4e61-adfe-9a59f7a3063f" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/5b5f051f-0f3e-41bb-8f85-bdc22cd31f27" />
+<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/a40771a7-85cf-4510-b8c8-546ee579c3fd" />
