@@ -1,3 +1,35 @@
+## [1.6.0](https://github.com/isyuricunha/yumusic/compare/v1.5.0...v1.6.0) (2026-03-31)
+
+### ✨ Features
+
+* **album:** finalize Spotify-style redesign with refined metadata and spacing ([5f85b4f](https://github.com/isyuricunha/yumusic/commit/5f85b4f2e624ee2ad60edbb7dbbf97a767e63f6d))
+* **album:** implement dynamic dominant color extraction from album art ([6bb9921](https://github.com/isyuricunha/yumusic/commit/6bb9921cc55bd37048ad68d74a97f17a218affdf))
+* **album:** redesign AlbumDetail with Spotify-style sticky header and dynamic gradients ([2f1ea79](https://github.com/isyuricunha/yumusic/commit/2f1ea791fc16e5e4c3463aa185370442733f1466))
+* **album:** remove mini-cover and make action buttons functional ([0b7cfc3](https://github.com/isyuricunha/yumusic/commit/0b7cfc369d0425ca78bfad6cc82a658523d1e480))
+* **album:** simplify menu and improve add to queue logic ([5e657ea](https://github.com/isyuricunha/yumusic/commit/5e657ea548c9bd92918b090f9ecb322ebfc8ac22))
+* **artist:** overhaul artist detail page with spotify-style hero banner ([7528ed1](https://github.com/isyuricunha/yumusic/commit/7528ed17655d431aa646f5b6e8cb94b069a26adb))
+* **home:** redesign greeting grid and add Spotify-style hover play buttons ([d4e9fc9](https://github.com/isyuricunha/yumusic/commit/d4e9fc94239130b6a89322b96b8cfc6b80b1d7b3))
+* **media:** enhance media session and prevent accidental refresh ([24152b8](https://github.com/isyuricunha/yumusic/commit/24152b8e913ce4a9debb7e118353e277f8c97009))
+* **player:** implement functional queue drawer ([5119c1f](https://github.com/isyuricunha/yumusic/commit/5119c1fde3ce7a174207e2158b89d4a23f3804c9))
+* **playlist:** overhaul playlist detail page with spotify-style hero header ([5848a46](https://github.com/isyuricunha/yumusic/commit/5848a46db5406fa95a19d853fcb088b622e5327d))
+* **sidebar:** add vertical-to-horizontal wheel scroll conversion for chips ([4d36940](https://github.com/isyuricunha/yumusic/commit/4d36940fe1d01f4978cb406294eb329a6f51476f))
+* **web:** overhaul UI with spotify-like panel layout and redesigned player ([5e093d5](https://github.com/isyuricunha/yumusic/commit/5e093d5d1e2024c34f1be964fa49f7f8ba853e28))
+
+### 🐛 Bug Fixes
+
+* **album:** correct imports and variables in AlbumDetail ([dcf4f9e](https://github.com/isyuricunha/yumusic/commit/dcf4f9e675a650ae29201fc208bfcc43676b3e45))
+* **album:** resolve nested button hydration and browser download errors ([89b8558](https://github.com/isyuricunha/yumusic/commit/89b85588f155b07309d1bbc99babe0ab03f0e0e3))
+* **artist:** properly localize all strings in artist detail page ([31e9b3d](https://github.com/isyuricunha/yumusic/commit/31e9b3d9c0ccc3b645787865cb382a07875e8dd9))
+* **artist:** remove randomized counts and unused translation keys ([9f16ee5](https://github.com/isyuricunha/yumusic/commit/9f16ee5db2f21cc327dafcb3d9d6d4359b1fa549))
+* **footer:** remove unused imports and finalize cleanup ([0b5ecc0](https://github.com/isyuricunha/yumusic/commit/0b5ecc03d8c38615228924f27ad52981a5fcac0b))
+* **i18n:** add missing translations and remove hardcoded strings in AlbumDetail ([9e66905](https://github.com/isyuricunha/yumusic/commit/9e669051d529ba21d8cd9043d4f150b1659150fe))
+* **layout:** refactor main layout to fix sidebar overlap and improve library chips ([6c0c423](https://github.com/isyuricunha/yumusic/commit/6c0c4232b6f1a93b0056ca053e5b2289da6e737b))
+* **sidebar:** add horizontal scroll to chips and finalize i18n/layout ([cf87148](https://github.com/isyuricunha/yumusic/commit/cf87148670c8c7806eedfaf75e88bd1853ba6849))
+* **sidebar:** correct structural layout and filter chip UI ([36c8a1e](https://github.com/isyuricunha/yumusic/commit/36c8a1e4695b01f6eea5286bf4df0210b3e0d416))
+* **sidebar:** prevent header squashing and ensure internal scrolling ([1074a7f](https://github.com/isyuricunha/yumusic/commit/1074a7facfc5f326ec317812b59059b53cc2deac))
+* **web:** additional browser-mode safety checks for stores ([d99e48a](https://github.com/isyuricunha/yumusic/commit/d99e48aab02c2c8f5aeb86b8a32f44d1a4129b90))
+* **web:** prevent crash when running in browser mode ([b0ffd0e](https://github.com/isyuricunha/yumusic/commit/b0ffd0e1ed718d92d1e8065a16cd4f21c16ef5fd))
+
 ## [1.5.0](https://github.com/isyuricunha/yumusic/compare/v1.4.7...v1.5.0) (2026-03-31)
 
 ### ✨ Features
