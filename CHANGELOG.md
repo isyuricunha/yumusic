@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/isyuricunha/yumusic/compare/v1.1.1...v1.1.2) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **config:** remove invalid icon field from app.windows config ([1ce959e](https://github.com/isyuricunha/yumusic/commit/1ce959e370bc1644fad3029bcf45e56ccf2252ac))
+
 ## [1.1.1](https://github.com/isyuricunha/yumusic/compare/v1.1.0...v1.1.1) (2026-03-31)
 
 ### 🐛 Bug Fixes
