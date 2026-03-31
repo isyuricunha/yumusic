@@ -1,3 +1,9 @@
+## [1.4.4](https://github.com/isyuricunha/yumusic/compare/v1.4.3...v1.4.4) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **updater:** correct endpoint url, propagate check errors, show app version in settings ([6fd4cb5](https://github.com/isyuricunha/yumusic/commit/6fd4cb53bfa99045ab0059ef27dbd6704e40de85))
+
 ## [1.4.3](https://github.com/isyuricunha/yumusic/compare/v1.4.2...v1.4.3) (2026-03-31)
 
 ### 🐛 Bug Fixes
