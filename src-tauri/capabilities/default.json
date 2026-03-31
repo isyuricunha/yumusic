@@ -25,7 +25,9 @@
     "updater:default",
     "autostart:default",
     "dialog:default",
-    "fs:default",
-    "path:default"
+    "fs:allow-write-file",
+    "fs:allow-mkdir",
+    "fs:allow-read-file",
+    "core:path:default"
   ]
 }
