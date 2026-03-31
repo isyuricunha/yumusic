@@ -110,12 +110,16 @@ export function Sidebar() {
               key={cat.id}
               onClick={() => setFilter(filter === cat.id ? 'all' : cat.id as any)}
               className={cn(
-                "px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all",
+                "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200",
                 filter === cat.id 
-                  ? "bg-foreground text-background" 
+                  ? "bg-foreground text-background shadow-lg" 
                   : "bg-muted/40 text-foreground hover:bg-muted/60"
               )}
             >
+              <cat.icon className={cn(
+                "h-3.5 w-3.5",
+                filter === cat.id ? "text-background" : "text-muted-foreground"
+              )} />
               {cat.label}
             </button>
           ))}

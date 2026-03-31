@@ -57,7 +57,7 @@ export function PlayerBar() {
   if (!config) return null;
 
   return (
-    <div className="h-[96px] bg-black border-t border-white/5 flex items-center justify-between px-4 z-50 fixed bottom-0 left-0 right-0 select-none">
+    <div className="h-[96px] bg-black border-t border-white/5 flex items-center justify-between px-4 select-none">
       
       {/* 1. Left: Current Track Info */}
       <div className="flex items-center w-[30%] min-w-[180px]">
