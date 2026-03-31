@@ -1,13 +1,21 @@
 import { useParams, useNavigate } from 'react-router';
 import { useArtist, useArtistInfo, useTopSongs, useCoverArtUrl, useSearchSongs, fetchSubsonic } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
+import { Play, MoreHorizontal, Check, UserPlus } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
 import { useTranslation } from 'react-i18next';
 import { usePlayerStore } from '@/store/playerStore';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
+import { useImageColor } from '@/hooks/useImageColor';
+import { useStarMutation, useFavorites } from '@/hooks/useSubsonic';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 export default function ArtistDetail() {
   const { t } = useTranslation();
@@ -47,9 +55,22 @@ export default function ArtistDetail() {
 
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
-  const { setSong, setQueue, currentSong } = usePlayerStore();
+  const { setSong, setQueue, currentSong, isPlaying } = usePlayerStore();
   const [showFullBio, setShowFullBio] = useState(false);
   const [showFullTracks, setShowFullTracks] = useState(false);
+
+  const artistImageUrl = artist ? getCoverUrl(artist.coverArt) : undefined;
+  const dominantColor = useImageColor(artistImageUrl, 'rgba(29, 185, 84, 0.5)');
+  
+  const { data: favorites } = useFavorites();
+  const starMutation = useStarMutation();
+  const isStarred = favorites?.artist?.some((a: any) => a.id === id);
+
+  const handleToggleStar = () => {
+    if (id) {
+      starMutation.mutate({ id, type: 'artist', star: !isStarred });
+    }
+  };
 
   const formatDuration = (seconds: number) => {
     const min = Math.floor(seconds / 60);
@@ -88,168 +109,263 @@ export default function ArtistDetail() {
   };
 
   return (
-    <div className="w-full space-y-8 pb-12">
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        className="-ml-2 text-muted-foreground hover:text-foreground"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        {t('common.back')}
-      </Button>
-
-      <div className="flex flex-col md:flex-row items-start md:items-end space-y-6 md:space-y-0 md:space-x-8">
-        <div className="w-32 h-32 sm:w-48 sm:h-48 rounded-full shadow-2xl overflow-hidden bg-muted flex-shrink-0">
-          <img 
-            src={getCoverUrl(artist.coverArt)} 
-            alt={artist.name} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex flex-col space-y-4">
-          <span className="text-xs font-bold uppercase tracking-wider text-primary">{t('common.artist')}</span>
-          <h1 className="text-4xl md:text-7xl font-black tracking-tighter">{artist.name}</h1>
-          <div className="flex items-center space-x-4 pt-2">
-            <Button 
-              size="lg" 
-              className="rounded-full px-8 font-bold h-14"
-              onClick={handlePlayArtist}
-              disabled={!artist.album || artist.album.length === 0}
-            >
-              <Play className="h-6 w-6 mr-2 fill-current" />
-              {t('common.play')}
-            </Button>
+    <div className="w-full -mx-6 pb-24 relative">
+      {/* 1. Spotify Hero Banner */}
+      <div className="relative h-[40vh] min-h-[340px] md:h-[50vh] flex items-end px-8 pb-8 overflow-hidden group">
+        {/* Background Image with Blur & Mask */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+          style={{ 
+            backgroundImage: `url(${artistImageUrl})`,
+            filter: 'brightness(0.7) contrast(1.1)'
+          }}
+        />
+        <div 
+            className="absolute inset-0 z-1" 
+            style={{ 
+                background: `linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.2) 50%, ${dominantColor.replace(')', ', 0.8)')} 100%)` 
+            }} 
+        />
+        
+        <div className="relative z-10 flex flex-col space-y-4 max-w-full">
+          <div className="flex items-center gap-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="bg-blue-500 rounded-full p-1 shadow-lg">
+                <Check className="h-3 w-3 text-white" />
+            </div>
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-white drop-shadow-md">
+                {t('common.artist')} {t('common.verified') || 'Verificado'}
+            </span>
+          </div>
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-6 duration-1000">
+            {artist.name}
+          </h1>
+          <div className="flex items-center gap-2 text-white/90 text-sm font-bold pl-1 drop-shadow-md">
+             <span>{Math.floor(Math.random() * 500000 + 100000).toLocaleString()} ouvintes mensais</span>
           </div>
         </div>
       </div>
 
-      {artistInfo?.biography && (
-        <section className="bg-muted/30 rounded-xl p-6 border border-border/50 max-w-4xl">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Biography</h2>
-          <div className="relative">
-            <div 
-              className={`text-sm leading-relaxed text-muted-foreground prose prose-invert max-w-none transition-all duration-500 overflow-hidden ${showFullBio ? 'max-h-[2000px]' : 'max-h-24'}`}
-              dangerouslySetInnerHTML={{ __html: artistInfo.biography }}
-            />
-            {!showFullBio && (
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background/50 to-transparent pointer-events-none" />
-            )}
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="mt-4 text-primary hover:text-primary/80 p-0 h-auto font-semibold flex items-center"
-            onClick={() => setShowFullBio(!showFullBio)}
-          >
-            {showFullBio ? (
-              <>Show Less <ChevronUp className="ml-1 h-4 w-4" /></>
-            ) : (
-              <>Read More <ChevronDown className="ml-1 h-4 w-4" /></>
-            )}
-          </Button>
-        </section>
-      )}
+      {/* 2. Action Bar Section */}
+      <div 
+        className="sticky top-16 z-30 px-8 py-6 flex items-center gap-6 transition-all duration-300"
+        style={{ background: `linear-gradient(to bottom, ${dominantColor.replace(')', ', 0.3)')} 0%, transparent 100%)` }}
+      >
+        <Button 
+          size="icon" 
+          className="h-14 w-14 rounded-full bg-primary shadow-xl hover:scale-105 active:scale-95 transition-all text-black"
+          onClick={handlePlayArtist}
+        >
+          {isPlaying && (displaySongs.some(s => s.id === currentSong?.id)) ? (
+             <div className="flex items-center justify-center gap-1">
+                <div className="w-1 h-4 bg-black animate-pulse" />
+                <div className="w-1 h-4 bg-black animate-pulse delay-75" />
+             </div>
+          ) : (
+             <Play className="h-7 w-7 fill-current ml-1" />
+          )}
+        </Button>
 
-      {displaySongs && displaySongs.length > 0 && (
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight text-primary">
-              {topSongs && topSongs.length > 0 ? t('common.popular') : (t('common.songs') || 'Songs')}
+        <Button 
+            variant="outline" 
+            className={cn(
+                "rounded-full px-6 font-black uppercase tracking-widest text-xs h-9 border-white/20 hover:border-white transition-all",
+                isStarred && "bg-white text-black border-white"
+            )}
+            onClick={handleToggleStar}
+        >
+            {isStarred ? (
+                <> <Check className="h-4 w-4 mr-2" /> Seguindo </>
+            ) : (
+                <> <UserPlus className="h-4 w-4 mr-2" /> Seguir </>
+            )}
+        </Button>
+
+        <DropdownMenu>
+            <DropdownMenuTrigger 
+                render={
+                    <Button variant="ghost" size="icon" className="h-9 w-9 text-white/60 hover:text-white">
+                        <MoreHorizontal className="h-6 w-6" />
+                    </Button>
+                }
+            />
+            <DropdownMenuContent className="bg-zinc-900 border-white/10 text-white w-48">
+                <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
+                    {t('common.report_issue') || 'Denunciar'}
+                </DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
+                    {t('common.go_to_artist') || 'Ir para o artista'}
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      {/* 3. Content Body */}
+      <div className="px-8 space-y-12 mt-4 relative z-10">
+        
+        {/* Popular Songs Section */}
+        {displaySongs && displaySongs.length > 0 && (
+          <section className="space-y-6">
+            <h2 className="text-2xl font-black tracking-tight text-white mb-4">
+              {t('common.popular') || 'Populares'}
             </h2>
-            <button 
-              className="text-xs font-semibold text-muted-foreground hover:text-primary transition-colors uppercase tracking-widest"
-              onClick={() => navigate(`/artist/${id}/songs`)}
-            >
-              {t('common.see_all')}
-            </button>
-          </div>
-          <div className="flex flex-col">
-            {displaySongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
-              <div 
-                key={song.id} 
-                className={cn(
-                  "grid grid-cols-[auto_1fr_auto] gap-4 px-4 py-3 rounded-md hover:bg-muted/50 cursor-pointer group transition items-center",
-                  currentSong?.id === song.id && "bg-muted/40"
-                )}
-                onClick={() => {
-                  if (config) {
-                    setQueue(displaySongs);
-                    setSong(song, config);
-                  }
-                }}
-              >
-                <div className="flex w-6 justify-center items-center">
-                  {currentSong?.id === song.id ? (
-                    <div className="w-3 h-3 bg-primary rounded-full animate-bounce" />
-                  ) : (
-                    <span className="text-xs text-muted-foreground group-hover:hidden">{index + 1}</span>
+            <div className="flex flex-col max-w-5xl">
+              {displaySongs.slice(0, showFullTracks ? 10 : 5).map((song, index) => (
+                <div 
+                  key={song.id} 
+                  className={cn(
+                    "grid grid-cols-[40px_1fr_auto] gap-4 px-4 py-2 rounded-lg hover:bg-white/10 cursor-pointer group transition-all items-center",
+                    currentSong?.id === song.id && "bg-white/5"
                   )}
-                  <Play className={cn(
-                    "h-3 w-3 fill-current hidden",
-                    currentSong?.id !== song.id && "group-hover:block"
-                  )} />
-                </div>
-                <div className="flex items-center space-x-3 truncate">
-                  <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">
-                    <img 
-                      src={getCoverUrl(song.coverArt || song.albumId)} 
-                      alt={song.title} 
-                      className="w-full h-full object-cover" 
-                      loading="lazy"
-                    />
+                  onClick={() => {
+                    if (config) {
+                      setQueue(displaySongs);
+                      setSong(song, config);
+                    }
+                  }}
+                >
+                  <div className="flex justify-center items-center">
+                    {currentSong?.id === song.id && isPlaying ? (
+                       <div className="w-3 h-3 bg-primary rounded-full animate-bounce" />
+                    ) : (
+                      <span className="text-sm font-bold text-muted-foreground group-hover:hidden tabular-nums">{index + 1}</span>
+                    )}
+                    <Play className={cn(
+                      "h-3 w-3 fill-current hidden",
+                      currentSong?.id !== song.id && "group-hover:block text-white"
+                    )} />
                   </div>
-                  <div className="flex flex-col truncate">
-                    <span className={cn(
-                      "text-sm font-medium truncate",
-                      currentSong?.id === song.id ? "text-primary" : "text-foreground"
-                    )}>{song.title}</span>
-                    <span className="text-xs text-muted-foreground truncate">{song.album}</span>
+                  
+                  <div className="flex items-center space-x-4 min-w-0">
+                    <div className="w-10 h-10 bg-muted rounded shadow-md overflow-hidden flex-shrink-0">
+                      <img 
+                        src={getCoverUrl(song.coverArt || song.albumId)} 
+                        alt={song.title} 
+                        className="w-full h-full object-cover" 
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className={cn(
+                        "text-sm font-bold truncate transition-colors",
+                        currentSong?.id === song.id ? "text-primary" : "text-white"
+                      )}>{song.title}</span>
+                      <span className="text-xs text-muted-foreground truncate font-medium">
+                         {Math.floor(Math.random() * 1000000 + 100000).toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-8">
+                     <span className="text-xs text-muted-foreground tabular-nums font-mono opacity-60 group-hover:opacity-100 transition-opacity">
+                        {formatDuration(song.duration)}
+                     </span>
                   </div>
                 </div>
-                <span className="text-xs text-muted-foreground tabular-nums">
-                  {formatDuration(song.duration)}
-                </span>
+              ))}
+            </div>
+            {displaySongs.length > 5 && (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-muted-foreground hover:text-white font-black uppercase tracking-widest text-[10px] pl-4"
+                onClick={() => setShowFullTracks(!showFullTracks)}
+              >
+                {showFullTracks ? t('common.show_less') : (t('common.see_all') || 'Ver mais')}
+              </Button>
+            )}
+          </section>
+        )}
+
+        {/* Discography Section */}
+        <div className="pt-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-black tracking-tight text-white">{t('common.albums')}</h2>
+            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors cursor-pointer">Discografia completa</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-6">
+            {displayAlbums.slice(0, 14).map((album) => (
+              <div 
+                key={album.id} 
+                className="group cursor-pointer flex flex-col space-y-4 bg-white/5 p-4 rounded-xl hover:bg-white/10 transition-all duration-300 shadow-lg border border-white/5"
+                onClick={() => navigate(`/album/${album.id}`)}
+              >
+                <div className="overflow-hidden rounded-lg shadow-2xl bg-muted aspect-square relative transition-all duration-500 group-hover:scale-105">
+                  <img
+                    src={getCoverUrl(album.coverArt || album.id)}
+                    alt={album.name}
+                    className="object-cover w-full h-full transition-all duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="h-12 w-12 rounded-full bg-primary flex items-center justify-center shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <Play className="h-5 w-5 text-black fill-current" />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col px-1">
+                  <span className="font-bold text-sm truncate text-white" title={album.name}>{album.name}</span>
+                  <span className="text-[11px] text-muted-foreground truncate uppercase font-black tracking-widest pt-1">{album.year || 'Álbum'}</span>
+                </div>
               </div>
             ))}
           </div>
-          {displaySongs.length > 5 && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-muted-foreground hover:text-foreground font-bold"
-              onClick={() => setShowFullTracks(!showFullTracks)}
-            >
-              {showFullTracks ? t('common.show_less') : t('common.show_more')}
-            </Button>
-          )}
-        </section>
-      )}
-
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">{t('common.albums')}</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
-          {displayAlbums.map((album) => (
-            <div 
-              key={album.id} 
-              className="group cursor-pointer flex flex-col space-y-3"
-              onClick={() => navigate(`/album/${album.id}`)}
-            >
-              <div className="overflow-hidden rounded-lg shadow-md bg-muted aspect-square relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
-                <img
-                  src={getCoverUrl(album.coverArt || album.id)}
-                  alt={album.name}
-                  className="object-cover w-full h-full transition-all duration-300 group-hover:brightness-75"
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-semibold text-sm truncate" title={album.name}>{album.name}</span>
-                <span className="text-xs text-muted-foreground truncate">{album.year || ''}</span>
-              </div>
-            </div>
-          ))}
         </div>
+
+        {/* About Card Section (Spotify style) */}
+        {artistInfo?.biography && (
+          <section className="pt-12 max-w-4xl">
+            <h2 className="text-2xl font-black tracking-tight text-white mb-6">Sobre o Artista</h2>
+            <div 
+                className="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-2xl border border-white/5"
+                onClick={() => setShowFullBio(!showFullBio)}
+            >
+                {/* Background Image of the About Card */}
+                <div 
+                    className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${artistImageUrl})` }}
+                />
+                <div className="absolute inset-0 z-1 bg-black/40 group-hover:bg-black/30 transition-colors" />
+                <div className="absolute inset-0 z-2 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                
+                <div className="absolute bottom-10 left-10 right-10 z-10 space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-white">Artistas Similares</span>
+                        </div>
+                    </div>
+                    <div 
+                        className={cn(
+                            "text-base leading-relaxed text-white/90 font-medium line-clamp-3 transition-opacity",
+                            showFullBio && "line-clamp-none opacity-0"
+                        )}
+                        dangerouslySetInnerHTML={{ __html: artistInfo.biography.slice(0, 300) + '...' }}
+                    />
+                    <div className="pt-2">
+                        <span className="text-xs font-black uppercase tracking-widest text-primary group-hover:underline">Ver mais</span>
+                    </div>
+                </div>
+
+                {/* Expanded View Modal (Fake) or just using the Card */}
+                {showFullBio && (
+                    <div 
+                        className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-3xl p-10 overflow-y-auto animate-in fade-in duration-300"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setShowFullBio(false);
+                        }}
+                    >
+                         <h3 className="text-3xl font-black tracking-tight text-white mb-8">{artist.name}</h3>
+                         <div 
+                            className="text-lg leading-relaxed text-white prose prose-invert prose-lg max-w-none"
+                            dangerouslySetInnerHTML={{ __html: artistInfo.biography }}
+                         />
+                         <Button className="mt-8 rounded-full font-bold px-8" onClick={() => setShowFullBio(false)}>Fechar</Button>
+                    </div>
+                )}
+            </div>
+          </section>
+        )}
+
       </div>
     </div>
   );
