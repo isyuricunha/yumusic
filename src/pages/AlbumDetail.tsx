@@ -138,9 +138,9 @@ export default function AlbumDetail() {
             </span>
             <span className="text-foreground/60">•</span>
             <span className="text-foreground/90">{album.year}</span>
-            <span className="text-foreground/60">•</span>
+            <span className="text-foreground/40">•</span>
             <span className="text-foreground/90">{album.songCount} {t('common.songs')}</span>
-            <span className="text-foreground/60">•</span>
+            <span className="text-foreground/40 font-normal">,</span>
             <span className="text-foreground/40 font-normal">
               {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} min
             </span>
@@ -191,6 +191,14 @@ export default function AlbumDetail() {
             ) : (
                <ArrowDownToLine className="h-6 w-6" />
             )}
+          </Button>
+
+          <Button 
+            variant="ghost"
+            size="icon"
+            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+          >
+            <Play className="h-6 w-6 rotate-90" /> {/* Placeholder for 'More' ellipsis or similar context button */}
           </Button>
         </div>
 
@@ -280,6 +288,22 @@ export default function AlbumDetail() {
               />
             </div>
           )}
+
+          {/* More by Artist (Spotify style detail) */}
+          <div className="mt-24 px-4">
+             <div className="flex justify-between items-end mb-6">
+                <h2 className="text-2xl font-black group cursor-pointer">
+                  {t('common.more_by')} {album.artist}
+                  <span className="ml-2 text-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                    Show all
+                  </span>
+                </h2>
+             </div>
+             {/* Simple placeholder for actual cards since we need to fetch artist albums */}
+             <div className="text-sm text-muted-foreground italic opacity-50">
+                Explore more tracks from {album.artist} in their profile.
+             </div>
+          </div>
         </div>
       </div>
     </div>
