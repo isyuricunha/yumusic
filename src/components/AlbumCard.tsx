@@ -8,13 +8,15 @@ interface AlbumCardProps {
     artist: string;
     artistId?: string;
     coverArt?: string;
+    year?: number;
   };
+  subtitle?: string;
   getCoverArt: (id: string) => string | undefined;
   navigate: (path: string) => void;
   onPlay: () => void;
 }
 
-export const AlbumCard: React.FC<AlbumCardProps> = ({ album, getCoverArt, navigate, onPlay }) => {
+export const AlbumCard: React.FC<AlbumCardProps> = ({ album, subtitle, getCoverArt, navigate, onPlay }) => {
   return (
     <div className="group flex flex-col p-3 rounded-xl bg-white/0 hover:bg-white/5 transition-all duration-300">
       <div 
@@ -47,10 +49,10 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({ album, getCoverArt, naviga
         </span>
         <span 
           className="text-xs text-muted-foreground truncate hover:underline cursor-pointer mt-1 leading-tight hover:text-foreground transition-colors" 
-          title={album.artist}
+          title={subtitle || album.artist}
           onClick={() => navigate(`/artist/${album.artistId || ''}`)}
         >
-          {album.artist}
+          {subtitle || album.artist}
         </span>
       </div>
     </div>

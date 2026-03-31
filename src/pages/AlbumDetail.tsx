@@ -305,6 +305,7 @@ export default function AlbumDetail() {
                     <AlbumCard 
                       key={featuredAlbum.id} 
                       album={featuredAlbum} 
+                      subtitle={featuredAlbum.year?.toString()}
                       getCoverArt={getCoverUrl} 
                       navigate={navigate}
                       onPlay={() => {}} 
