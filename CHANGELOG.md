@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/isyuricunha/yumusic/compare/v1.4.0...v1.4.1) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **build:** add missing tauri-plugin-notification dependency ([312f872](https://github.com/isyuricunha/yumusic/commit/312f872c859d529d37084e7c1844e132f8109fdd))
+
 ## [1.4.0](https://github.com/isyuricunha/yumusic/compare/v1.3.0...v1.4.0) (2026-03-31)
 
 ### ✨ Features
