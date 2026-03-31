@@ -275,13 +275,13 @@ export default function AlbumDetail() {
           {/* Release Info */}
           <div className="mt-12 px-4 opacity-40 hover:opacity-100 transition-opacity">
             <p className="text-xs font-bold">{album.year}</p>
-            <p className="text-[10px] mt-1 uppercase tracking-tighter">© {album.artist} • Distributed by YuMusic</p>
+            <p className="text-[10px] mt-1 uppercase tracking-tighter">© {album.artist} • {t('common.distributed_by')} YuMusic</p>
           </div>
 
           {/* Review section if exists */}
           {albumInfo?.notes && (
             <div className="mt-16 px-4 max-w-3xl">
-              <h2 className="text-lg font-bold mb-4">About</h2>
+              <h2 className="text-lg font-bold mb-4">{t('common.about')}</h2>
               <div 
                 className="text-sm leading-relaxed text-muted-foreground prose prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: albumInfo.notes }}
@@ -290,18 +290,18 @@ export default function AlbumDetail() {
           )}
 
           {/* More by Artist (Spotify style detail) */}
-          <div className="mt-24 px-4">
+          <div className="mt-24 px-4 pb-24">
              <div className="flex justify-between items-end mb-6">
                 <h2 className="text-2xl font-black group cursor-pointer">
                   {t('common.more_by')} {album.artist}
                   <span className="ml-2 text-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                    Show all
+                    {t('common.see_all')}
                   </span>
                 </h2>
              </div>
              {/* Simple placeholder for actual cards since we need to fetch artist albums */}
              <div className="text-sm text-muted-foreground italic opacity-50">
-                Explore more tracks from {album.artist} in their profile.
+                {t('album.explore_more', { artist: album.artist })}
              </div>
           </div>
         </div>

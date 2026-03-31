@@ -24,6 +24,9 @@
     "play": "Play",
     "artist": "Artist",
     "artists": "Artists",
+    "more_by": "More by",
+    "about": "About",
+    "distributed_by": "Distributed by",
     "album": "Album",
     "albums": "Albums",
     "popular": "Popular",
@@ -114,5 +117,8 @@
     "url_placeholder": "http://ice1.somafm.com/groovesalad-128-mp3",
     "local_stations": "Local Stations",
     "server_stations": "Server Stations"
+  },
+  "album": {
+    "explore_more": "Explore more tracks from {{artist}} in their profile."
   }
 }
