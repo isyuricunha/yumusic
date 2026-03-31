@@ -26,7 +26,9 @@ export function PlayerBar() {
     isShuffle,
     repeatMode,
     toggleShuffle,
-    setRepeatMode
+    setRepeatMode,
+    isQueueVisible,
+    toggleQueue
   } = usePlayerStore();
   const config = useConfigStore((state) => state.config);
   const getCoverArt = useCoverArtUrl();
@@ -173,9 +175,16 @@ export function PlayerBar() {
         </div>
       </div>
 
-      {/* 3. Right: Device & Volume Controls */}
       <div className="flex items-center justify-end w-[30%] min-w-[180px] space-x-3 pr-4">
-        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground opacity-70 hover:opacity-100">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className={cn(
+            "h-8 w-8 transition-all",
+            isQueueVisible ? "text-primary" : "text-muted-foreground hover:text-foreground opacity-70 hover:opacity-100"
+          )}
+          onClick={toggleQueue}
+        >
            <ListMusic className="h-4 w-4" />
         </Button>
         <div className="flex items-center space-x-2 group">

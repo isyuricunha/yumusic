@@ -1,6 +1,7 @@
 import { Outlet, Navigate } from 'react-router';
 import { Sidebar } from './Sidebar';
 import { PlayerBar } from '@/components/player/PlayerBar';
+import { QueueDrawer } from '@/components/player/QueueDrawer';
 import { useConfigStore } from '@/store/configStore';
 import { useEffect } from 'react';
 import { Settings as SettingsIcon, ChevronLeft, ChevronRight, Search, User } from 'lucide-react';
@@ -103,6 +104,9 @@ export function MainLayout() {
 
       {/* Sustainable Bottom Player Bar (now part of document flow) */}
       <PlayerBar />
+      
+      {/* Global Queue View Overlay */}
+      <QueueDrawer />
     </div>
   );
 }

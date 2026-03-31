@@ -16,6 +16,7 @@ interface PlayerState {
   isShuffle: boolean;
   repeatMode: 'none' | 'one' | 'all';
   hasScrobbled: boolean;
+  isQueueVisible: boolean;
   
   // Actions
   setSong: (song: SubsonicSong, config: SubsonicConfig) => void;
@@ -31,6 +32,9 @@ interface PlayerState {
   setQueue: (queue: SubsonicSong[]) => void;
   toggleShuffle: () => void;
   setRepeatMode: (mode: 'none' | 'one' | 'all') => void;
+  toggleQueue: () => void;
+  removeFromQueue: (songId: string) => void;
+  clearQueue: () => void;
 }
 
 let audioInstance: HTMLAudioElement | null = null;
@@ -135,6 +139,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
     isShuffle: false,
     repeatMode: 'none',
     hasScrobbled: false,
+    isQueueVisible: false,
 
     setSong: (song, config) => {
       const audio = getAudioInstance();
@@ -338,11 +343,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
       set((state) => ({ queue: [...state.queue, song] }));
     },
 
-    setQueue: (queue) => {
-      set({ queue });
-    },
-    
-    addSongsToQueue: (songs) => {
+    addSongsToQueue: (songs: SubsonicSong[]) => {
       set((state) => ({ queue: [...state.queue, ...songs] }));
     },
 
@@ -352,6 +353,22 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
 
     setRepeatMode: (mode) => {
       set({ repeatMode: mode });
+    },
+
+    setQueue: (queue: SubsonicSong[]) => {
+      set({ queue });
+    },
+
+    toggleQueue: () => {
+      set((state) => ({ isQueueVisible: !state.isQueueVisible }));
+    },
+
+    removeFromQueue: (songId) => {
+      set((state) => ({ queue: state.queue.filter(s => s.id !== songId) }));
+    },
+
+    clearQueue: () => {
+      set({ queue: [] });
     },
   };
 });
