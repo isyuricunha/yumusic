@@ -1,5 +1,6 @@
 import { HashRouter, Routes, Route } from 'react-router';
 import { MainLayout } from '@/layouts/MainLayout';
+import { cn } from '@/lib/utils';
 import Login from '@/pages/Login';
 import { useThemeStore } from '@/store/themeStore';
 import { useEffect } from 'react';
@@ -58,11 +59,16 @@ export default function App() {
     };
   }, [initializeTheme]);
 
+  const isTauri = typeof window !== 'undefined' && (window as any).__TAURI_INTERNALS__ !== undefined;
+
   return (
     <>
       <Titlebar />
       <ConfirmDialog />
-      <div className="pt-8 h-screen w-full overflow-hidden flex flex-col bg-background">
+      <div className={cn(
+        "h-screen w-full overflow-hidden flex flex-col bg-background transition-colors duration-300",
+        isTauri ? "pt-8" : "pt-0"
+      )}>
         <HashRouter>
           <Routes>
             <Route path="/login" element={<Login />} />

@@ -4,9 +4,15 @@ import { Minus, Square, X } from 'lucide-react';
 
 export function Titlebar() {
   const [isMaximized, setIsMaximized] = useState(false);
-  const appWindow = getCurrentWindow();
+  
+  // Tauri environment check
+  const isTauri = typeof window !== 'undefined' && (window as any).__TAURI_INTERNALS__ !== undefined;
 
   useEffect(() => {
+    if (!isTauri) return;
+
+    const appWindow = getCurrentWindow();
+    
     // Check initial state
     appWindow.isMaximized().then(setIsMaximized);
 
@@ -19,7 +25,11 @@ export function Titlebar() {
     return () => {
       unlisten.then(fn => fn());
     };
-  }, [appWindow]);
+  }, [isTauri]);
+
+  if (!isTauri) return null;
+
+  const appWindow = getCurrentWindow();
 
   return (
     <div className="h-8 select-none flex justify-between items-center fixed top-0 w-full z-50 bg-background border-b border-border/40">
