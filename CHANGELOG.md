@@ -1,3 +1,9 @@
+## [1.4.6](https://github.com/isyuricunha/yumusic/compare/v1.4.5...v1.4.6) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **player:** use online-first playback with offline fallback ([586cfed](https://github.com/isyuricunha/yumusic/commit/586cfed1dca6b3f0e73631e54a83953840b2863c))
+
 ## [1.4.5](https://github.com/isyuricunha/yumusic/compare/v1.4.4...v1.4.5) (2026-03-31)
 
 ### 🐛 Bug Fixes
