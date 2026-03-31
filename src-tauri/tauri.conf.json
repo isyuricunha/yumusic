@@ -17,8 +17,7 @@
         "width": 800,
         "height": 600,
         "decorations": false,
-        "transparent": true,
-        "icon": "icons/icon.png"
+        "transparent": true
       }
     ],
     "security": {
