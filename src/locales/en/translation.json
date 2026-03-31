@@ -38,7 +38,10 @@
     "episodes": "Episodes",
     "remaining": "remaining",
     "not_supported": "Feature Not Supported",
-    "feature_not_implemented": "This feature is not implemented by your server (e.g. Navidrome)."
+    "feature_not_implemented": "This feature is not implemented by your server (e.g. Navidrome).",
+    "add_to_queue": "Add to Queue",
+    "go_to_artist": "Go to Artist",
+    "report_issue": "Report an Issue"
   },
   "home": {
     "recently_added": "Recently Added",

@@ -38,7 +38,10 @@
     "episodes": "Episódios",
     "remaining": "restantes",
     "not_supported": "Funcionalidade Não Suportada",
-    "feature_not_implemented": "Esta funcionalidade não foi implementada pelo seu servidor (ex: Navidrome ainda não suporta Podcasts)."
+    "feature_not_implemented": "Esta funcionalidade não foi implementada pelo seu servidor (ex: Navidrome ainda não suporta Podcasts).",
+    "add_to_queue": "Adicionar à Fila",
+    "go_to_artist": "Ir para o Artista",
+    "report_issue": "Relatar um Problema"
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
