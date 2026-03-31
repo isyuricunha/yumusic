@@ -40,7 +40,10 @@
   "home": {
     "recently_added": "Adicionados Recentemente",
     "most_played": "Mais Tocados",
-    "featured_artists": "Artistas Sugeridos"
+    "featured_artists": "Artistas Sugeridos",
+    "good_morning": "Bom dia",
+    "good_afternoon": "Boa tarde",
+    "good_evening": "Boa noite"
   },
   "sidebar": {
     "menu": "Menu",

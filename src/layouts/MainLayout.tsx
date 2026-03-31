@@ -6,8 +6,10 @@ import { useEffect } from 'react';
 import { Settings as SettingsIcon, ChevronLeft, ChevronRight, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 export function MainLayout() {
+  const { t } = useTranslation();
   const { config, isLoading, initializeConfig } = useConfigStore();
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ export function MainLayout() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-foreground transition-colors" />
               <input 
                 type="text"
-                placeholder="O que você quer ouvir?"
+                placeholder={t('search.placeholder')}
                 className="w-full bg-muted/40 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/60"
                 onFocus={() => navigate('/search')}
               />

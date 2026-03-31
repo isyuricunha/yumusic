@@ -40,11 +40,18 @@
   "home": {
     "recently_added": "Recently Added",
     "most_played": "Most Played",
-    "featured_artists": "Featured Artists"
+    "featured_artists": "Featured Artists",
+    "good_morning": "Good morning",
+    "good_afternoon": "Good afternoon",
+    "good_evening": "Good evening"
   },
   "sidebar": {
     "menu": "Menu",
-    "playlists": "Playlists"
+    "playlists": "Playlists",
+    "your_library": "Your Library",
+    "all": "All",
+    "podcasts": "Podcasts",
+    "albums": "Albums"
   },
   "login": {
     "description": "Connect to your Subsonic/Navidrome server",

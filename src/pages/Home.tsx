@@ -37,10 +37,10 @@ export default function Home() {
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Bom dia';
-    if (hour < 18) return 'Boa tarde';
-    return 'Boa noite';
-  }, []);
+    if (hour < 12) return t('home.good_morning');
+    if (hour < 18) return t('home.good_afternoon');
+    return t('home.good_evening');
+  }, [t]);
 
   return (
     <div className="w-full space-y-8 pb-12 pt-4">
