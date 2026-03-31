@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { LazyStore } from '@tauri-apps/plugin-store';
+import { isTauri } from '@tauri-apps/api/core';
 
 interface DownloadState {
   /** Map of song ID to local relative path or status */
@@ -16,7 +17,11 @@ interface DownloadState {
   setBatchProgress: (completed: number, total?: number) => void;
 }
 
-const store = new LazyStore('downloads.json');
+// In-memory fallback for non-Tauri environments
+let store: LazyStore | null = null;
+if (isTauri()) {
+  store = new LazyStore('downloads.json');
+}
 
 export const useDownloadStore = create<DownloadState>((set, get) => ({
   downloadedIds: {},
@@ -27,6 +32,11 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 
   init: async () => {
     if (get().initialized) return;
+    if (!isTauri() || !store) {
+      set({ initialized: true });
+      return;
+    }
+    
     try {
       const data = (await store.get<Record<string, string>>('downloadedIds')) || {};
       console.log('[DownloadStore] Initialized. Found', Object.keys(data).length, 'downloaded songs.');
@@ -39,16 +49,20 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
 
   addDownloaded: async (id, path) => {
     const newDownloads = { ...get().downloadedIds, [id]: path };
-    await store.set('downloadedIds', newDownloads);
-    await store.save();
+    if (isTauri() && store) {
+      await store.set('downloadedIds', newDownloads);
+      await store.save();
+    }
     set({ downloadedIds: newDownloads });
   },
 
   removeDownloaded: async (id) => {
     const newDownloads = { ...get().downloadedIds };
     delete newDownloads[id];
-    await store.set('downloadedIds', newDownloads);
-    await store.save();
+    if (isTauri() && store) {
+      await store.set('downloadedIds', newDownloads);
+      await store.save();
+    }
     set({ downloadedIds: newDownloads });
   },
 

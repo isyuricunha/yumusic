@@ -54,16 +54,32 @@ const DEFAULT_SETTINGS: AppSettings = {
   autoDownloadLiked: false,
 };
 
+import { isTauri } from '@tauri-apps/api/core';
+
+// ... (DEFAULT_SETTINGS remains the same) ...
+
 // Persisted via tauri-plugin-store so settings survive reinstalls.
-const store = new LazyStore('app-settings.json');
+let store: LazyStore | null = null;
+if (isTauri()) {
+  store = new LazyStore('app-settings.json');
+}
 
 async function get<T>(key: string, fallback: T): Promise<T> {
+  if (!isTauri() || !store) return fallback;
   return (await store.get<T>(key)) ?? fallback;
 }
 
 async function save<T>(key: string, value: T): Promise<void> {
-  await store.set(key, value);
-  await store.save();
+  if (isTauri() && store) {
+    await store.set(key, value);
+    await store.save();
+  } else {
+    // Optionally persist to localStorage in browser
+    const local = localStorage.getItem('yumusic-settings') || '{}';
+    const settings = JSON.parse(local);
+    settings[key] = value;
+    localStorage.setItem('yumusic-settings', JSON.stringify(settings));
+  }
 }
 
 export const useAppSettingsStore = create<AppSettingsStore>((set, getStore) => ({

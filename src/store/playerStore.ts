@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { SubsonicSong } from '@/hooks/useSubsonic';
 import { SubsonicConfig, scrobbleSubsonic } from '@/services/apiClient';
-import { convertFileSrc } from '@tauri-apps/api/core';
+import { convertFileSrc, isTauri } from '@tauri-apps/api/core';
 import { useDownloadStore } from './downloadStore';
 import { useConfigStore } from './configStore';
 
@@ -163,7 +163,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
       let initialUrl = song.streamUrl || `${baseUrl}rest/stream?${query.toString()}`;
       
       // If we're strictly offline and have the file, use it now.
-      if (isOffline && localPath) {
+      if (isOffline && localPath && isTauri()) {
         console.log('[Player] Offline detected, using local file immediately:', localPath);
         initialUrl = convertFileSrc(localPath);
       }
@@ -228,7 +228,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
 
       audio.onerror = () => {
         // If we already tried local, or there isn't one, log error
-        if (localPath && audio.src !== convertFileSrc(localPath)) {
+        if (localPath && isTauri() && audio.src !== convertFileSrc(localPath)) {
           console.warn('[Player] Online stream failed, falling back to local file:', localPath);
           audio.src = convertFileSrc(localPath);
           audio.load();
