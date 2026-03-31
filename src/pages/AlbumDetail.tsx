@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
 import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong, useArtist } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, Clock, Check, Loader2, ArrowDownToLine, MoreVertical, Heart } from 'lucide-react';
+import { Play, Clock, Check, Loader2, MoreHorizontal, Shuffle, PlusCircle, ArrowDownCircle } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
@@ -152,13 +152,26 @@ export default function AlbumDetail() {
       </div>
 
       <div className="relative z-10 bg-black/20 backdrop-blur-3xl -mx-6 px-6 pt-6 flex flex-col flex-1 pb-16">
-        <div className="flex items-center space-x-6 mb-8 pt-6">
+        <div className="flex items-center space-x-8 mb-8 pt-6">
           <Button 
             size="lg" 
             className="rounded-full h-14 w-14 shadow-2xl bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all" 
             onClick={handlePlayAlbum}
           >
-            <Play className="h-6 w-6 fill-current ml-1" />
+            <Play className="h-7 w-7 fill-current ml-1" />
+          </Button>
+
+          {/* Mini Album Cover (Spotify style) */}
+          <div className="hidden sm:block w-8 h-8 rounded-sm overflow-hidden shadow-lg border border-white/10 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+            <img src={coverUrl} className="w-full h-full object-cover" />
+          </div>
+
+          <Button 
+            variant="ghost"
+            size="icon"
+            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+          >
+            <Shuffle className="h-7 w-7" />
           </Button>
 
           <Button 
@@ -166,7 +179,7 @@ export default function AlbumDetail() {
             size="icon"
             className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
           >
-            <Heart className="h-8 w-8" />
+            <PlusCircle className="h-8 w-8" />
           </Button>
 
           <Button 
@@ -175,7 +188,7 @@ export default function AlbumDetail() {
             className={cn(
               "rounded-full h-10 w-10 transition-all duration-300",
               isAlbumDownloaded 
-                ? "text-[var(--primary)]" 
+                ? "text-primary" 
                 : "text-muted-foreground hover:text-foreground"
             )}
             onClick={async (e) => {
@@ -195,9 +208,9 @@ export default function AlbumDetail() {
             {isAlbumDownloading ? (
                <Loader2 className="h-6 w-6 animate-spin text-primary" />
             ) : isAlbumDownloaded ? (
-               <ArrowDownToLine className="h-7 w-7 stroke-[2.5px] text-primary" />
+               <Check className="h-7 w-7 stroke-[2.5px] text-primary" />
             ) : (
-               <ArrowDownToLine className="h-7 w-7 stroke-[2.5px]" />
+               <ArrowDownCircle className="h-7 w-7" />
             )}
           </Button>
 
@@ -206,7 +219,7 @@ export default function AlbumDetail() {
             size="icon"
             className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
           >
-            <MoreVertical className="h-7 w-7" />
+            <MoreHorizontal className="h-7 w-7" />
           </Button>
         </div>
 
