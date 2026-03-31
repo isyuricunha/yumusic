@@ -34,14 +34,14 @@ export default function Favorites() {
 
       <div className="mt-6">
         {isLoading ? (
-          <div className="text-muted-foreground animate-pulse">Loading...</div>
+          <div className="text-muted-foreground animate-pulse">{t('common.loading')}...</div>
         ) : (
           <div className="space-y-8">
             {/* Starred Songs */}
             <section>
               <h2 className="text-xl font-semibold mb-4">{t('search.songs')}</h2>
               {!favorites?.song || favorites.song.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No starred songs.</p>
+                <p className="text-sm text-muted-foreground">{t('favorites.no_songs')}</p>
               ) : (
                 <div className="flex flex-col space-y-2">
                   {favorites.song.map((song: SubsonicSong, _: number, all: SubsonicSong[]) => (
@@ -106,7 +106,7 @@ export default function Favorites() {
             <section>
               <h2 className="text-xl font-semibold mb-4">{t('search.albums')}</h2>
               {!favorites?.album || favorites.album.length === 0 ? (
-                 <p className="text-sm text-muted-foreground">No starred albums.</p>
+                 <p className="text-sm text-muted-foreground">{t('favorites.no_albums')}</p>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                   {favorites.album.map((album: any) => (

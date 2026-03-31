@@ -38,8 +38,7 @@ export function AddPodcastDialog() {
       setUrl('');
       setOpen(false);
     } catch (err: any) {
-      console.error('Failed to add podcast RSS', err);
-      setError(err.message || 'Failed to parse RSS feed. Make sure it is a valid XML URL.');
+      setError(err.message || t('podcasts.error_invalid_rss'));
     } finally {
       setLoading(false);
     }
@@ -62,10 +61,10 @@ export function AddPodcastDialog() {
         </DialogHeader>
         <form onSubmit={handleAdd} className="space-y-4 py-4">
           <div className="space-y-2">
-            <label htmlFor="rss-url" className="text-sm font-medium text-muted-foreground">RSS Feed URL</label>
+            <label htmlFor="rss-url" className="text-sm font-medium text-muted-foreground">{t('podcasts.rss_url_label')}</label>
             <Input
               id="rss-url"
-              placeholder="https://example.com/podcast.xml"
+              placeholder={t('podcasts.rss_url_placeholder')}
               value={url}
               onChange={(e) => setUrl(e.currentTarget.value)}
               disabled={loading}
@@ -78,10 +77,10 @@ export function AddPodcastDialog() {
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Validating...
+                  {t('common.validating')}
                 </>
               ) : (
-                'Subscribe'
+                t('podcasts.subscribe')
               )}
             </Button>
           </DialogFooter>

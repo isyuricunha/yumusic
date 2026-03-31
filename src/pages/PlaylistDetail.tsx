@@ -13,7 +13,7 @@ import { useDialogStore } from '@/store/dialogStore';
 import { useImageColor } from '@/hooks/useImageColor';
 
 export default function PlaylistDetail() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: playlist, isLoading } = usePlaylist(id);
@@ -60,10 +60,10 @@ export default function PlaylistDetail() {
   const handleDeletePlaylist = async () => {
     if (!id) return;
     const confirmed = await openDialog({
-      title: t('playlists.delete_confirm_title', 'Remover Playlist'),
-      description: t('playlists.delete_confirm', 'Tem certeza que deseja excluir esta playlist permanentemente?'),
+      title: t('playlists.delete_confirm_title'),
+      description: t('playlists.delete_confirm'),
       destructive: true,
-      confirmText: t('common.delete', 'Excluir')
+      confirmText: t('common.delete')
     });
     if (confirmed) {
       await deletePlaylist.mutateAsync(id);
@@ -104,7 +104,7 @@ export default function PlaylistDetail() {
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-[11px] font-black uppercase tracking-[0.1em] text-white/90 drop-shadow-md">
-                Public Playlist
+                {t('common.public_playlist')}
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-black tracking-tighter text-white drop-shadow-2xl py-2">
                 {playlist.name}
@@ -178,7 +178,7 @@ export default function PlaylistDetail() {
           <span className="text-center font-bold">#</span>
           <span>{t('common.title')}</span>
           <span className="hidden md:inline">{t('common.album')}</span>
-          <span className="hidden lg:inline">Adicionado em</span>
+          <span className="hidden lg:inline">{t('playlist.added_at')}</span>
           <div className="flex justify-end pr-8">
             <Clock className="h-4 w-4" />
           </div>
@@ -238,7 +238,7 @@ export default function PlaylistDetail() {
 
               {/* Date (Simulated as we don't have per-track add date easily in basic Subsonic, using playlist creation as proxy if available or just empty) */}
               <span className="hidden lg:block text-xs text-muted-foreground truncate">
-                {playlist.created ? new Date(playlist.created).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}
+                {playlist.created ? new Date(playlist.created).toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}
               </span>
 
               {/* Duration & Actions */}

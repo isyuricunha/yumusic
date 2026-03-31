@@ -138,10 +138,10 @@ export default function Settings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="dark">True Dark</SelectItem>
-                  <SelectItem value="theme-catppuccin">Catppuccin</SelectItem>
-                  <SelectItem value="theme-nord">Nord</SelectItem>
-                  <SelectItem value="theme-spotify">Spotify</SelectItem>
+                  <SelectItem value="dark">{t('settings.appearance_theme_options.dark')}</SelectItem>
+                  <SelectItem value="theme-catppuccin">{t('settings.appearance_theme_options.catppuccin')}</SelectItem>
+                  <SelectItem value="theme-nord">{t('settings.appearance_theme_options.nord')}</SelectItem>
+                  <SelectItem value="theme-spotify">{t('settings.appearance_theme_options.spotify')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -169,16 +169,16 @@ export default function Settings() {
           <CardHeader>
             <div className="flex items-center space-x-2">
               <BellRing className="h-5 w-5 text-primary" />
-              <CardTitle>Updates</CardTitle>
+              <CardTitle>{t('settings.updates.title')}</CardTitle>
             </div>
-            <CardDescription>Control how YuMusic handles new versions.</CardDescription>
+            <CardDescription>{t('settings.updates.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Update behavior</div>
+                <div className="text-sm font-medium">{t('settings.updates.behavior')}</div>
                 <div className="text-xs text-muted-foreground">
-                  What happens when a new version is available.
+                  {t('settings.updates.behavior_desc')}
                 </div>
               </div>
               <Select
@@ -189,9 +189,9 @@ export default function Settings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="auto">Auto install</SelectItem>
-                  <SelectItem value="notify">Notify only</SelectItem>
-                  <SelectItem value="disabled">Disabled</SelectItem>
+                  <SelectItem value="auto">{t('settings.updates.options.auto')}</SelectItem>
+                  <SelectItem value="notify">{t('settings.updates.options.notify')}</SelectItem>
+                  <SelectItem value="disabled">{t('settings.updates.options.disabled')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -199,8 +199,8 @@ export default function Settings() {
             {appVersion && (
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <div className="text-sm font-medium">Current version</div>
-                  <div className="text-xs text-muted-foreground">The version installed on this machine.</div>
+                  <div className="text-sm font-medium">{t('settings.updates.current_version')}</div>
+                  <div className="text-xs text-muted-foreground">{t('settings.updates.current_version_desc')}</div>
                 </div>
                 <span className="text-sm font-bold tabular-nums text-primary">v{appVersion}</span>
               </div>
@@ -208,7 +208,7 @@ export default function Settings() {
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Check for updates</div>
+                <div className="text-sm font-medium">{t('settings.updates.check_now')}</div>
                 {checkStatus !== 'idle' && (
                   <div
                     className={`text-xs ${
@@ -219,18 +219,18 @@ export default function Settings() {
                         : 'text-muted-foreground'
                     }`}
                   >
-                    {updateInfo || (checkStatus === 'checking' ? 'Checking…' : '')}
+                    {updateInfo || (checkStatus === 'checking' ? t('common.checking') : '')}
                   </div>
                 )}
               </div>
               <div className="flex items-center gap-2">
                 {checkStatus === 'available' && !installing && (
                   <Button size="sm" onClick={handleInstallUpdate} className="text-xs">
-                    Install now
+                    {t('settings.updates.install_now')}
                   </Button>
                 )}
                 {installing && (
-                  <span className="text-xs text-muted-foreground">Installing…</span>
+                  <span className="text-xs text-muted-foreground">{t('settings.updates.installing')}</span>
                 )}
                 <Button
                   variant="outline"
@@ -240,7 +240,7 @@ export default function Settings() {
                   className="gap-1.5"
                 >
                   <RefreshCw className={`h-3.5 w-3.5 ${checkStatus === 'checking' ? 'animate-spin' : ''}`} />
-                  Check now
+                  {t('settings.updates.check_now_btn')}
                 </Button>
               </div>
             </div>
@@ -252,16 +252,16 @@ export default function Settings() {
           <CardHeader>
             <div className="flex items-center space-x-2">
               <AppWindow className="h-5 w-5 text-primary" />
-              <CardTitle>System</CardTitle>
+              <CardTitle>{t('settings.system.title')}</CardTitle>
             </div>
-            <CardDescription>Window and startup behavior.</CardDescription>
+            <CardDescription>{t('settings.system.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Minimize to system tray on close</div>
+                <div className="text-sm font-medium">{t('settings.system.minimize_on_close')}</div>
                 <div className="text-xs text-muted-foreground">
-                  When you close the window, YuMusic stays running in the tray. Use the tray icon to quit.
+                  {t('settings.system.minimize_on_close_desc')}
                 </div>
               </div>
               <Switch
@@ -273,9 +273,9 @@ export default function Settings() {
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Launch on system startup</div>
+                <div className="text-sm font-medium">{t('settings.system.launch_at_startup')}</div>
                 <div className="text-xs text-muted-foreground">
-                  Automatically open YuMusic when you log in to your computer.
+                  {t('settings.system.launch_at_startup_desc')}
                 </div>
               </div>
               <Switch
@@ -292,15 +292,15 @@ export default function Settings() {
           <CardHeader>
             <div className="flex items-center space-x-2">
               <DownloadCloud className="h-5 w-5 text-primary" />
-              <CardTitle>Downloads</CardTitle>
+              <CardTitle>{t('settings.downloads.title')}</CardTitle>
             </div>
-            <CardDescription>Manage your offline music preferences.</CardDescription>
+            <CardDescription>{t('settings.downloads.description')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Audio quality</div>
-                <div className="text-xs text-muted-foreground">Higher quality uses more disk space.</div>
+                <div className="text-sm font-medium">{t('settings.downloads.audio_quality')}</div>
+                <div className="text-xs text-muted-foreground">{t('settings.downloads.audio_quality_desc')}</div>
               </div>
               <Select
                 value={settings.downloadQuality}
@@ -320,8 +320,8 @@ export default function Settings() {
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Audio format</div>
-                <div className="text-xs text-muted-foreground">Preferred file format for downloads.</div>
+                <div className="text-sm font-medium">{t('settings.downloads.audio_format')}</div>
+                <div className="text-xs text-muted-foreground">{t('settings.downloads.audio_format_desc')}</div>
               </div>
               <Select
                 value={settings.downloadFormat}
@@ -340,19 +340,19 @@ export default function Settings() {
 
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <div className="text-sm font-medium">Download location</div>
+                <div className="text-sm font-medium">{t('settings.downloads.location')}</div>
                 <div className="text-xs text-muted-foreground truncate max-w-[300px]">
-                  {settings.downloadFolder || "System Default Downloads"}
+                  {settings.downloadFolder || t('settings.downloads.default_location')}
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm" onClick={openDownloadFolder} className="gap-2">
                   <ExternalLink className="h-3.5 w-3.5" />
-                  Open Folder
+                  {t('settings.downloads.open_folder')}
                 </Button>
                 <Button variant="outline" size="sm" onClick={handleSelectFolder} className="gap-2">
                   <FolderOpen className="h-3.5 w-3.5" />
-                  Change
+                  {t('common.change')}
                 </Button>
               </div>
             </div>
@@ -361,20 +361,20 @@ export default function Settings() {
               <div className="flex items-center space-x-3">
                 <HardDrive className="h-4 w-4 text-primary" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">Disk Usage</span>
-                  <span className="text-xs text-muted-foreground">Total storage used by offline files.</span>
+                  <span className="text-sm font-medium">{t('settings.downloads.disk_usage')}</span>
+                  <span className="text-xs text-muted-foreground">{t('settings.downloads.disk_usage_desc')}</span>
                 </div>
               </div>
               <span className="text-sm font-bold tabular-nums text-primary">{totalDiskUsage}</span>
             </div>
 
             <div className="pt-4 border-t border-border/50">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Auto-Download Preferences</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">{t('settings.downloads.auto_download_title')}</h4>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <div className="text-sm font-medium">Download Albums</div>
-                    <div className="text-xs text-muted-foreground">Automatically download all tracks in an album.</div>
+                    <div className="text-sm font-medium">{t('settings.downloads.download_albums')}</div>
+                    <div className="text-xs text-muted-foreground">{t('settings.downloads.download_albums_desc')}</div>
                   </div>
                   <Switch
                     id="download-albums"
@@ -385,8 +385,8 @@ export default function Settings() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <div className="text-sm font-medium">Download Playlists</div>
-                    <div className="text-xs text-muted-foreground">Sync your playlists for offline use.</div>
+                    <div className="text-sm font-medium">{t('settings.downloads.download_playlists')}</div>
+                    <div className="text-xs text-muted-foreground">{t('settings.downloads.download_playlists_desc')}</div>
                   </div>
                   <Switch
                     id="download-playlists"
@@ -397,8 +397,8 @@ export default function Settings() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <div className="text-sm font-medium">Download Podcasts</div>
-                    <div className="text-xs text-muted-foreground">Keep your favorite episodes ready.</div>
+                    <div className="text-sm font-medium">{t('settings.downloads.download_podcasts')}</div>
+                    <div className="text-xs text-muted-foreground">{t('settings.downloads.download_podcasts_desc')}</div>
                   </div>
                   <Switch
                     id="download-podcasts"
@@ -409,8 +409,8 @@ export default function Settings() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <div className="text-sm font-medium">Auto-download Liked songs</div>
-                    <div className="text-xs text-muted-foreground">Download songs immediately when you like them.</div>
+                    <div className="text-sm font-medium">{t('settings.downloads.auto_download_liked')}</div>
+                    <div className="text-xs text-muted-foreground">{t('settings.downloads.auto_download_liked_desc')}</div>
                   </div>
                   <Switch
                     id="auto-download-liked"

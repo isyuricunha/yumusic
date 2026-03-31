@@ -25,7 +25,7 @@ export default function Library() {
 
         <TabsContent value="albums" className="mt-6 outline-none">
           {loadingAlbums ? (
-            <div className="text-muted-foreground animate-pulse">Loading...</div>
+            <div className="text-muted-foreground animate-pulse">{t('common.loading')}...</div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
               {albums?.map((album) => (
@@ -54,7 +54,7 @@ export default function Library() {
 
         <TabsContent value="artists" className="mt-6 outline-none">
           {loadingArtists ? (
-            <div className="text-muted-foreground animate-pulse">Loading...</div>
+            <div className="text-muted-foreground animate-pulse">{t('common.loading')}...</div>
           ) : (
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
               {artists?.map((artist) => (

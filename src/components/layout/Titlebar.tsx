@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { Minus, Square, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export function Titlebar() {
+  const { t } = useTranslation();
   const [isMaximized, setIsMaximized] = useState(false);
   
   // Tauri environment check
@@ -54,14 +56,14 @@ export function Titlebar() {
         <button
           className="inline-flex justify-center items-center w-10 h-full hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => appWindow.minimize()}
-          title="Minimize"
+          title={t('common.minimize')}
         >
           <Minus className="w-4 h-4" />
         </button>
         <button
           className="inline-flex justify-center items-center w-10 h-full hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors"
           onClick={() => appWindow.toggleMaximize()}
-          title="Maximize"
+          title={t('common.maximize')}
         >
           {isMaximized ? (
             <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[10px] h-[10px]"><path d="M1 9V1H9V9H1Z" stroke="currentColor" strokeWidth="1"/></svg>
@@ -72,7 +74,7 @@ export function Titlebar() {
         <button
           className="inline-flex justify-center items-center w-10 h-full hover:bg-red-500 hover:text-white text-muted-foreground transition-colors"
           onClick={() => appWindow.close()}
-          title="Close"
+          title={t('common.close')}
         >
           <X className="w-4 h-4" />
         </button>

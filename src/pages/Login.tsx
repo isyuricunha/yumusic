@@ -49,7 +49,9 @@ export default function Login() {
           <div className="flex justify-center mb-2">
             <img src={logo} alt="YuMusic Logo" className="w-16 h-16 object-contain" />
           </div>
-          <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">YuMusic Player</CardTitle>
+          <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">
+            {t('login.app_title', { defaultValue: 'YuMusic Player' })}
+          </CardTitle>
           <CardDescription className="text-center">{t('login.description')}</CardDescription>
         </CardHeader>
         <CardContent>
@@ -60,7 +62,7 @@ export default function Login() {
                 id="serverUrl"
                 name="serverUrl"
                 type="url"
-                placeholder="https://music.example.com"
+                placeholder={t('login.server_url_placeholder', { defaultValue: 'https://music.example.com' })}
                 value={serverUrl}
                 onChange={(e) => setServerUrl(e.currentTarget.value)}
                 required
@@ -72,7 +74,7 @@ export default function Login() {
                 id="username"
                 name="username"
                 type="text"
-                placeholder="admin"
+                placeholder={t('login.username_placeholder', { defaultValue: 'admin' })}
                 value={username}
                 onChange={(e) => setUsername(e.currentTarget.value)}
                 required

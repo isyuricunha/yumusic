@@ -14,16 +14,16 @@ export const Footer: React.FC = () => {
       ]
     },
     {
-      title: 'Communities',
+      title: t('common.communities'),
       links: [
         { label: 'Subsonic API', url: 'http://www.subsonic.org/pages/api.jsp' },
         { label: 'Navidrome', url: 'https://www.navidrome.org/' },
       ]
     },
     {
-      title: 'Useful links',
+      title: t('common.useful_links'),
       links: [
-        { label: 'Support', url: '#' },
+        { label: t('common.support'), url: '#' },
         { label: t('settings.appearance'), url: '/settings' },
       ]
     },
@@ -72,12 +72,12 @@ export const Footer: React.FC = () => {
 
       <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-[11px] font-medium text-muted-foreground">
         <ul className="flex flex-wrap gap-x-6 gap-y-4 mb-8 md:mb-0">
-          <li className="hover:text-foreground cursor-pointer transition-colors">Documentation</li>
-          <li className="hover:text-foreground cursor-pointer transition-colors">Privacy</li>
-          <li className="hover:text-foreground cursor-pointer transition-colors">Accessibility</li>
+          <li className="hover:text-foreground cursor-pointer transition-colors">{t('footer.documentation')}</li>
+          <li className="hover:text-foreground cursor-pointer transition-colors">{t('footer.privacy')}</li>
+          <li className="hover:text-foreground cursor-pointer transition-colors">{t('footer.accessibility')}</li>
         </ul>
         <div className="flex flex-col items-end opacity-60">
-           <p>© {new Date().getFullYear()} YuMusic • Built with ❤️ for Music Collectors</p>
+           <p>© {new Date().getFullYear()} YuMusic • {t('footer.tagline')}</p>
         </div>
       </div>
     </footer>

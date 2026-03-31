@@ -136,7 +136,7 @@ export default function PodcastDetail() {
           <div className="flex items-center space-x-2">
             <span className="text-xs font-bold uppercase tracking-wider text-primary">{t('common.podcast')}</span>
             {podcast.isLocal && (
-              <span className="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">RSS</span>
+              <span className="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">{t('podcasts.rss_tag')}</span>
             )}
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter">{podcast.title}</h1>

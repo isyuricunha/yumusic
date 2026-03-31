@@ -39,7 +39,7 @@ export function QueueDrawer() {
       <div className="flex items-center justify-between p-6 border-b border-white/10 bg-black/20">
         <div className="flex items-center gap-3">
             <ListMusic className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-black tracking-tight">{t('sidebar.playlists')}</h2>
+            <h2 className="text-xl font-black tracking-tight">{t('common.queue')}</h2>
         </div>
         <div className="flex items-center gap-1">
             <Button 
@@ -47,7 +47,7 @@ export function QueueDrawer() {
                 size="icon" 
                 onClick={clearQueue}
                 className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-                title="Clear Queue"
+                title={t('player.clear_queue')}
             >
                 <Trash2 className="h-5 w-5" />
             </Button>
@@ -68,7 +68,7 @@ export function QueueDrawer() {
           {currentSong && (
             <div className="space-y-4">
               <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground pl-2 px-2">
-                {t('player.not_playing') !== 'Nothing playing now' ? 'Tocando Agora' : 'Now Playing'}
+                {t('player.now_playing')}
               </h3>
               <div className="group relative bg-primary/5 border border-primary/20 rounded-xl overflow-hidden p-3 transition-all hover:bg-primary/10">
                 <div className="flex items-center gap-4">
@@ -100,7 +100,7 @@ export function QueueDrawer() {
           {/* Next Up Section */}
           <div className="space-y-4">
             <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground pl-2 px-2">
-                {t('player.not_playing') !== 'Nothing playing now' ? 'A seguir' : 'Next Up'}
+                {t('player.next_up')}
             </h3>
             <div className="space-y-1">
               {nextUp.length > 0 ? (
@@ -156,10 +156,10 @@ export function QueueDrawer() {
                     </div>
                     <div className="space-y-2">
                         <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-                            {t('player.not_playing') !== 'Nothing playing now' ? 'Sua fila está vazia' : 'Your queue is empty'}
+                            {t('player.queue_empty')}
                         </p>
                         <p className="text-[11px] opacity-40">
-                             Adicione músicas de álbuns ou playlists para ouvir sem parar.
+                             {t('player.queue_empty_desc')}
                         </p>
                     </div>
                 </div>
@@ -172,7 +172,7 @@ export function QueueDrawer() {
       {nextUp.length > 0 && (
           <div className="p-4 border-t border-white/10 bg-black/40 text-center">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
-                 {nextUp.length} {nextUp.length === 1 ? 'música' : 'músicas'} na fila
+                 {t('player.songs_in_queue', { count: nextUp.length })}
               </span>
           </div>
       )}

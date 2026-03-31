@@ -132,7 +132,7 @@ export default function Radio() {
                     </div>
                     <div className="flex-1 overflow-hidden">
                       <div className="font-semibold truncate">{station.name}</div>
-                      <div className="text-xs text-muted-foreground">Live Stream</div>
+                      <div className="text-xs text-muted-foreground">{t('radio.live_stream')}</div>
                     </div>
                     <Button size="icon" variant="ghost" className="rounded-full shrink-0 opacity-0 group-hover:opacity-100 transition">
                       <Play className="h-4 w-4 fill-current" />

@@ -43,7 +43,25 @@
     "go_to_artist": "Go to Artist",
     "report_issue": "Report an Issue",
     "verified": "Verified",
-    "close": "Close"
+    "close": "Close",
+    "minimize": "Minimize",
+    "maximize": "Maximize",
+    "playlist": "Playlist",
+    "queue": "Queue",
+    "communities": "Communities",
+    "useful_links": "Useful links",
+    "support": "Support",
+    "checking": "Checking...",
+    "change": "Change",
+    "public_playlist": "Public Playlist",
+    "delete": "Delete",
+    "validating": "Validating...",
+    "remove_from_device": "Remove from device",
+    "remove_download_title": "Remove Download",
+    "remove_download_confirm": "Are you sure you want to remove this song from your device?",
+    "remove": "Remove",
+    "min": "min",
+    "sec": "sec"
   },
   "home": {
     "recently_added": "Recently Added",
@@ -79,17 +97,78 @@
     "server": "Server & Account",
     "server_desc": "Connected server information.",
     "session": "Session",
-    "logout_confirm": "Are you sure you want to logout?"
+    "logout_confirm": "Are you sure you want to logout?",
+    "appearance_theme_options": {
+      "dark": "True Dark",
+      "catppuccin": "Catppuccin",
+      "nord": "Nord",
+      "spotify": "Spotify"
+    },
+    "updates": {
+      "title": "Updates",
+      "behavior": "Update behavior",
+      "options": {
+        "auto": "Auto install",
+        "notify": "Notify only",
+        "disabled": "Disabled"
+      },
+      "current_version": "Current version",
+      "check_now": "Check for updates",
+      "description": "Control how YuMusic handles new versions.",
+      "behavior_desc": "What happens when a new version is available.",
+      "current_version_desc": "The version installed on this machine.",
+      "install_now": "Install now",
+      "installing": "Installing...",
+      "check_now_btn": "Check now"
+    },
+    "system": {
+      "title": "System",
+      "minimize_on_close": "Minimize to system tray on close",
+      "launch_at_startup": "Launch on system startup",
+      "description": "Window and startup behavior.",
+      "minimize_on_close_desc": "When you close the window, YuMusic stays running in the tray. Use the tray icon to quit.",
+      "launch_at_startup_desc": "Automatically open YuMusic when you log in to your computer."
+    },
+    "downloads": {
+      "title": "Downloads",
+      "audio_quality": "Audio quality",
+      "audio_format": "Audio format",
+      "location": "Download location",
+      "disk_usage": "Disk Usage",
+      "download_albums": "Download Albums",
+      "download_playlists": "Download Playlists",
+      "download_podcasts": "Download Podcasts",
+      "description": "Manage your offline music preferences.",
+      "audio_quality_desc": "Higher quality uses more disk space.",
+      "audio_format_desc": "Preferred file format for downloads.",
+      "default_location": "System Default Downloads",
+      "open_folder": "Open Folder",
+      "disk_usage_desc": "Total storage used by offline files.",
+      "auto_download_title": "Auto-Download Preferences",
+      "download_albums_desc": "Automatically download all tracks in an album.",
+      "download_playlists_desc": "Sync your playlists for offline use.",
+      "download_podcasts_desc": "Keep your favorite episodes ready.",
+      "auto_download_liked": "Auto-download Liked songs",
+      "auto_download_liked_desc": "Download songs immediately when you like them."
+    }
   },
   "playlists": {
     "create_new": "Create New Playlist",
     "name_placeholder": "Playlist name",
-    "delete_confirm": "Are you sure you want to delete this playlist?",
+    "delete_confirm_title": "Delete Playlist",
+    "delete_confirm": "Are you sure you want to delete this playlist permanentely?",
     "empty": "This playlist is empty. Add some songs!",
     "add_to": "Add to Playlist"
   },
   "player": {
-    "not_playing": "No Track Playing"
+    "not_playing": "No Track Playing",
+    "clear_queue": "Clear Queue",
+    "now_playing": "Now Playing",
+    "next_up": "Next Up",
+    "queue_empty": "Your queue is empty",
+    "queue_empty_desc": "Add songs from albums or playlists to listen without stopping.",
+    "songs_in_queue_one": "1 song in queue",
+    "songs_in_queue_other": "{{count}} songs in queue"
   },
   "library": {
     "all_artists": "All Artists",
@@ -110,7 +189,12 @@
     "add_rss_desc": "Paste the podcast RSS feed URL (Anchor, Spotify, etc.) to listen locally.",
     "local_podcasts": "Local Podcasts (RSS)",
     "server_podcasts": "Server Podcasts",
-    "unsupported_server": "Your server does not support the Podcast API, but you can manually add RSS feeds below."
+    "unsupported_server": "Your server does not support the Podcast API, but you can manually add RSS feeds below.",
+    "rss_tag": "RSS",
+    "rss_url_label": "RSS Feed URL",
+    "rss_url_placeholder": "https://example.com/podcast.xml",
+    "subscribe": "Subscribe",
+    "error_invalid_rss": "Failed to parse RSS feed. Make sure it is a valid XML URL."
   },
   "radio": {
     "add_station": "Add Station",
@@ -121,7 +205,8 @@
     "name_placeholder": "Ex: SomaFM Groove Salad",
     "url_placeholder": "http://ice1.somafm.com/groovesalad-128-mp3",
     "local_stations": "Local Stations",
-    "server_stations": "Server Stations"
+    "server_stations": "Server Stations",
+    "live_stream": "Live Stream"
   },
   "album": {
     "explore_more": "Explore more tracks from {{artist}} in their profile."
@@ -132,5 +217,18 @@
     "full_discography": "Full Discography",
     "about": "About the Artist",
     "similar_artists": "Similar Artists"
+  },
+  "footer": {
+    "documentation": "Documentation",
+    "privacy": "Privacy",
+    "accessibility": "Accessibility",
+    "tagline": "Built with ❤️ for Music Collectors"
+  },
+  "playlist": {
+    "added_at": "Added at"
+  },
+  "favorites": {
+    "no_songs": "No starred songs.",
+    "no_albums": "No starred albums."
   }
 }

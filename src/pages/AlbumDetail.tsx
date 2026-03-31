@@ -179,7 +179,7 @@ export default function AlbumDetail() {
             <span className="text-white/70 font-black">•</span>
             <span className="text-white/70 font-medium">{album.songCount} {t('common.songs').toLowerCase()},</span>
             <span className="text-white/70 font-medium pl-0.5">
-              {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} min {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) % 60)} sec
+              {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) / 60)} {t('common.min')} {Math.floor(album.song?.reduce((acc, s) => acc + s.duration, 0) % 60)} {t('common.sec')}
             </span>
           </div>
         </div>

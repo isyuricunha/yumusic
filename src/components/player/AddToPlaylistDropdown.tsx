@@ -27,10 +27,10 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const confirmed = await openDialog({
-      title: 'Remover Download',
-      description: 'Tem certeza que deseja remover esta música do seu dispositivo?',
+      title: t('common.remove_download_title'),
+      description: t('common.remove_download_confirm'),
       destructive: true,
-      confirmText: 'Remover'
+      confirmText: t('common.remove')
     });
     if (confirmed) {
       await deleteDownloadedSong(songId);
@@ -81,7 +81,7 @@ export function AddToPlaylistDropdown({ songId }: AddToPlaylistDropdownProps) {
               className="flex items-center space-x-2 text-destructive focus:text-destructive focus:bg-destructive/10"
             >
               <Trash2 className="h-4 w-4 shrink-0" />
-              <span>Remover do dispositivo</span>
+              <span>{t('common.remove_from_device')}</span>
             </DropdownMenuItem>
           </>
         )}

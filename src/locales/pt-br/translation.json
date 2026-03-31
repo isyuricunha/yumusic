@@ -43,7 +43,25 @@
     "go_to_artist": "Ir para o Artista",
     "report_issue": "Relatar um Problema",
     "verified": "Verificado",
-    "close": "Fechar"
+    "close": "Fechar",
+    "minimize": "Minimizar",
+    "maximize": "Maximizar",
+    "playlist": "Playlist",
+    "queue": "Fila",
+    "communities": "Comunidades",
+    "useful_links": "Links úteis",
+    "support": "Suporte",
+    "checking": "Verificando...",
+    "change": "Alterar",
+    "public_playlist": "Playlist Pública",
+    "delete": "Excluir",
+    "validating": "Validando...",
+    "remove_from_device": "Remover do dispositivo",
+    "remove_download_title": "Remover Download",
+    "remove_download_confirm": "Tem certeza que deseja remover esta música do seu dispositivo?",
+    "remove": "Remover",
+    "min": "min",
+    "sec": "seg"
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
@@ -79,17 +97,78 @@
     "server": "Servidor e Conta",
     "server_desc": "Informações do servidor conectado.",
     "session": "Sessão",
-    "logout_confirm": "Tem certeza que deseja sair?"
+    "logout_confirm": "Tem certeza que deseja sair?",
+    "appearance_theme_options": {
+      "dark": "Escuro Real",
+      "catppuccin": "Catppuccin",
+      "nord": "Nord",
+      "spotify": "Spotify"
+    },
+    "updates": {
+      "title": "Atualizações",
+      "behavior": "Comportamento de atualização",
+      "options": {
+        "auto": "Instalar automaticamente",
+        "notify": "Notificar apenas",
+        "disabled": "Desativado"
+      },
+      "current_version": "Versão atual",
+      "check_now": "Procurar atualizações",
+      "description": "Controle como o YuMusic lida com novas versões.",
+      "behavior_desc": "O que acontece quando uma nova versão está disponível.",
+      "current_version_desc": "A versão instalada nesta máquina.",
+      "install_now": "Instalar agora",
+      "installing": "Instalando...",
+      "check_now_btn": "Verificar agora"
+    },
+    "system": {
+      "title": "Sistema",
+      "minimize_on_close": "Minimizar para a bandeja ao fechar",
+      "launch_at_startup": "Abrir ao iniciar o sistema",
+      "description": "Comportamento da janela e inicialização.",
+      "minimize_on_close_desc": "Ao fechar a janela, o YuMusic continua rodando na bandeja.",
+      "launch_at_startup_desc": "Abrir automaticamente o YuMusic ao fazer login no computador."
+    },
+    "downloads": {
+      "title": "Downloads",
+      "audio_quality": "Qualidade do áudio",
+      "audio_format": "Formato do áudio",
+      "location": "Localização do download",
+      "disk_usage": "Uso de Disco",
+      "download_albums": "Baixar Álbuns",
+      "download_playlists": "Baixar Playlists",
+      "download_podcasts": "Baixar Podcasts",
+      "description": "Gerencie suas preferências de música offline.",
+      "audio_quality_desc": "Qualidade superior usa mais espaço em disco.",
+      "audio_format_desc": "Formato de arquivo preferido para downloads.",
+      "default_location": "Downloads Padrão do Sistema",
+      "open_folder": "Abrir Pasta",
+      "disk_usage_desc": "Espaço total usado por arquivos offline.",
+      "auto_download_title": "Preferências de Download Automático",
+      "download_albums_desc": "Baixar automaticamente todas as faixas de um álbum.",
+      "download_playlists_desc": "Sincronizar suas playlists para uso offline.",
+      "download_podcasts_desc": "Manter seus episódios favoritos prontos.",
+      "auto_download_liked": "Baixar músicas curtidas automaticamente",
+      "auto_download_liked_desc": "Baixar músicas imediatamente ao curti-las."
+    }
   },
   "playlists": {
     "create_new": "Criar Nova Playlist",
     "name_placeholder": "Nome da playlist",
-    "delete_confirm": "Tem certeza que deseja excluir esta playlist?",
+    "delete_confirm_title": "Excluir Playlist",
+    "delete_confirm": "Tem certeza que deseja excluir esta playlist permanentemente?",
     "empty": "Esta playlist está vazia. Adicione algumas músicas!",
     "add_to": "Adicionar à Playlist"
   },
   "player": {
-    "not_playing": "Nada tocando agora"
+    "not_playing": "Nada tocando agora",
+    "clear_queue": "Limpar Fila",
+    "now_playing": "Tocando Agora",
+    "next_up": "A Seguir",
+    "queue_empty": "Sua fila está vazia",
+    "queue_empty_desc": "Adicione músicas de álbuns ou playlists para ouvir sem parar.",
+    "songs_in_queue_one": "1 música na fila",
+    "songs_in_queue_other": "{{count}} músicas na fila"
   },
   "library": {
     "all_artists": "Todos os Artistas",
@@ -110,7 +189,12 @@
     "add_rss_desc": "Cole a URL do feed RSS do podcast (Anchor, Spotify, etc.) para ouvir localmente.",
     "local_podcasts": "Podcasts Locais (RSS)",
     "server_podcasts": "Podcasts do Servidor",
-    "unsupported_server": "Seu servidor não suporta a API de Podcasts, mas você pode adicionar feeds RSS manualmente abaixo."
+    "unsupported_server": "Seu servidor não suporta a API de Podcasts, mas você pode adicionar feeds RSS manualmente abaixo.",
+    "rss_tag": "RSS",
+    "rss_url_label": "URL do Feed RSS",
+    "rss_url_placeholder": "https://exemplo.com/podcast.xml",
+    "subscribe": "Assinar",
+    "error_invalid_rss": "Falha ao processar o feed RSS. Certifique-se de que é uma URL XML válida."
   },
   "radio": {
     "add_station": "Adicionar Estação",
@@ -121,7 +205,8 @@
     "name_placeholder": "Ex: SomaFM Groove Salad",
     "url_placeholder": "http://ice1.somafm.com/groovesalad-128-mp3",
     "local_stations": "Rádios Locais",
-    "server_stations": "Rádios do Servidor"
+    "server_stations": "Rádios do Servidor",
+    "live_stream": "Transmissão ao Vivo"
   },
   "album": {
     "explore_more": "Explore mais faixas de {{artist}} em seu perfil."
@@ -132,5 +217,18 @@
     "full_discography": "Discografia completa",
     "about": "Sobre o Artista",
     "similar_artists": "Artistas Similares"
+  },
+  "footer": {
+    "documentation": "Documentação",
+    "privacy": "Privacidade",
+    "accessibility": "Acessibilidade",
+    "tagline": "Feito com ❤️ para Colecionadores de Música"
+  },
+  "playlist": {
+    "added_at": "Adicionado em"
+  },
+  "favorites": {
+    "no_songs": "Nenhuma música favoritada.",
+    "no_albums": "Nenhum álbum favoritado."
   }
 }
