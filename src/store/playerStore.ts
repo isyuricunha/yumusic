@@ -27,6 +27,7 @@ interface PlayerState {
   next: (config: SubsonicConfig) => void;
   previous: (config: SubsonicConfig) => void;
   addToQueue: (song: SubsonicSong) => void;
+  addSongsToQueue: (songs: SubsonicSong[]) => void;
   setQueue: (queue: SubsonicSong[]) => void;
   toggleShuffle: () => void;
   setRepeatMode: (mode: 'none' | 'one' | 'all') => void;
@@ -339,6 +340,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
 
     setQueue: (queue) => {
       set({ queue });
+    },
+    
+    addSongsToQueue: (songs) => {
+      set((state) => ({ queue: [...state.queue, ...songs] }));
     },
 
     toggleShuffle: () => {

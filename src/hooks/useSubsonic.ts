@@ -436,3 +436,26 @@ export function usePlaylistMutations() {
 
   return { createPlaylist, deletePlaylist, addTracksToPlaylist, removeTracksFromPlaylist };
 }
+
+export function useStarMutation() {
+  const config = useConfigStore((state) => state.config);
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, type, star }: { id: string; type: 'album' | 'song' | 'artist'; star: boolean }) => {
+      if (!config) throw new Error('No config');
+      const endpoint = star ? 'star' : 'unstar';
+      const params: any = {};
+      if (type === 'album') params.albumId = id;
+      else if (type === 'artist') params.artistId = id;
+      else params.id = id;
+      
+      return await fetchSubsonic(endpoint, config, params);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['album'] });
+      queryClient.invalidateQueries({ queryKey: ['artist'] });
+    },
+  });
+}

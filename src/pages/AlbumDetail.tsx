@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router';
-import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong, useArtist } from '@/hooks/useSubsonic';
+import { useAlbum, useAlbumInfo, useCoverArtUrl, SubsonicSong, useArtist, useStarMutation, useFavorites, SubsonicAlbum } from '@/hooks/useSubsonic';
 import { Button } from '@/components/ui/button';
-import { Play, Clock, Check, Loader2, MoreHorizontal, Shuffle, PlusCircle, ArrowDownCircle } from 'lucide-react';
+import { Play, Pause, Clock, Check, Loader2, MoreHorizontal, Shuffle, PlusCircle, ArrowDownCircle, CheckCircle2 } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
@@ -13,6 +13,12 @@ import { downloadSong } from '@/services/downloadService';
 import { AlbumCard } from '@/components/AlbumCard';
 import { Footer } from '@/components/layout/Footer';
 import { useImageColor } from '@/hooks/useImageColor';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function AlbumDetail() {
   const { t } = useTranslation();
@@ -26,9 +32,15 @@ export default function AlbumDetail() {
   const ambientColor = useImageColor(coverUrl);
   
   const config = useConfigStore((state) => state.config);
-  const { setSong, setQueue, currentSong } = usePlayerStore();
+  const { setSong, setQueue, currentSong, addSongsToQueue, toggleShuffle, isShuffle, isPlaying, togglePlay } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
+  const { data: favorites } = useFavorites();
+  const starMutation = useStarMutation();
+  const isStarred = useMemo(() => 
+    favorites?.album?.some((a: SubsonicAlbum) => a.id === id), 
+  [favorites, id]);
 
   const isAlbumDownloaded = useMemo(() => {
     if (!album?.song) return false;
@@ -57,6 +69,18 @@ export default function AlbumDetail() {
     if (config && album?.song && album.song.length > 0) {
       setQueue(album.song);
       setSong(album.song[0], config);
+    }
+  };
+
+  const handleToggleFavorite = () => {
+    if (id) {
+      starMutation.mutate({ id, type: 'album', star: !isStarred });
+    }
+  };
+
+  const handleAddAlbumToQueue = () => {
+    if (album?.song) {
+      addSongsToQueue(album.song);
     }
   };
 
@@ -156,20 +180,29 @@ export default function AlbumDetail() {
           <Button 
             size="lg" 
             className="rounded-full h-14 w-14 shadow-2xl bg-primary text-primary-foreground hover:scale-105 active:scale-95 transition-all" 
-            onClick={handlePlayAlbum}
+            onClick={() => {
+              const isCurrentAlbum = currentSong && album?.song?.some(s => s.id === currentSong.id);
+              if (isCurrentAlbum) {
+                togglePlay();
+              } else {
+                handlePlayAlbum();
+              }
+            }}
           >
-            <Play className="h-7 w-7 fill-current ml-1" />
+            {isPlaying && currentSong && album?.song?.some(s => s.id === currentSong.id) 
+              ? <Pause className="h-7 w-7 fill-current" /> 
+              : <Play className="h-7 w-7 fill-current ml-1" />
+            }
           </Button>
-
-          {/* Mini Album Cover (Spotify style) */}
-          <div className="hidden sm:block w-8 h-8 rounded-sm overflow-hidden shadow-lg border border-white/10 opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
-            <img src={coverUrl} className="w-full h-full object-cover" />
-          </div>
 
           <Button 
             variant="ghost"
             size="icon"
-            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+            className={cn(
+              "rounded-full h-10 w-10 transition-all",
+              isShuffle ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            )}
+            onClick={toggleShuffle}
           >
             <Shuffle className="h-7 w-7" />
           </Button>
@@ -177,9 +210,14 @@ export default function AlbumDetail() {
           <Button 
             variant="ghost"
             size="icon"
-            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+            className={cn(
+               "rounded-full h-10 w-10 transition-all",
+               isStarred ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            )}
+            onClick={handleToggleFavorite}
+            disabled={starMutation.isPending}
           >
-            <PlusCircle className="h-8 w-8" />
+            {isStarred ? <CheckCircle2 className="h-8 w-8" /> : <PlusCircle className="h-8 w-8" />}
           </Button>
 
           <Button 
@@ -208,19 +246,34 @@ export default function AlbumDetail() {
             {isAlbumDownloading ? (
                <Loader2 className="h-6 w-6 animate-spin text-primary" />
             ) : isAlbumDownloaded ? (
-               <Check className="h-7 w-7 stroke-[2.5px] text-primary" />
+               <Check className="h-7 w-7 stroke-[2.5px]" />
             ) : (
                <ArrowDownCircle className="h-7 w-7" />
             )}
           </Button>
 
-          <Button 
-            variant="ghost"
-            size="icon"
-            className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
-          >
-            <MoreHorizontal className="h-7 w-7" />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button 
+                variant="ghost"
+                size="icon"
+                className="rounded-full h-10 w-10 text-muted-foreground hover:text-foreground transition-all"
+              >
+                <MoreHorizontal className="h-7 w-7" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56 bg-zinc-900 border-white/10">
+              <DropdownMenuItem onClick={handleAddAlbumToQueue} className="cursor-pointer">
+                {t('common.add_to_queue')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate(`/artist/${album.artistId}`)} className="cursor-pointer">
+                {t('common.go_to_artist')}
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer text-red-400">
+                {t('common.report_issue')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         <div className="w-full">
