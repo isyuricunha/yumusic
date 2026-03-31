@@ -18,7 +18,7 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # Job 1: Semantic Release
   # Analyses conventional commits, bumps the version, creates a GitHub Release
-  # draft, and pushes a CHANGELOG.md update. Exposes the new tag as an output
+  # and pushes a CHANGELOG.md update. Exposes the new tag as an output
   # so the build matrix can reference it.
   # ─────────────────────────────────────────────────────────────────────────────
   release:
@@ -62,12 +62,20 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # Job 2: Multi-platform Tauri build
   # Runs in parallel on Windows, macOS (arm64 + x86_64), and Ubuntu.
-  # Each runner uploads its bundles to the draft release created above.
+  # Only uploads binaries and latest.json to the GitHub Release when
+  # semantic-release published a new version (new_release_published == true).
+  #
+  # Key design decisions:
+  #   - releaseDraft: false — semantic-release already publishes the release.
+  #     tauri-action must NOT mark it as draft or it will conflict.
+  #   - The "Build & upload to release" step runs only when a new release was
+  #     published, avoiding ghost releases from non-release pushes.
+  #   - createUpdaterArtifacts: true in tauri.conf.json (required!) tells
+  #     Tauri to produce .sig files, which tauri-action uses to build latest.json.
   # ─────────────────────────────────────────────────────────────────────────────
   build:
     name: Build (${{ matrix.label }})
     needs: release
-    # Runs on every push to main to provide binaries even if no formal release is published.
     permissions:
       contents: write
     strategy:
@@ -130,63 +138,37 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install
 
+      # Only upload to the GitHub Release when semantic-release published a new
+      # version. When there is no release (e.g. chore/doc-only commits), we still
+      # build the app (cache warmup + CI validation) but skip the upload to avoid
+      # creating empty or malformed releases.
       - name: Build & upload to release
+        if: needs.release.outputs.new_release_published == 'true'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: ${{ needs.release.outputs.new_release_tag || '' }}
-          releaseName: ${{ needs.release.outputs.new_release_published == 'true' && format('YuMusic {0}', needs.release.outputs.new_release_version) || '' }}
-          # Only use draft if we are actually attaching to a release tag.
-          releaseDraft: ${{ needs.release.outputs.new_release_published == 'true' }}
+          # Attach assets to the release that semantic-release already created.
+          # releaseDraft MUST be false: semantic-release publishes the release
+          # immediately, so tauri-action must not try to flip it back to draft.
+          tagName: ${{ needs.release.outputs.new_release_tag }}
+          releaseName: 'YuMusic ${{ needs.release.outputs.new_release_version }}'
+          releaseDraft: false
           prerelease: false
+          updaterJsonPreferNsis: true
           args: ${{ matrix.args }}
 
-      - name: Upload build artifacts
+      - name: Upload build artifacts (workflow artifacts)
         uses: actions/upload-artifact@v4
         with:
           name: YuMusic-${{ matrix.label }}
           path: |
             src-tauri/target/release/bundle/msi/*.msi
-            src-tauri/target/release/bundle/setup.exe
+            src-tauri/target/release/bundle/nsis/*-setup.exe
             src-tauri/target/release/bundle/dmg/*.dmg
-            src-tauri/target/release/bundle/macos/*.app
+            src-tauri/target/release/bundle/macos/*.app.tar.gz
             src-tauri/target/release/bundle/deb/*.deb
             src-tauri/target/release/bundle/appimage/*.AppImage
           if-no-files-found: warn
-
-
-  # ─────────────────────────────────────────────────────────────────────────────
-  # Job 3: Publish
-  # Removes the draft flag only after ALL platform builds have succeeded.
-  # ─────────────────────────────────────────────────────────────────────────────
-  publish:
-    name: Publish Release
-    needs: [release, build]
-    if: needs.release.outputs.new_release_published == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Undraft GitHub Release
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GH_PAT }}
-          script: |
-            const tag = '${{ needs.release.outputs.new_release_tag }}';
-            const { data: releases } = await github.rest.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const release = releases.find(r => r.tag_name === tag);
-            if (!release) {
-              core.setFailed(`Release with tag "${tag}" not found.`);
-              return;
-            }
-            await github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: release.id,
-              draft: false,
-            });
-            console.log(`✅ Published: ${release.html_url}`);
