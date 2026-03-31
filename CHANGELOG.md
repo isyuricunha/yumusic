@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/isyuricunha/yumusic-windows/compare/v1.0.0...v1.0.1) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **ci:** use cycjimmy/semantic-release-action for proper outputs, upgrade to node 24 ([d83a337](https://github.com/isyuricunha/yumusic-windows/commit/d83a33772aaaba177b38df9582e26d4bcb44eccc))
+
 ## 1.0.0 (2026-03-31)
 
 ### ✨ Features
