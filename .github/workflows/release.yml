@@ -67,7 +67,7 @@ jobs:
   build:
     name: Build (${{ matrix.label }})
     needs: release
-    if: needs.release.outputs.new_release_published == 'true'
+    # Runs on every push to main to provide binaries even if no formal release is published.
     permissions:
       contents: write
     strategy:
@@ -95,7 +95,7 @@ jobs:
       - name: Checkout repository at release tag
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.release.outputs.new_release_tag }}
+          ref: ${{ needs.release.outputs.new_release_tag || github.sha }}
 
       - name: Set up Node.js 24
         uses: actions/setup-node@v4
@@ -137,12 +137,26 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: ${{ needs.release.outputs.new_release_tag }}
-          releaseName: YuMusic ${{ needs.release.outputs.new_release_version }}
-          # Release already exists as draft; attach assets to it.
-          releaseDraft: true
+          tagName: ${{ needs.release.outputs.new_release_tag || '' }}
+          releaseName: ${{ needs.release.outputs.new_release_published == 'true' && format('YuMusic {0}', needs.release.outputs.new_release_version) || '' }}
+          # Only use draft if we are actually attaching to a release tag.
+          releaseDraft: ${{ needs.release.outputs.new_release_published == 'true' }}
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: YuMusic-${{ matrix.label }}
+          path: |
+            src-tauri/target/release/bundle/msi/*.msi
+            src-tauri/target/release/bundle/setup.exe
+            src-tauri/target/release/bundle/dmg/*.dmg
+            src-tauri/target/release/bundle/macos/*.app
+            src-tauri/target/release/bundle/deb/*.deb
+            src-tauri/target/release/bundle/appimage/*.AppImage
+          if-no-files-found: warn
+
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Job 3: Publish
