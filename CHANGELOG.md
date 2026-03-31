@@ -1,3 +1,10 @@
+## [1.4.0](https://github.com/isyuricunha/yumusic/compare/v1.3.0...v1.4.0) (2026-03-31)
+
+### ✨ Features
+
+* **offline:** implement advanced download system, native playback, and batch progress ([a490a8d](https://github.com/isyuricunha/yumusic/commit/a490a8d2eba5f3e626e4fe5e5de551000b67e8b3))
+* **ui:** replace all native confirm dialogs with custom themed ConfirmDialog ([32203c3](https://github.com/isyuricunha/yumusic/commit/32203c321bea4dd8275fea6d584a2e2f63673fa1))
+
 ## [1.3.0](https://github.com/isyuricunha/yumusic/compare/v1.2.0...v1.3.0) (2026-03-31)
 
 ### ✨ Features
