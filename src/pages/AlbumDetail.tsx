@@ -12,6 +12,7 @@ import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
 import { AlbumCard } from '@/components/AlbumCard';
 import { Footer } from '@/components/layout/Footer';
+import { useImageColor } from '@/hooks/useImageColor';
 
 export default function AlbumDetail() {
   const { t } = useTranslation();
@@ -21,6 +22,9 @@ export default function AlbumDetail() {
   const { data: albumInfo } = useAlbumInfo(id);
   const { data: artistAlbums } = useArtist(album?.artistId);
   const getCoverUrl = useCoverArtUrl();
+  const coverUrl = useMemo(() => getCoverUrl(album?.coverArt || id), [getCoverUrl, album?.coverArt, id]);
+  const ambientColor = useImageColor(coverUrl);
+  
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
@@ -86,9 +90,12 @@ export default function AlbumDetail() {
   return (
     <div className="-mx-6 px-6 -mt-16 pt-16 flex flex-col min-h-full transition-all duration-700 relative">
       <div className={cn(
-        "sticky top-0 z-50 -mx-6 px-10 h-16 flex items-center bg-background/80 backdrop-blur-xl border-b border-white/5 transition-all duration-500",
+        "sticky top-0 z-50 -mx-6 px-10 h-16 flex items-center backdrop-blur-xl border-b border-white/5 transition-all duration-700",
         isHeaderSticky ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
-      )}>
+      )}
+      style={{
+        backgroundColor: isHeaderSticky ? `${ambientColor}cc` : 'transparent'
+      }}>
         <div className="flex items-center gap-4 w-full">
           <Button 
             size="icon"
@@ -104,7 +111,7 @@ export default function AlbumDetail() {
       <div 
         className="absolute inset-0 h-[500px] pointer-events-none opacity-40 transition-all duration-1000 z-0"
         style={{
-          background: `linear-gradient(to bottom, var(--primary) -20%, transparent 100%)`
+          background: `linear-gradient(to bottom, ${ambientColor} -20%, transparent 100%)`
         }}
       />
 
