@@ -171,10 +171,10 @@
 }
 
 .theme-spotify {
-  /* Spotify — official palette */
-  --background: #121212;
+  /* Spotify — truer official palette */
+  --background: #000000;
   --foreground: #ffffff;
-  --card: #181818;
+  --card: #121212;
   --card-foreground: #ffffff;
   --popover: #181818;
   --popover-foreground: #ffffff;
@@ -182,9 +182,9 @@
   --primary-foreground: #000000;
   --secondary: #282828;
   --secondary-foreground: #ffffff;
-  --muted: #282828;
+  --muted: #121212;
   --muted-foreground: #b3b3b3;
-  --accent: #333333;
+  --accent: #282828;
   --accent-foreground: #ffffff;
   --destructive: #e22134;
   --border: #282828;
@@ -194,10 +194,20 @@
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #1DB954;
   --sidebar-primary-foreground: #000000;
-  --sidebar-accent: #282828;
+  --sidebar-accent: #121212;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #282828;
+  --sidebar-border: transparent;
   --sidebar-ring: #1DB954;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @layer base {

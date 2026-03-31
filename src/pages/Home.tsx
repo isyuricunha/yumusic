@@ -35,8 +35,50 @@ export default function Home() {
     }
   };
 
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Bom dia';
+    if (hour < 18) return 'Boa tarde';
+    return 'Boa noite';
+  }, []);
+
   return (
-    <div className="w-full space-y-12 pb-12">
+    <div className="w-full space-y-8 pb-12 pt-4">
+      
+      {/* Greeting & Quick Play Grid */}
+      <section>
+        <h1 className="text-3xl font-black tracking-tight mb-6">{greeting}</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {recentAlbums?.slice(0, 6).map((album) => (
+            <div 
+              key={album.id}
+              className="flex items-center bg-white/5 hover:bg-white/10 transition-colors rounded-md overflow-hidden cursor-pointer group relative shadow-md"
+              onClick={() => navigate(`/album/${album.id}`)}
+            >
+              <div className="w-12 h-12 sm:w-20 sm:h-20 flex-shrink-0 shadow-lg">
+                <img 
+                  src={getCoverArt(album.coverArt || album.id)} 
+                  alt={album.name} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1 px-4 py-2 overflow-hidden">
+                <span className="font-bold text-sm sm:text-base line-clamp-2 leading-tight">{album.name}</span>
+              </div>
+              <button 
+                className="absolute right-4 w-12 h-12 bg-primary rounded-full shadow-xl flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all hover:scale-105 active:scale-95"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleQuickPlay(album.id);
+                }}
+              >
+                <Play className="h-6 w-6 fill-current text-primary-foreground ml-1" />
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Featured Artists Section */}
       <section>
         <div className="flex items-center justify-between mb-6">
@@ -149,37 +191,37 @@ export default function Home() {
 
 function AlbumCard({ album, getCoverArt, navigate, onPlay }: any) {
   return (
-    <div className="group flex flex-col space-y-2">
+    <div className="group flex flex-col p-3 rounded-xl bg-white/0 hover:bg-white/5 transition-all duration-300">
       <div 
-        className="overflow-hidden rounded-md shadow-md bg-muted aspect-square relative transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 cursor-pointer"
+        className="overflow-hidden rounded-lg shadow-lg bg-muted aspect-square relative cursor-pointer"
         onClick={() => navigate(`/album/${album.id}`)}
       >
         <img
           src={getCoverArt(album.coverArt || album.id)}
           alt={album.name}
-          className="object-cover w-full h-full transition-all duration-300 group-hover:brightness-75"
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
         <button 
-          className="absolute bottom-2 right-2 w-8 h-8 bg-primary rounded-full shadow-lg flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:scale-110 active:scale-95"
+          className="absolute bottom-3 right-3 w-12 h-12 bg-primary rounded-full shadow-2xl flex items-center justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:scale-105 active:scale-95 z-10"
           onClick={(e) => {
             e.stopPropagation();
             onPlay();
           }}
         >
-          <Play className="h-4 w-4 fill-current text-primary-foreground ml-0.5" />
+          <Play className="h-6 w-6 fill-current text-primary-foreground ml-1" />
         </button>
       </div>
-      <div className="flex flex-col min-w-0">
+      <div className="flex flex-col mt-4 min-w-0">
         <span 
-          className="font-semibold text-[10px] sm:text-xs truncate hover:underline cursor-pointer leading-tight" 
+          className="font-bold text-sm truncate hover:underline cursor-pointer leading-tight text-foreground transition-colors group-hover:text-primary" 
           title={album.name}
           onClick={() => navigate(`/album/${album.id}`)}
         >
           {album.name}
         </span>
         <span 
-          className="text-[9px] sm:text-[11px] text-muted-foreground truncate hover:underline cursor-pointer leading-tight" 
+          className="text-xs text-muted-foreground truncate hover:underline cursor-pointer mt-1 leading-tight hover:text-foreground transition-colors" 
           title={album.artist}
           onClick={() => navigate(`/artist/${album.artistId || ''}`)}
         >

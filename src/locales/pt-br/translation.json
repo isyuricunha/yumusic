@@ -44,7 +44,11 @@
   },
   "sidebar": {
     "menu": "Menu",
-    "playlists": "Playlists"
+    "playlists": "Playlists",
+    "your_library": "Sua Biblioteca",
+    "all": "Tudo",
+    "podcasts": "Podcasts",
+    "albums": "Álbuns"
   },
   "login": {
     "description": "Conecte-se ao seu servidor Subsonic/Navidrome",
