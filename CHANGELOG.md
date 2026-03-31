@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/isyuricunha/yumusic/compare/v1.1.0...v1.1.1) (2026-03-31)
+
+### 🐛 Bug Fixes
+
+* **tray:** replace Image::from_bytes with app.default_window_icon() ([e84a573](https://github.com/isyuricunha/yumusic/commit/e84a5736093b7e56447080a0388b904d1a4d48d8))
+
 ## [1.1.0](https://github.com/isyuricunha/yumusic/compare/v1.0.2...v1.1.0) (2026-03-31)
 
 ### ✨ Features
