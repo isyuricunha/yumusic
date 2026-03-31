@@ -1,18 +1,73 @@
+import { useState } from 'react';
 import { useThemeStore, Theme } from '@/store/themeStore';
 import { useConfigStore } from '@/store/configStore';
+import { useAppSettingsStore, type UpdateMode } from '@/store/appSettingsStore';
+import { useDialogStore } from '@/store/dialogStore';
 import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Palette, Server } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Palette, Server, RefreshCw, BellRing, AppWindow } from 'lucide-react';
+import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
+import type { Update } from '@tauri-apps/plugin-updater';
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
   const { theme, setTheme } = useThemeStore();
   const config = useConfigStore((state) => state.config);
+  const { settings, setUpdateMode, setCloseToTray, setLaunchOnStartup } = useAppSettingsStore();
+  const openDialog = useDialogStore((state) => state.openDialog);
+
+  const [checkStatus, setCheckStatus] = useState<'idle' | 'checking' | 'available' | 'uptodate' | 'error'>('idle');
+  const [updateInfo, setUpdateInfo] = useState<string>('');
+  const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
+  const [installing, setInstalling] = useState(false);
 
   const handleLanguageChange = (value: string) => {
     i18n.changeLanguage(value);
+  };
+
+  const handleCheckNow = async () => {
+    setCheckStatus('checking');
+    setUpdateInfo('');
+    setPendingUpdate(null);
+    try {
+      const update = await checkForUpdate();
+      if (update) {
+        setCheckStatus('available');
+        setUpdateInfo(`Version ${update.version} is available.`);
+        setPendingUpdate(update);
+      } else {
+        setCheckStatus('uptodate');
+        setUpdateInfo('You are on the latest version.');
+      }
+    } catch {
+      setCheckStatus('error');
+      setUpdateInfo('Failed to check for updates.');
+    }
+  };
+
+  const handleInstallUpdate = async () => {
+    if (!pendingUpdate) return;
+    setInstalling(true);
+    try {
+      await downloadAndInstall(pendingUpdate);
+    } catch {
+      setInstalling(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    const confirmed = await openDialog({
+      title: t('settings.logout_confirm_title', 'Sign out'),
+      description: t('settings.logout_confirm', 'Are you sure you want to sign out? Your server settings will be cleared.'),
+      confirmText: t('common.logout', 'Sign out'),
+      destructive: true,
+    });
+    if (confirmed) {
+      useConfigStore.getState().clearConfig();
+    }
   };
 
   return (
@@ -20,7 +75,7 @@ export default function Settings() {
       <h1 className="text-3xl font-bold tracking-tight text-primary">{t('common.settings')}</h1>
 
       <div className="grid gap-6">
-        {/* Appearance Settings */}
+        {/* ── Appearance ─────────────────────────────────────────────────── */}
         <Card className="bg-card/50 border-border shadow-sm">
           <CardHeader>
             <div className="flex items-center space-x-2">
@@ -43,6 +98,7 @@ export default function Settings() {
                   <SelectItem value="dark">True Dark</SelectItem>
                   <SelectItem value="theme-catppuccin">Catppuccin</SelectItem>
                   <SelectItem value="theme-nord">Nord</SelectItem>
+                  <SelectItem value="theme-spotify">Spotify</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -65,7 +121,120 @@ export default function Settings() {
           </CardContent>
         </Card>
 
-        {/* Session / Logout */}
+        {/* ── Updates ─────────────────────────────────────────────────────── */}
+        <Card className="bg-card/50 border-border shadow-sm">
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <BellRing className="h-5 w-5 text-primary" />
+              <CardTitle>Updates</CardTitle>
+            </div>
+            <CardDescription>Control how YuMusic handles new versions.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Update behavior</div>
+                <div className="text-xs text-muted-foreground">
+                  What happens when a new version is available.
+                </div>
+              </div>
+              <Select
+                value={settings.updateMode}
+                onValueChange={(v) => v && setUpdateMode(v as UpdateMode)}
+              >
+                <SelectTrigger className="w-44 bg-muted/50 border-transparent text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="auto">Auto install</SelectItem>
+                  <SelectItem value="notify">Notify only</SelectItem>
+                  <SelectItem value="disabled">Disabled</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Check for updates</div>
+                {checkStatus !== 'idle' && (
+                  <div
+                    className={`text-xs ${
+                      checkStatus === 'available'
+                        ? 'text-primary'
+                        : checkStatus === 'error'
+                        ? 'text-destructive'
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    {updateInfo || (checkStatus === 'checking' ? 'Checking…' : '')}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {checkStatus === 'available' && !installing && (
+                  <Button size="sm" onClick={handleInstallUpdate} className="text-xs">
+                    Install now
+                  </Button>
+                )}
+                {installing && (
+                  <span className="text-xs text-muted-foreground">Installing…</span>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCheckNow}
+                  disabled={checkStatus === 'checking' || installing}
+                  className="gap-1.5"
+                >
+                  <RefreshCw className={`h-3.5 w-3.5 ${checkStatus === 'checking' ? 'animate-spin' : ''}`} />
+                  Check now
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ── System ──────────────────────────────────────────────────────── */}
+        <Card className="bg-card/50 border-border shadow-sm">
+          <CardHeader>
+            <div className="flex items-center space-x-2">
+              <AppWindow className="h-5 w-5 text-primary" />
+              <CardTitle>System</CardTitle>
+            </div>
+            <CardDescription>Window and startup behavior.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Minimize to system tray on close</div>
+                <div className="text-xs text-muted-foreground">
+                  When you close the window, YuMusic stays running in the tray. Use the tray icon to quit.
+                </div>
+              </div>
+              <Switch
+                id="close-to-tray"
+                checked={settings.closeToTray}
+                onCheckedChange={(v: boolean) => setCloseToTray(v)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <div className="text-sm font-medium">Launch on system startup</div>
+                <div className="text-xs text-muted-foreground">
+                  Automatically open YuMusic when you log in to your computer.
+                </div>
+              </div>
+              <Switch
+                id="launch-on-startup"
+                checked={settings.launchOnStartup}
+                onCheckedChange={(v: boolean) => setLaunchOnStartup(v)}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ── Session / Logout ─────────────────────────────────────────────── */}
         <Card className="bg-card/50 border-border shadow-sm border-destructive/20 hover:border-destructive/40 transition-colors">
           <CardHeader>
             <div className="flex items-center space-x-2 text-destructive">
@@ -80,15 +249,11 @@ export default function Settings() {
                 <span className="text-sm font-semibold">{config?.username}</span>
                 <span className="text-xs text-muted-foreground">{config?.serverUrl}</span>
               </div>
-              <Button 
-                variant="destructive" 
-                size="lg" 
+              <Button
+                variant="destructive"
+                size="lg"
                 className="font-bold px-8 shadow-sm"
-                onClick={() => {
-                  if (confirm(t('settings.logout_confirm'))) {
-                    useConfigStore.getState().clearConfig();
-                  }
-                }}
+                onClick={handleLogout}
               >
                 {t('common.logout')}
               </Button>

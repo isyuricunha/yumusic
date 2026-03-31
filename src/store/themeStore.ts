@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type Theme = 'dark' | 'theme-catppuccin' | 'theme-nord';
+export type Theme = 'dark' | 'theme-catppuccin' | 'theme-nord' | 'theme-spotify';
 
 interface ThemeStore {
   theme: Theme;
@@ -13,9 +13,7 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
   
   setTheme: (theme: Theme) => {
     const root = document.documentElement;
-    // We always keep 'dark' for these themes as they are all dark-based
-    // and rely on darkmode utilities.
-    root.classList.remove('theme-catppuccin', 'theme-nord');
+    root.classList.remove('theme-catppuccin', 'theme-nord', 'theme-spotify');
     
     if (theme !== 'dark') {
       root.classList.add(theme);

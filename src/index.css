@@ -166,6 +166,36 @@
   --sidebar-ring: #d08770;
 }
 
+.theme-spotify {
+  /* Spotify — official palette */
+  --background: #121212;
+  --foreground: #ffffff;
+  --card: #181818;
+  --card-foreground: #ffffff;
+  --popover: #181818;
+  --popover-foreground: #ffffff;
+  --primary: #1DB954; /* Spotify green */
+  --primary-foreground: #000000;
+  --secondary: #282828;
+  --secondary-foreground: #ffffff;
+  --muted: #282828;
+  --muted-foreground: #b3b3b3;
+  --accent: #333333;
+  --accent-foreground: #ffffff;
+  --destructive: #e22134;
+  --border: #282828;
+  --input: #282828;
+  --ring: #1DB954;
+  --sidebar: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #1DB954;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #282828;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #282828;
+  --sidebar-ring: #1DB954;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -11,6 +11,8 @@
     "core:window:allow-minimize",
     "core:window:allow-maximize",
     "core:window:allow-toggle-maximize",
+    "core:window:allow-hide",
+    "core:window:allow-show",
     "opener:default",
     {
       "identifier": "http:default",
@@ -19,6 +21,8 @@
         { "url": "https://**" }
       ]
     },
-    "store:default"
+    "store:default",
+    "updater:default",
+    "autostart:default"
   ]
 }
