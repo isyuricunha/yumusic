@@ -22,7 +22,7 @@
     "downloading": "Baixando...",
     "not_found": "Não Encontrado",
     "no_playlists": "Nenhuma Playlist Encontrada",
-    "see_all": "Ver tudo",
+    "show_all": "Ver tudo",
     "play": "Reproduzir",
     "artist": "Artista",
     "artists": "Artistas",
@@ -97,7 +97,9 @@
     "good_afternoon": "Boa tarde",
     "good_evening": "Boa noite",
     "made_for_you": "Feito para você",
-    "jump_back_in": "Ouvir novamente"
+    "made_for": "Feito para",
+    "jump_back_in": "Ouvir novamente",
+    "shuffle_play": "Ordem aleatória"
   },
   "sidebar": {
     "menu": "Menu",

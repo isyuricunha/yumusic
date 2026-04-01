@@ -97,7 +97,9 @@
     "good_afternoon": "Good afternoon",
     "good_evening": "Good evening",
     "made_for_you": "Made for you",
-    "jump_back_in": "Jump back in"
+    "made_for": "Made for",
+    "jump_back_in": "Jump back in",
+    "shuffle_play": "Shuffle play"
   },
   "sidebar": {
     "menu": "Menu",
