@@ -1,3 +1,13 @@
+## [1.8.0](https://github.com/isyuricunha/yumusic/compare/v1.7.0...v1.8.0) (2026-04-01)
+
+### ✨ Features
+
+* **i18n:** add localized tooltips to player controls ([430c886](https://github.com/isyuricunha/yumusic/commit/430c88679b01c45c638de6cb61386a46a47a132a))
+* **i18n:** cleanup and translate hardcoded strings in Login, Settings, and Footer ([0ad95aa](https://github.com/isyuricunha/yumusic/commit/0ad95aa65f2a2a98f571c425d24fc87ca8fcba02))
+* **i18n:** localize services, layout labels, and logo alt text ([7c9b719](https://github.com/isyuricunha/yumusic/commit/7c9b719cc6b089152c3e597737550b8b0d0a43ec))
+* **i18n:** localize specific deletion confirmations and podcast RSS tags ([5e8c9f0](https://github.com/isyuricunha/yumusic/commit/5e8c9f0b06aa0503bb9c6763ede504e1209a1df7))
+* **i18n:** translate radio stations, settings dropdowns, and remaining strings ([bdf3510](https://github.com/isyuricunha/yumusic/commit/bdf3510f121ab97351bf09e60dc5fd63ea05c4bb))
+
 ## [1.7.0](https://github.com/isyuricunha/yumusic/compare/v1.6.0...v1.7.0) (2026-03-31)
 
 ### ✨ Features
