@@ -274,7 +274,10 @@ export default function ArtistDetail() {
         <div className="pt-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-black tracking-tight text-white">{t('common.albums')}</h2>
-            <span className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors cursor-pointer">
+            <span 
+                className="text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors cursor-pointer"
+                onClick={() => navigate(`/artist/${id}/discography`)}
+            >
                 {t('artist.full_discography')}
             </span>
           </div>

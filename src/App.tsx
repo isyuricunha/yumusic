@@ -20,6 +20,7 @@ import PlaylistDetail from '@/pages/PlaylistDetail';
 import PodcastDetail from '@/pages/PodcastDetail';
 import ArtistDetail from '@/pages/ArtistDetail';
 import ArtistSongs from '@/pages/ArtistSongs';
+import ArtistDiscography from '@/pages/ArtistDiscography';
 import { usePlayerStore } from '@/store/playerStore';
 
 export default function App() {
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="/album/:id" element={<AlbumDetail />} />
               <Route path="/artist/:id" element={<ArtistDetail />} />
               <Route path="/artist/:id/songs" element={<ArtistSongs />} />
+              <Route path="/artist/:id/discography" element={<ArtistDiscography />} />
               <Route path="/playlist/:id" element={<PlaylistDetail />} />
               <Route path="/podcasts" element={<Podcasts />} />
               <Route path="/podcast/:id" element={<PodcastDetail />} />
