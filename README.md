@@ -96,11 +96,16 @@ to add a podcast, go to the podcasts section and paste any valid rss feed url. t
 
 AGPL-3.0
 
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/daeea203-2bbf-4088-ba5c-2a8dbdeffabf" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/2dd56243-4c67-413f-b354-b3f7ead263b0" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/90783b7e-f290-4f10-b047-2a6e9a4277d0" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/02b6c041-8030-4912-8f5a-49adcda05227" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/292fdf94-bf55-4206-b9d8-02709c84861e" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/aea3b3c7-1cf4-4e61-adfe-9a59f7a3063f" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/5b5f051f-0f3e-41bb-8f85-bdc22cd31f27" />
-<img width="1858" height="1080" alt="image" src="https://github.com/user-attachments/assets/a40771a7-85cf-4510-b8c8-546ee579c3fd" />
+---
+
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/38b2c892-3e53-4285-a2e3-6af1e5d75576" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/9829884f-5fb8-4459-a54a-8e3d9c8fa5c5" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/fc4c21a4-609d-4eed-89cb-5d4c6ff5e2fa" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/8ba92779-752a-4b07-85ce-c9183c49a0e3" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/68b70c87-30cd-4da7-bec6-d805624e2548" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/034130f7-a0b8-4753-8793-77ac63dad492" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/ca1cc55e-8c48-4907-9246-1f81e6cd22b3" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/ebb5f147-c23a-4104-b8ec-3711a9fce481" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/a0fa1670-7f1b-4f05-aef7-b4769a185156" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/7a495661-cc3b-4f46-9154-8ab2a1a2ec51" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/9bcf7376-883d-40db-856b-9d21873fcff5" />
