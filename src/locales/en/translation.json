@@ -68,6 +68,8 @@
     "local": "Local",
     "confirm_title": "Confirm Deletion",
     "confirm_delete": "Are you sure you want to delete?",
+    "clear_all": "Clear All",
+    "delete_download": "Delete Download",
     "playlist_label": "Playlist",
     "album_label": "Album",
     "shuffle": "Shuffle",
@@ -99,7 +101,8 @@
     "your_library": "Your Library",
     "all": "All",
     "podcasts": "Podcasts",
-    "albums": "Albums"
+    "albums": "Albums",
+    "downloads": "Downloads"
   },
   "login": {
     "description": "Connect to your Subsonic/Navidrome server",

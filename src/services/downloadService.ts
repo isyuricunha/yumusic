@@ -83,8 +83,14 @@ export async function downloadSong(song: SubsonicSong) {
       const info = await stat(filePath);
       console.log('[Download] File written successfully. Size:', info.size, 'bytes');
       
-      // 6. Track state
-      await addDownloaded(song.id, filePath);
+      // 6. Track state with metadata for offline usage
+      await addDownloaded({
+        id: song.id,
+        path: filePath,
+        title: song.title,
+        artist: song.artist,
+        coverArt: song.coverArt || song.albumId
+      });
 
       // Update batch progress
       const currentStore = useDownloadStore.getState();
@@ -130,12 +136,12 @@ async function notifyBatchComplete(count: number) {
 
 export async function deleteDownloadedSong(id: string) {
   const { downloadedIds, removeDownloaded } = useDownloadStore.getState();
-  const filePath = downloadedIds[id];
-  if (!filePath) return;
+  const item = downloadedIds[id];
+  if (!item) return;
 
   try {
-    console.log('[Download] Deleting file:', filePath);
-    await remove(filePath);
+    console.log('[Download] Deleting file:', item.path);
+    await remove(item.path);
     await removeDownloaded(id);
     return true;
   } catch (error) {

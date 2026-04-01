@@ -170,8 +170,8 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
       
       // If we're strictly offline and have the file, use it now.
       if (isOffline && localPath && isTauri()) {
-        console.log('[Player] Offline detected, using local file immediately:', localPath);
-        initialUrl = convertFileSrc(localPath);
+        console.log('[Player] Offline detected, using local file immediately:', localPath.path);
+        initialUrl = convertFileSrc(localPath.path);
       }
 
       // Reuse the same instance
@@ -234,9 +234,9 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
 
       audio.onerror = () => {
         // If we already tried local, or there isn't one, log error
-        if (localPath && isTauri() && audio.src !== convertFileSrc(localPath)) {
-          console.warn('[Player] Online stream failed, falling back to local file:', localPath);
-          audio.src = convertFileSrc(localPath);
+        if (localPath && isTauri() && audio.src !== convertFileSrc(localPath.path)) {
+          console.warn('[Player] Online stream failed, falling back to local file:', localPath.path);
+          audio.src = convertFileSrc(localPath.path);
           audio.load();
           audio.play().catch((err) => console.error('[Player] Local file playback also failed:', err));
         } else {
