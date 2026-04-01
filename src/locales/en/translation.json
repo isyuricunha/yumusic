@@ -70,6 +70,12 @@
     "confirm_delete": "Are you sure you want to delete?",
     "playlist_label": "Playlist",
     "album_label": "Album",
+    "shuffle": "Shuffle",
+    "repeat": "Repeat",
+    "next_track": "Next Track",
+    "previous_track": "Previous Track",
+    "toggle_queue": "Toggle Queue",
+    "full_screen": "Full Screen",
     "errors": {
       "api_error": "Subsonic API error",
       "invalid_response": "Invalid server response"

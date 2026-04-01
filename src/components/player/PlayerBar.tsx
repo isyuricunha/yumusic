@@ -103,19 +103,21 @@ export function PlayerBar() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-8 w-8 transition-all hover:scale-110 active:scale-95"
+            className={cn(
+              "h-8 w-8 transition-all hover:scale-110 active:scale-95",
+              isShuffle ? "text-primary" : "text-muted-foreground opacity-70"
+            )}
             onClick={toggleShuffle}
+            title={t('common.shuffle')}
           >
-            <Shuffle className={cn(
-              "h-4 w-4",
-              isShuffle ? "text-primary drop-shadow-[0_0_8px_rgba(29,185,84,0.4)]" : "text-muted-foreground"
-            )} />
+            <Shuffle className="h-4 w-4" />
           </Button>
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-8 w-8 text-muted-foreground hover:text-foreground transition-all hover:scale-110 active:scale-90"
+            className="h-9 w-9 text-muted-foreground hover:text-foreground transition-all hover:scale-110 active:scale-90"
             onClick={() => previous(config)}
+            title={t('common.previous_track')}
             disabled={!currentSong}
           >
             <SkipBack className="h-5 w-5 fill-current" />
@@ -138,8 +140,9 @@ export function PlayerBar() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-8 w-8 text-muted-foreground hover:text-foreground transition-all hover:scale-110 active:scale-90"
+            className="h-9 w-9 text-muted-foreground hover:text-foreground transition-all hover:scale-110 active:scale-90"
             onClick={() => next(config)}
+            title={t('common.next_track')}
             disabled={!currentSong}
           >
             <SkipForward className="h-5 w-5 fill-current" />
@@ -149,6 +152,7 @@ export function PlayerBar() {
             size="icon" 
             className="h-8 w-8 transition-all hover:scale-110 active:scale-95"
             onClick={handleRepeatToggle}
+            title={t('common.repeat')}
           >
             <div className="relative">
               <Repeat className={cn(
@@ -184,6 +188,7 @@ export function PlayerBar() {
             isQueueVisible ? "text-primary" : "text-muted-foreground hover:text-foreground opacity-70 hover:opacity-100"
           )}
           onClick={toggleQueue}
+          title={t('common.toggle_queue')}
         >
            <ListMusic className="h-4 w-4" />
         </Button>
@@ -207,8 +212,14 @@ export function PlayerBar() {
 }
 
 function MaxmizeIcon() {
+  const { t } = useTranslation();
   return (
-    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground opacity-60 hover:opacity-100 ml-1">
+    <Button 
+      variant="ghost" 
+      size="icon" 
+      className="h-8 w-8 text-muted-foreground hover:text-foreground opacity-60 hover:opacity-100 ml-1"
+      title={t('common.full_screen')}
+    >
       <Maximize className="h-4 w-4" />
     </Button>
   );

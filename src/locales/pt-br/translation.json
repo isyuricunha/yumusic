@@ -70,6 +70,12 @@
     "confirm_delete": "Tem certeza que deseja excluir?",
     "playlist_label": "Playlist",
     "album_label": "Álbum",
+    "shuffle": "Aleatório",
+    "repeat": "Repetir",
+    "next_track": "Próxima Faixa",
+    "previous_track": "Faixa Anterior",
+    "toggle_queue": "Alternar Fila",
+    "full_screen": "Tela Cheia",
     "errors": {
       "api_error": "Erro na API Subsonic",
       "invalid_response": "Resposta inválida do servidor"
