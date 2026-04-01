@@ -49,7 +49,7 @@ export default function ArtistDetail() {
       }
     });
 
-    return Array.from(albumsMap.values());
+    return Array.from(albumsMap.values()).sort((a, b) => (b.year || 0) - (a.year || 0));
   }, [artist, displaySongs]);
 
   const getCoverUrl = useCoverArtUrl();
