@@ -236,7 +236,9 @@
     "albums": "Álbuns",
     "artists": "Artistas",
     "no_results": "Nenhum resultado encontrado para",
-    "searching": "Buscando..."
+    "searching": "Buscando...",
+    "results_for": "Resultados para \"{{query}}\"",
+    "recent_searches": "Buscas Recentes"
   },
   "podcasts": {
     "add_rss": "Adicionar RSS",

@@ -198,7 +198,7 @@ export function MainLayout() {
                 {isSearchFocused && recentSearches.length > 0 && !searchQuery && (
                   <div className="absolute top-full left-0 right-0 mt-3 bg-[#282828] border border-white/5 rounded-xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between">
-                       <span className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground">{t('search.recent_searches') || 'Recent Searches'}</span>
+                       <span className="text-[10px] font-black uppercase tracking-[0.1em] text-muted-foreground">{t('search.recent_searches')}</span>
                     </div>
                     <div className="py-1">
                       {recentSearches.map((term) => (

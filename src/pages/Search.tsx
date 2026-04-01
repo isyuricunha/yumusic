@@ -31,7 +31,7 @@ export default function Search() {
         <h1 className="text-4xl font-black tracking-tight text-white">{t('common.search')}</h1>
         {query && (
           <p className="text-sm text-muted-foreground font-medium">
-            {t('search.results')} for <span className="text-foreground font-bold">"{query}"</span>
+            {t('search.results_for', { query })}
           </p>
         )}
       </div>
@@ -44,6 +44,35 @@ export default function Search() {
         {results && query.length > 1 && (
           <div className="space-y-12">
             
+            {/* Artists Section */}
+            {results.artist && results.artist.length > 0 && (
+              <section>
+                <h2 className="text-xl font-bold mb-4 flex items-center space-x-2">
+                  <User className="h-5 w-5 text-primary" />
+                  <span>{t('search.artists')}</span>
+                </h2>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
+                  {results.artist.map((artist: any) => (
+                    <div 
+                      key={artist.id} 
+                      className="group flex flex-col items-center cursor-pointer space-y-3"
+                      onClick={() => navigate(`/artist/${artist.id}`)}
+                    >
+                      <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-[1.05] bg-muted">
+                        <img 
+                          src={getCoverUrl(artist.coverArt || '')} 
+                          alt={artist.name}
+                          className="w-full h-full object-cover" 
+                          loading="lazy"
+                        />
+                      </div>
+                      <span className="font-semibold text-xs text-center line-clamp-1 hover:underline">{artist.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Songs Section */}
             {results.song && results.song.length > 0 && (
               <section>
@@ -143,35 +172,6 @@ export default function Search() {
                           {album.artist}
                         </span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Artists Section */}
-            {results.artist && results.artist.length > 0 && (
-              <section>
-                <h2 className="text-xl font-bold mb-4 flex items-center space-x-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <span>{t('search.artists')}</span>
-                </h2>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-6">
-                  {results.artist.map((artist: any) => (
-                    <div 
-                      key={artist.id} 
-                      className="group flex flex-col items-center cursor-pointer space-y-3"
-                      onClick={() => navigate(`/artist/${artist.id}`)}
-                    >
-                      <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden shadow-md transition-all duration-300 group-hover:scale-[1.05] bg-muted">
-                        <img 
-                          src={getCoverUrl(artist.coverArt || '')} 
-                          alt={artist.name}
-                          className="w-full h-full object-cover" 
-                          loading="lazy"
-                        />
-                      </div>
-                      <span className="font-semibold text-xs text-center line-clamp-1 hover:underline">{artist.name}</span>
                     </div>
                   ))}
                 </div>
