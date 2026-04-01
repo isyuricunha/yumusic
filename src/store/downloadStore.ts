@@ -7,6 +7,10 @@ export interface DownloadItem {
   path: string;
   title: string;
   artist: string;
+  artistId?: string;
+  album?: string;
+  albumId?: string;
+  year?: number;
   coverArt?: string;
 }
 
@@ -53,9 +57,31 @@ export const useDownloadStore = create<DownloadState>((set, get) => ({
       const normalizedData: Record<string, DownloadItem> = {};
       Object.entries(data).forEach(([id, value]) => {
         if (typeof value === 'string') {
-          normalizedData[id] = { id, path: value, title: 'Downloaded Song', artist: 'Unknown' };
+          // Legacy: Only path was stored. Try to guess Artist - Title from filename.
+          const fileName = value.split(/[\\/]/).pop() || '';
+          const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
+          const [artist, title] = nameWithoutExt.split(' - ');
+          
+          normalizedData[id] = { 
+            id, 
+            path: value, 
+            title: title || 'Downloaded Song', 
+            artist: artist || 'Unknown',
+            album: 'Downloaded',
+          };
         } else {
           normalizedData[id] = value;
+          // Even if it was an object, if it was from the first fix iteration, 
+          // it might have "Downloaded Song" / "Unknown". Try to fix it.
+          if (normalizedData[id].title === 'Downloaded Song' && normalizedData[id].path) {
+             const fileName = normalizedData[id].path.split(/[\\/]/).pop() || '';
+             const nameWithoutExt = fileName.replace(/\.[^/.]+$/, "");
+             const parts = nameWithoutExt.split(' - ');
+             if (parts.length >= 2) {
+                normalizedData[id].artist = parts[0];
+                normalizedData[id].title = parts.slice(1).join(' - ');
+             }
+          }
         }
       });
 

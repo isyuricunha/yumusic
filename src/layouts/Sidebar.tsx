@@ -8,7 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { useDownloadStore } from '@/store/downloadStore';
+import { useDownloadStore, DownloadItem } from '@/store/downloadStore';
+import { usePlayerStore } from '@/store/playerStore';
+import { useConfigStore } from '@/store/configStore';
+import { SubsonicSong } from '@/hooks/useSubsonic';
 
 export function Sidebar() {
   const { t } = useTranslation();
@@ -22,6 +25,9 @@ export function Sidebar() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filter, setFilter] = useState<'all' | 'playlists' | 'podcasts' | 'albums' | 'downloads'>('all');
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const { setSong, setQueue } = usePlayerStore();
+  const config = useConfigStore(state => state.config);
 
   const handleCreatePlaylist = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +44,27 @@ export function Sidebar() {
     for (const id of ids) {
       await deleteDownloadedSong(id);
     }
+  };
+
+  const handlePlayDownloadedSong = (item: DownloadItem) => {
+    if (!config) return;
+
+    // Convert DownloadItem back to (at least partial) SubsonicSong
+    const song: SubsonicSong = {
+      id: item.id,
+      title: item.title,
+      artist: item.artist,
+      artistId: item.artistId || 'local',
+      album: item.album || 'Downloaded',
+      albumId: item.albumId || 'local',
+      duration: 0, // Not stored currently, but player can handle 0/metadata load
+      track: 0,
+      coverArt: item.coverArt,
+      year: item.year
+    };
+
+    setQueue([song]);
+    setSong(song, config);
   };
   
   const navItems = [
@@ -206,6 +233,7 @@ export function Sidebar() {
                     "flex items-center rounded-lg text-sm transition-all group cursor-pointer",
                     isCollapsed ? "justify-center p-2" : "space-x-3 p-2 text-muted-foreground hover:bg-muted/20 hover:text-foreground"
                   )}
+                  onClick={() => handlePlayDownloadedSong(item)}
                 >
                   <div className={cn(
                     "bg-muted rounded shadow-sm overflow-hidden flex-shrink-0 relative",

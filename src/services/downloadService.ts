@@ -89,6 +89,10 @@ export async function downloadSong(song: SubsonicSong) {
         path: filePath,
         title: song.title,
         artist: song.artist,
+        artistId: song.artistId,
+        album: song.album,
+        albumId: song.albumId,
+        year: song.year,
         coverArt: song.coverArt || song.albumId
       });
 
