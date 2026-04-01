@@ -1,3 +1,9 @@
+## [1.9.1](https://github.com/isyuricunha/yumusic/compare/v1.9.0...v1.9.1) (2026-04-01)
+
+### 🐛 Bug Fixes
+
+* **downloads:** implement metadata recovery and sidebar playback click ([a336af4](https://github.com/isyuricunha/yumusic/commit/a336af4087a23ec94f0032fa990a8ba9c5d70307))
+
 ## [1.9.0](https://github.com/isyuricunha/yumusic/compare/v1.8.0...v1.9.0) (2026-04-01)
 
 ### ✨ Features
