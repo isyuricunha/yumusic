@@ -5,9 +5,8 @@ import { Play, MoreHorizontal, Check, UserPlus } from 'lucide-react';
 import { useConfigStore } from '@/store/configStore';
 import { useTranslation } from 'react-i18next';
 import { usePlayerStore } from '@/store/playerStore';
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { useMemo } from 'react';
 import { useImageColor } from '@/hooks/useImageColor';
 import { useStarMutation, useFavorites } from '@/hooks/useSubsonic';
 import { 
@@ -58,6 +57,19 @@ export default function ArtistDetail() {
   const { setSong, setQueue, currentSong, isPlaying } = usePlayerStore();
   const [showFullBio, setShowFullBio] = useState(false);
   const [showFullTracks, setShowFullTracks] = useState(false);
+  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
+
+  const onScroll = (e: any) => {
+    setIsHeaderSticky(e.target.scrollTop > 350);
+  };
+
+  useEffect(() => {
+    const mainContent = document.querySelector('main');
+    if (mainContent) {
+      mainContent.addEventListener('scroll', onScroll as any);
+      return () => mainContent.removeEventListener('scroll', onScroll as any);
+    }
+  }, []);
 
   const artistImageUrl = artist ? getCoverUrl(artist.coverArt) : undefined;
   const dominantColor = useImageColor(artistImageUrl, 'rgba(29, 185, 84, 0.5)');
@@ -109,7 +121,39 @@ export default function ArtistDetail() {
   };
 
   return (
-    <div className="w-full -mx-6 pb-24 relative">
+    <div className="w-full -mx-6 -mt-16 pb-24 relative transition-all duration-700">
+      
+      {/* 0. Sticky Transforming Header (Spotify Style) */}
+      <div className={cn(
+        "sticky top-0 z-50 -mx-6 px-10 h-16 flex items-center backdrop-blur-xl border-b border-white/5 transition-all duration-700",
+        isHeaderSticky ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+      )}
+      style={{
+        backgroundColor: isHeaderSticky ? `${dominantColor}cc` : 'transparent'
+      }}>
+        <div className="flex items-center gap-4 w-full">
+          <Button 
+            size="icon"
+            className="rounded-full h-10 w-10 bg-primary text-black shadow-lg hover:scale-105 active:scale-95 transition-all"
+            onClick={handlePlayArtist}
+          >
+             <Play className="h-5 w-5 fill-current ml-0.5" />
+          </Button>
+          <span className="font-black text-xl truncate drop-shadow-sm text-white">{artist.name}</span>
+          
+          <Button 
+            variant="outline" 
+            size="sm"
+            className={cn(
+              "ml-4 rounded-full px-4 font-black uppercase tracking-widest text-[10px] h-7 border-white/20 hover:border-white transition-all",
+              isStarred && "bg-white text-black border-white"
+            )}
+            onClick={handleToggleStar}
+          >
+            {isStarred ? t('artist.following') : t('artist.follow')}
+          </Button>
+        </div>
+      </div>
       {/* 1. Spotify Hero Banner */}
       <div className="relative h-[40vh] min-h-[340px] md:h-[50vh] flex items-end px-8 pb-8 overflow-hidden group">
         {/* Background Image with Blur & Mask */}
@@ -144,7 +188,7 @@ export default function ArtistDetail() {
 
       {/* 2. Action Bar Section */}
       <div 
-        className="sticky top-16 z-30 px-8 py-6 flex items-center gap-6 transition-all duration-300"
+        className="px-8 py-6 flex items-center gap-6 transition-all duration-300 relative z-10"
         style={{ background: `linear-gradient(to bottom, ${dominantColor.replace(')', ', 0.3)')} 0%, transparent 100%)` }}
       >
         <Button 
