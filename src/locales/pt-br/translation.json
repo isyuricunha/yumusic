@@ -10,6 +10,8 @@
     "radio": "Rádio",
     "login": "Entrar",
     "back": "Voltar",
+    "list": "Lista",
+    "grid": "Grade",
     "create": "Criar",
     "creating": "Criando...",
     "all_songs": "Todas as músicas",
@@ -278,7 +280,6 @@
   "artist": {
     "follow": "Seguir",
     "following": "Seguindo",
-    "full_discography": "Discografia completa",
     "about": "Sobre o Artista",
     "similar_artists": "Artistas Similares"
   },

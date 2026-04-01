@@ -10,6 +10,8 @@
     "radio": "Radio",
     "login": "Login",
     "back": "Back",
+    "list": "List",
+    "grid": "Grid",
     "create": "Create",
     "creating": "Creating...",
     "all_songs": "All Songs",
