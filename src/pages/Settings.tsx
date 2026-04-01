@@ -156,8 +156,8 @@ export default function Settings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="pt-BR">Português (BR)</SelectItem>
+                  <SelectItem value="en">{t('settings.languages.en')}</SelectItem>
+                  <SelectItem value="pt-BR">{t('settings.languages.pt-br')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -310,10 +310,10 @@ export default function Settings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="low">Low (96kbps)</SelectItem>
-                  <SelectItem value="normal">Normal (160kbps)</SelectItem>
-                  <SelectItem value="high">High (256kbps)</SelectItem>
-                  <SelectItem value="very_high">Very High (320kbps)</SelectItem>
+                  <SelectItem value="low">{t('settings.audio_quality_options.low')}</SelectItem>
+                  <SelectItem value="normal">{t('settings.audio_quality_options.normal')}</SelectItem>
+                  <SelectItem value="high">{t('settings.audio_quality_options.high')}</SelectItem>
+                  <SelectItem value="very_high">{t('settings.audio_quality_options.very_high')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -331,9 +331,9 @@ export default function Settings() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="mp3">MP3</SelectItem>
-                  <SelectItem value="flac">FLAC (Lossless)</SelectItem>
-                  <SelectItem value="ogg">OGG</SelectItem>
+                  <SelectItem value="mp3">{t('settings.audio_format_options.mp3')}</SelectItem>
+                  <SelectItem value="flac">{t('settings.audio_format_options.flac')}</SelectItem>
+                  <SelectItem value="ogg">{t('settings.audio_format_options.ogg')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

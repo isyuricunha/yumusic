@@ -23,7 +23,7 @@ export function MainLayout() {
       <div className="flex h-screen items-center justify-center bg-background text-foreground tracking-tight">
         <div className="animate-pulse flex flex-col items-center space-y-4">
           <div className="w-12 h-12 bg-primary rounded-full shadow-[0_0_20px_rgba(29,185,84,0.4)]" />
-          <span className="text-sm font-bold opacity-75">YuMusic...</span>
+          <span className="text-sm font-bold opacity-75">{t('login.app_title')}...</span>
         </div>
       </div>
     );

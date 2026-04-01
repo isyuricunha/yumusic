@@ -87,7 +87,7 @@ export function PlayerBar() {
             className="text-[11px] text-muted-foreground hover:underline hover:text-foreground cursor-pointer truncate mt-0.5 transition-colors"
             onClick={() => currentSong && navigate(`/artist/${currentSong.artistId || ''}`)}
           >
-            {currentSong ? currentSong.artist : 'YuMusic Player'}
+            {currentSong ? currentSong.artist : t('login.app_title')}
           </div>
         </div>
         {currentSong && (

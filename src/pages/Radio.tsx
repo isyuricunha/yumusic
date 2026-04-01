@@ -24,8 +24,8 @@ export default function Radio() {
     const radioSong: any = {
       id: station.id,
       title: station.name,
-      artist: station.isLocal ? 'Local Web Radio' : 'Internet Radio',
-      album: 'Live Stream',
+      artist: station.isLocal ? t('radio.local_web_radio') : t('radio.internet_radio'),
+      album: t('radio.live_stream'),
       duration: 0,
       type: 'radio',
       streamUrl: station.isLocal ? station.streamUrl : undefined,
@@ -41,10 +41,10 @@ export default function Radio() {
     e.stopPropagation();
     const { openDialog } = useDialogStore.getState();
     const confirmed = await openDialog({
-      title: t('common.confirm_title') || 'Confirm Deletion',
-      description: t('common.confirm_delete') || 'Are you sure you want to delete this radio station?',
+      title: t('common.confirm_title'),
+      description: t('common.confirm_delete'),
       destructive: true,
-      confirmText: t('common.delete') || 'Delete'
+      confirmText: t('common.delete')
     });
     if (confirmed) {
       await removeRadio(id);
@@ -78,7 +78,7 @@ export default function Radio() {
                   >
                     <div className="flex justify-between items-start mb-2">
                        <span className="bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-2 self-start">
-                        Local
+                        {t('common.local')}
                       </span>
                        <Button 
                         size="icon" 
@@ -140,7 +140,7 @@ export default function Radio() {
                   </div>
                 ))}
                 {serverStations?.length === 0 && (
-                  <p className="text-muted-foreground">No radio stations found on your server.</p>
+                  <p className="text-muted-foreground">{t('radio.no_stations')}</p>
                 )}
               </div>
             )}

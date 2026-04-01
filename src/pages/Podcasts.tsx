@@ -92,7 +92,7 @@ export default function Podcasts() {
             </div>
           ))}
           {allPodcasts.length === 0 && !isLoading && !isError && (
-            <p className="text-muted-foreground col-span-full py-12 text-center italic">No podcasts found. Add one via RSS above!</p>
+            <p className="text-muted-foreground col-span-full py-12 text-center italic">{t('podcasts.no_podcasts')}</p>
           )}
         </div>
       )}

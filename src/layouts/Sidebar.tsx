@@ -235,6 +235,7 @@ export function Sidebar() {
 }
 
 function DownloadProgress() {
+  const { t } = useTranslation();
   const { batchCompleted, batchTotal } = useDownloadStore();
   
   if (batchTotal === 0) return null;
@@ -244,7 +245,7 @@ function DownloadProgress() {
   return (
     <div className="m-2 p-3 rounded-lg bg-primary/10 border border-primary/20 space-y-2 animate-in fade-in slide-in-from-bottom-2">
       <div className="flex justify-between text-[10px] font-bold text-primary uppercase tracking-widest">
-        <span>Baixando...</span>
+        <span>{t('common.downloading')}</span>
         <span>{batchCompleted} / {batchTotal}</span>
       </div>
       <Progress value={progress} className="h-1 bg-primary/20" />

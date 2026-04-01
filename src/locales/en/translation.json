@@ -17,6 +17,7 @@
     "title": "Title",
     "duration": "Duration",
     "loading": "Loading",
+    "downloading": "Downloading...",
     "not_found": "Not Found",
     "no_playlists": "No Playlists Found",
     "see_all": "See All",
@@ -63,7 +64,10 @@
     "sec": "sec",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "logout": "Logout"
+    "logout": "Logout",
+    "local": "Local",
+    "confirm_title": "Confirm Deletion",
+    "confirm_delete": "Are you sure you want to delete?"
   },
   "home": {
     "recently_added": "Recently Added",
@@ -108,6 +112,10 @@
     "logout_confirm_title": "Sign out",
     "select_folder": "Select Download Folder",
     "calculating": "Calculating...",
+    "languages": {
+      "en": "English",
+      "pt-br": "Português (BR)"
+    },
     "appearance_theme_options": {
       "dark": "True Dark",
       "catppuccin": "Catppuccin",
@@ -162,7 +170,18 @@
       "download_playlists_desc": "Sync your playlists for offline use.",
       "download_podcasts_desc": "Keep your favorite episodes ready.",
       "auto_download_liked": "Auto-download Liked songs",
-      "auto_download_liked_desc": "Download songs immediately when you like them."
+      "auto_download_liked_desc": "Download tracks immediately upon liking them."
+    },
+    "audio_quality_options": {
+      "low": "Low (96kbps)",
+      "normal": "Normal (160kbps)",
+      "high": "High (256kbps)",
+      "very_high": "Very High (320kbps)"
+    },
+    "audio_format_options": {
+      "mp3": "MP3",
+      "flac": "FLAC (Lossless)",
+      "ogg": "OGG"
     }
   },
   "playlists": {
@@ -207,7 +226,8 @@
     "rss_url_label": "RSS Feed URL",
     "rss_url_placeholder": "https://example.com/podcast.xml",
     "subscribe": "Subscribe",
-    "error_invalid_rss": "Failed to parse RSS feed. Make sure it is a valid XML URL."
+    "error_invalid_rss": "Failed to process RSS feed. Please ensure it's a valid XML URL.",
+    "no_podcasts": "No podcasts found. Add one via RSS above!"
   },
   "radio": {
     "add_station": "Add Station",
@@ -219,7 +239,10 @@
     "url_placeholder": "http://ice1.somafm.com/groovesalad-128-mp3",
     "local_stations": "Local Stations",
     "server_stations": "Server Stations",
-    "live_stream": "Live Stream"
+    "live_stream": "Live Stream",
+    "local_web_radio": "Local Web Radio",
+    "internet_radio": "Internet Radio",
+    "no_stations": "No radio stations found on your server."
   },
   "album": {
     "explore_more": "Explore more tracks from {{artist}} in their profile."
