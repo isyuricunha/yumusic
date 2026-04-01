@@ -1,26 +1,44 @@
-import { useAlbumList, useArtists, useCoverArtUrl, fetchSubsonic, SubsonicArtist } from '@/hooks/useSubsonic';
+import { 
+  useAlbumList, 
+  useArtists, 
+  useCoverArtUrl, 
+  fetchSubsonic, 
+  SubsonicArtist, 
+  useRandomSongs, 
+  useFavorites, 
+  SubsonicSong 
+} from '@/hooks/useSubsonic';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
-import { Play, User } from 'lucide-react';
+import { Play, User, Shuffle } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { AlbumCard } from '@/components/AlbumCard';
 import { useConfigStore } from '@/store/configStore';
+import { cn } from '@/lib/utils';
 export default function Home() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: recentAlbums, isLoading: loadingRecent } = useAlbumList('newest', 10);
   const { data: frequentAlbums, isLoading: loadingFrequent } = useAlbumList('frequent', 10);
   const { data: allArtists, isLoading: loadingArtists } = useArtists();
+  const { data: randomSongs, isLoading: loadingRandom } = useRandomSongs(12);
+  const { data: favorites } = useFavorites();
   const getCoverArt = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
-  const { setSong, setQueue } = usePlayerStore();
+  const { setSong, setQueue, currentSong } = usePlayerStore();
 
   // Get a few random artists for the home page
   const featuredArtists = useMemo(() => {
     if (!allArtists || allArtists.length === 0) return [];
     return [...allArtists].sort(() => 0.5 - Math.random()).slice(0, 8);
   }, [allArtists]);
+
+  // Get a few random favorite albums
+  const jumpBackIn = useMemo(() => {
+    if (!favorites?.album || favorites.album.length === 0) return [];
+    return [...favorites.album].sort(() => 0.5 - Math.random()).slice(0, 8);
+  }, [favorites]);
 
   const handleQuickPlay = async (albumId: string) => {
     if (!config) return;
@@ -79,6 +97,88 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* 2. Made For You (Discovery Mix) */}
+      <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-black tracking-tight text-white">{t('home.made_for_you')}</h2>
+            <div className="bg-primary/10 px-2 py-0.5 rounded text-[10px] font-bold text-primary uppercase tracking-widest border border-primary/20">Mix</div>
+          </div>
+          <button 
+            className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-all group"
+            onClick={() => {
+               if (randomSongs && randomSongs.length > 0 && config) {
+                 setQueue(randomSongs);
+                 setSong(randomSongs[0], config);
+               }
+            }}
+          >
+            <Shuffle className="h-3 w-3 group-hover:rotate-12 transition-transform" />
+            {t('common.shuffle_play')}
+          </button>
+        </div>
+        
+        {loadingRandom ? (
+          <div className="flex space-x-4 overflow-hidden">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="w-48 h-16 bg-white/5 rounded-lg animate-pulse shrink-0" />
+            ))}
+          </div>
+        ) : (
+          <div className="flex space-x-4 overflow-x-auto pb-4 no-scrollbar scroll-smooth">
+            {randomSongs?.map((song: SubsonicSong) => (
+              <div 
+                key={song.id} 
+                className={cn(
+                  "flex items-center gap-4 bg-white/5 hover:bg-white/10 p-2 pr-6 rounded-lg transition-all cursor-pointer group min-w-[280px] border border-transparent hover:border-white/5 active:scale-95",
+                  currentSong?.id === song.id && "bg-white/10 border-primary/40"
+                )}
+                onClick={() => {
+                  if (config) {
+                    setQueue(randomSongs);
+                    setSong(song, config);
+                  }
+                }}
+              >
+                <div className="relative w-12 h-12 rounded overflow-hidden shadow-lg flex-shrink-0">
+                  <img src={getCoverArt(song.coverArt || song.albumId)} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                    <Play className="h-4 w-4 fill-current text-white ml-0.5" />
+                  </div>
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className={cn(
+                    "font-bold text-sm truncate",
+                    currentSong?.id === song.id ? "text-primary" : "text-white"
+                  )}>{song.title}</span>
+                  <span className="text-xs text-muted-foreground truncate">{song.artist}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* 3. Jump Back In (Favorites Discovery) */}
+      {jumpBackIn.length > 0 && (
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-black tracking-tight text-white">{t('home.jump_back_in')}</h2>
+          </div>
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+            {jumpBackIn.map((album) => (
+              <AlbumCard 
+                key={album.id} 
+                album={album} 
+                getCoverArt={getCoverArt} 
+                navigate={navigate}
+                onPlay={() => handleQuickPlay(album.id)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Featured Artists Section */}
       <section>

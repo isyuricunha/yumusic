@@ -95,7 +95,9 @@
     "featured_artists": "Featured Artists",
     "good_morning": "Good morning",
     "good_afternoon": "Good afternoon",
-    "good_evening": "Good evening"
+    "good_evening": "Good evening",
+    "made_for_you": "Made for you",
+    "jump_back_in": "Jump back in"
   },
   "sidebar": {
     "menu": "Menu",

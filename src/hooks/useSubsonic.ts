@@ -142,6 +142,19 @@ export function useSearch(query: string) {
   });
 }
 
+export function useRandomSongs(size = 20) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['randomSongs', size, config?.serverUrl],
+    queryFn: async () => {
+      if (!config) throw new Error('No config');
+      const res = await fetchSubsonic('getRandomSongs', config, { size: size.toString() });
+      return (res?.randomSongs?.song || []) as SubsonicSong[];
+    },
+    enabled: !!config,
+  });
+}
+
 export function useFavorites() {
   const config = useConfigStore((state) => state.config);
   return useQuery({
