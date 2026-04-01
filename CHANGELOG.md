@@ -1,3 +1,9 @@
+## [1.9.2](https://github.com/isyuricunha/yumusic/compare/v1.9.1...v1.9.2) (2026-04-01)
+
+### 🐛 Bug Fixes
+
+* **updater:** synchronize checks and optimize background effect ([d5cdd0b](https://github.com/isyuricunha/yumusic/commit/d5cdd0bae7dda9add0610f2e3e41c71ab7f89292))
+
 ## [1.9.1](https://github.com/isyuricunha/yumusic/compare/v1.9.0...v1.9.1) (2026-04-01)
 
 ### 🐛 Bug Fixes
