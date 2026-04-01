@@ -9,7 +9,6 @@
     "podcasts": "Podcasts",
     "radio": "Rádio",
     "login": "Entrar",
-    "logout": "Sair",
     "back": "Voltar",
     "create": "Criar",
     "creating": "Criando...",
@@ -61,7 +60,10 @@
     "remove_download_confirm": "Tem certeza que deseja remover esta música do seu dispositivo?",
     "remove": "Remover",
     "min": "min",
-    "sec": "seg"
+    "sec": "seg",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "logout": "Sair"
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
@@ -85,7 +87,12 @@
     "username": "Usuário",
     "password": "Senha",
     "connect": "Conectar",
-    "connecting": "Conectando..."
+    "connecting": "Conectando...",
+    "app_title": "YuMusic Player",
+    "server_url_placeholder": "https://musica.exemplo.com",
+    "username_placeholder": "usuario",
+    "error_ping": "Falha no ping ou resposta inválida do servidor.",
+    "error_connect": "Erro ao conectar ao servidor"
   },
   "settings": {
     "appearance": "Aparência",
@@ -97,7 +104,10 @@
     "server": "Servidor e Conta",
     "server_desc": "Informações do servidor conectado.",
     "session": "Sessão",
-    "logout_confirm": "Tem certeza que deseja sair?",
+    "logout_confirm": "Tem certeza que deseja sair? Suas configurações de servidor serão limpas.",
+    "logout_confirm_title": "Sair",
+    "select_folder": "Selecionar pasta de downloads",
+    "calculating": "Calculando...",
     "appearance_theme_options": {
       "dark": "Escuro Real",
       "catppuccin": "Catppuccin",
@@ -119,7 +129,10 @@
       "current_version_desc": "A versão instalada nesta máquina.",
       "install_now": "Instalar agora",
       "installing": "Instalando...",
-      "check_now_btn": "Verificar agora"
+      "check_now_btn": "Verificar agora",
+      "latest_version": "Você está na versão mais recente.",
+      "check_failed": "Falha ao verificar atualizações.",
+      "version_available": "Versão {{version}} disponível."
     },
     "system": {
       "title": "Sistema",
@@ -222,7 +235,8 @@
     "documentation": "Documentação",
     "privacy": "Privacidade",
     "accessibility": "Acessibilidade",
-    "tagline": "Feito com ❤️ para Colecionadores de Música"
+    "tagline": "Feito com ❤️ para Colecionadores de Música",
+    "project_github": "Projeto GitHub"
   },
   "playlist": {
     "added_at": "Adicionado em"
@@ -232,3 +246,4 @@
     "no_albums": "Nenhum álbum favoritado."
   }
 }
+

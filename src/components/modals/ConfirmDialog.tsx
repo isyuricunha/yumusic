@@ -22,13 +22,13 @@ export function ConfirmDialog() {
         </DialogHeader>
         <DialogFooter className="mt-6 space-x-2">
           <Button variant="outline" onClick={onCancel}>
-            {options.cancelText || t('common.cancel') || 'Cancel'}
+            {options.cancelText || t('common.cancel')}
           </Button>
           <Button 
             variant={options.destructive ? 'destructive' : 'default'}
             onClick={onConfirm}
           >
-            {options.confirmText || t('common.confirm') || 'Confirm'}
+            {options.confirmText || t('common.confirm')}
           </Button>
         </DialogFooter>
       </DialogContent>

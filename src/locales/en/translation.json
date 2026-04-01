@@ -9,7 +9,6 @@
     "podcasts": "Podcasts",
     "radio": "Radio",
     "login": "Login",
-    "logout": "Logout",
     "back": "Back",
     "create": "Create",
     "creating": "Creating...",
@@ -61,7 +60,10 @@
     "remove_download_confirm": "Are you sure you want to remove this song from your device?",
     "remove": "Remove",
     "min": "min",
-    "sec": "sec"
+    "sec": "sec",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "logout": "Logout"
   },
   "home": {
     "recently_added": "Recently Added",
@@ -85,7 +87,12 @@
     "username": "Username",
     "password": "Password",
     "connect": "Connect",
-    "connecting": "Connecting..."
+    "connecting": "Connecting...",
+    "app_title": "YuMusic Player",
+    "server_url_placeholder": "https://music.example.com",
+    "username_placeholder": "admin",
+    "error_ping": "Ping failed or invalid response from server.",
+    "error_connect": "Error connecting to the server"
   },
   "settings": {
     "appearance": "Appearance",
@@ -97,7 +104,10 @@
     "server": "Server & Account",
     "server_desc": "Connected server information.",
     "session": "Session",
-    "logout_confirm": "Are you sure you want to logout?",
+    "logout_confirm": "Are you sure you want to sign out? Your server settings will be cleared.",
+    "logout_confirm_title": "Sign out",
+    "select_folder": "Select Download Folder",
+    "calculating": "Calculating...",
     "appearance_theme_options": {
       "dark": "True Dark",
       "catppuccin": "Catppuccin",
@@ -119,7 +129,10 @@
       "current_version_desc": "The version installed on this machine.",
       "install_now": "Install now",
       "installing": "Installing...",
-      "check_now_btn": "Check now"
+      "check_now_btn": "Check now",
+      "latest_version": "You are on the latest version.",
+      "check_failed": "Failed to check for updates.",
+      "version_available": "Version {{version}} is available."
     },
     "system": {
       "title": "System",
@@ -222,7 +235,8 @@
     "documentation": "Documentation",
     "privacy": "Privacy",
     "accessibility": "Accessibility",
-    "tagline": "Built with ❤️ for Music Collectors"
+    "tagline": "Built with ❤️ for Music Collectors",
+    "project_github": "Project GitHub"
   },
   "playlist": {
     "added_at": "Added at"
@@ -232,3 +246,4 @@
     "no_albums": "No starred albums."
   }
 }
+

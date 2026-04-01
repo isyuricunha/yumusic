@@ -33,10 +33,10 @@ export default function Login() {
         await setConfig({ serverUrl, username, token, salt });
         navigate('/');
       } else {
-        setError('Ping failed or invalid response from server.');
+        setError(t('login.error_ping'));
       }
     } catch (err: any) {
-      setError(err.message || 'Error connecting to the server');
+      setError(err.message || t('login.error_connect'));
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export default function Login() {
             <img src={logo} alt="YuMusic Logo" className="w-16 h-16 object-contain" />
           </div>
           <CardTitle className="text-2xl text-center font-bold tracking-tighter text-primary">
-            {t('login.app_title', { defaultValue: 'YuMusic Player' })}
+            {t('login.app_title')}
           </CardTitle>
           <CardDescription className="text-center">{t('login.description')}</CardDescription>
         </CardHeader>
@@ -62,7 +62,7 @@ export default function Login() {
                 id="serverUrl"
                 name="serverUrl"
                 type="url"
-                placeholder={t('login.server_url_placeholder', { defaultValue: 'https://music.example.com' })}
+                placeholder={t('login.server_url_placeholder')}
                 value={serverUrl}
                 onChange={(e) => setServerUrl(e.currentTarget.value)}
                 required
@@ -74,7 +74,7 @@ export default function Login() {
                 id="username"
                 name="username"
                 type="text"
-                placeholder={t('login.username_placeholder', { defaultValue: 'admin' })}
+                placeholder={t('login.username_placeholder')}
                 value={username}
                 onChange={(e) => setUsername(e.currentTarget.value)}
                 required

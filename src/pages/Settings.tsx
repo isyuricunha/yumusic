@@ -39,7 +39,7 @@ export default function Settings() {
   const [updateInfo, setUpdateInfo] = useState<string>('');
   const [pendingUpdate, setPendingUpdate] = useState<Update | null>(null);
   const [installing, setInstalling] = useState(false);
-  const [totalDiskUsage, setTotalDiskUsage] = useState<string>('Calculating...');
+  const [totalDiskUsage, setTotalDiskUsage] = useState<string>(t('settings.calculating'));
   const [appVersion, setAppVersion] = useState<string>('');
 
   useEffect(() => {
@@ -63,16 +63,16 @@ export default function Settings() {
       const update = await checkForUpdate();
       if (update) {
         setCheckStatus('available');
-        setUpdateInfo(`Version ${update.version} is available.`);
+        setUpdateInfo(t('settings.updates.version_available', { version: update.version }));
         setPendingUpdate(update);
       } else {
         setCheckStatus('uptodate');
-        setUpdateInfo('You are on the latest version.');
+        setUpdateInfo(t('settings.updates.latest_version'));
       }
     } catch (err) {
       console.warn('[updater] check failed:', err);
       setCheckStatus('error');
-      setUpdateInfo('Failed to check for updates.');
+      setUpdateInfo(t('settings.updates.check_failed'));
     }
   };
 
@@ -88,9 +88,9 @@ export default function Settings() {
 
   const handleLogout = async () => {
     const confirmed = await openDialog({
-      title: t('settings.logout_confirm_title', 'Sign out'),
-      description: t('settings.logout_confirm', 'Are you sure you want to sign out? Your server settings will be cleared.'),
-      confirmText: t('common.logout', 'Sign out'),
+      title: t('settings.logout_confirm_title'),
+      description: t('settings.logout_confirm'),
+      confirmText: t('common.logout'),
       destructive: true,
     });
     if (confirmed) {
@@ -103,7 +103,7 @@ export default function Settings() {
       const selected = await open({
         directory: true,
         multiple: false,
-        title: 'Select Download Folder',
+        title: t('settings.select_folder'),
       });
       if (typeof selected === 'string') {
         setDownloadFolder(selected);

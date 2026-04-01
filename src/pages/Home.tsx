@@ -83,7 +83,7 @@ export default function Home() {
       {/* Featured Artists Section */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.featured_artists') || 'Featured Artists'}</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.featured_artists')}</h2>
           <button 
             className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
             onClick={() => navigate('/library')}

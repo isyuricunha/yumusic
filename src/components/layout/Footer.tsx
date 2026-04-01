@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
     {
       title: 'YuMusic',
       links: [
-        { label: 'Project GitHub', url: 'https://github.com/isyuricunha/yumusic' },
+        { label: t('footer.project_github'), url: 'https://github.com/isyuricunha/yumusic' },
         { label: t('common.about'), url: '#' },
       ]
     },
