@@ -53,10 +53,20 @@ export default function Home() {
       'from-cyan-500 to-cyan-900'
     ];
     
+    const objectPositions = [
+      '0% 0%',   // Top Left
+      '50% 0%',  // Top Center
+      '100% 0%', // Top Right
+      '0% 100%',  // Bottom Left
+      '50% 100%', // Bottom Center
+      '100% 100%' // Bottom Right
+    ];
+    
     return [1, 2, 3, 4, 5, 6].map((num, i) => ({
       id: `mix-${num}`,
       name: `Daily Mix ${num}`,
       gradient: gradients[i % gradients.length],
+      position: objectPositions[i],
       description: t('home.made_for_you_desc')
     }));
   }, [t]);
@@ -121,19 +131,19 @@ export default function Home() {
 
       {/* 2. Made For (Spotify Style) */}
       <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-end justify-between mb-2">
           <div className="flex flex-col">
-            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-black text-muted-foreground">{t('home.made_for')}</span>
-            <h2 className="text-2xl md:text-4xl font-black tracking-tighter text-white -mt-1">{config?.username || 'You'}</h2>
+            <span className="text-[10px] uppercase tracking-[0.1em] font-bold text-muted-foreground leading-none">{t('home.made_for')}</span>
+            <h2 className="text-3xl font-black tracking-tight text-white mt-1">{config?.username || 'You'}</h2>
           </div>
-          <button className="text-xs font-bold text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">{t('common.show_all')}</button>
+          <button className="text-xs font-bold text-muted-foreground hover:text-white transition-colors mb-1">{t('common.show_all')}</button>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="flex space-x-4 overflow-x-auto pb-4 no-scrollbar scroll-smooth -mx-2 px-2">
           {dailyMixes.map((mix) => (
             <div 
               key={mix.id}
-              className="group flex flex-col space-y-3 cursor-pointer"
+              className="group flex flex-col space-y-3 cursor-pointer shrink-0 w-40 md:w-48"
               onClick={() => {
                 if (randomSongs && config) {
                   setQueue(randomSongs);
@@ -142,23 +152,24 @@ export default function Home() {
               }}
             >
               <div className={cn(
-                "aspect-square rounded-lg shadow-2xl relative overflow-hidden bg-gradient-to-br p-4 flex flex-col justify-between transition-all duration-500 group-hover:translate-y-[-4px]",
-                mix.gradient
+                "aspect-square rounded-md shadow-2xl relative overflow-hidden bg-muted transition-all duration-500 group-hover:translate-y-[-4px]"
               )}>
-                {/* Simulated Mix Artwork Pattern */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-3xl rounded-full -mr-16 -mt-16" />
-                <div className="z-10 bg-black/20 self-start px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest text-white/90">Daily Mix</div>
+                <img 
+                  src="/spotify_mix_covers_1775080663126.png" 
+                  className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" 
+                  style={{ objectPosition: mix.position }}
+                />
                 
-                <div className="z-10 mt-auto">
-                    <h3 className="text-xl md:text-2xl font-black text-white leading-none mb-1">{mix.id.split('-')[1]}</h3>
-                    <div className="w-8 h-1 bg-white/80 rounded-full" />
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                    <div className="w-8 h-1 bg-primary rounded-full mb-2" />
+                    <h3 className="text-xl font-black text-white leading-none uppercase tracking-tighter">Mix {mix.id.split('-')[1]}</h3>
                 </div>
 
                 <div className="absolute bottom-3 right-3 w-10 h-10 bg-primary rounded-full shadow-2xl flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                   <Play className="h-5 w-5 fill-current text-primary-foreground ml-0.5" />
                 </div>
               </div>
-              <div className="flex flex-col space-y-1">
+              <div className="flex flex-col">
                 <span className="text-sm font-bold text-white line-clamp-1 truncate uppercase tracking-tighter">{mix.name}</span>
                 <span className="text-xs text-muted-foreground line-clamp-2 leading-snug">{t('home.made_for_you_desc')}</span>
               </div>
@@ -170,15 +181,15 @@ export default function Home() {
       {/* 3. Jump Back In (Mixed Content) */}
       {jumpBackIn.length > 0 && (
         <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-white">{t('home.jump_back_in')}</h2>
-            <button className="text-xs font-bold text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">{t('common.show_all')}</button>
+            <button className="text-xs font-bold text-muted-foreground hover:text-white transition-colors">{t('common.show_all')}</button>
           </div>
           <div className="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth -mx-2 px-2">
             {jumpBackIn.map((item: any) => (
               <div 
                 key={item.id}
-                className="group flex flex-col space-y-4 cursor-pointer shrink-0 w-32 md:w-44"
+                className="group flex flex-col space-y-3 cursor-pointer shrink-0 w-32 md:w-40"
                 onClick={() => navigate(item.type === 'artist' ? `/artist/${item.id}` : `/album/${item.id}`)}
               >
                 <div className={cn(
