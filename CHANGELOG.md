@@ -1,3 +1,14 @@
+## [1.9.0](https://github.com/isyuricunha/yumusic/compare/v1.8.0...v1.9.0) (2026-04-01)
+
+### ✨ Features
+
+* **artist:** implement full discography page and navigation ([93e0e48](https://github.com/isyuricunha/yumusic/commit/93e0e48813bf98366d1e9b887a669ec310007c2e))
+* **sidebar:** implement collapsible library and downloads filter ([02bc60c](https://github.com/isyuricunha/yumusic/commit/02bc60c1a11a124afcdcea90e876c03d0228a271))
+
+### 🐛 Bug Fixes
+
+* **automation:** implement automatic downloads and startup update checks ([9d83638](https://github.com/isyuricunha/yumusic/commit/9d836380aa2018b0817e09075849fa18d8546bac))
+
 ## [1.8.0](https://github.com/isyuricunha/yumusic/compare/v1.7.0...v1.8.0) (2026-04-01)
 
 ### ✨ Features
