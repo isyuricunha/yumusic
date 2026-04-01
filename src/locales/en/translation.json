@@ -244,6 +244,10 @@
     "rss_url_label": "RSS Feed URL",
     "rss_url_placeholder": "https://example.com/podcast.xml",
     "subscribe": "Subscribe",
+    "local_rss_feed": "Local RSS Feed",
+    "podcast_channel": "Podcast Channel",
+    "delete_confirm_title": "Delete Podcast",
+    "delete_confirm_desc": "Are you sure you want to delete this podcast?",
     "error_invalid_rss": "Failed to process RSS feed. Please ensure it's a valid XML URL.",
     "no_podcasts": "No podcasts found. Add one via RSS above!",
     "error_no_audio": "No audio files found in this RSS."
@@ -261,7 +265,9 @@
     "live_stream": "Live Stream",
     "local_web_radio": "Local Web Radio",
     "internet_radio": "Internet Radio",
-    "no_stations": "No radio stations found on your server."
+    "no_stations": "No radio stations found on your server.",
+    "delete_confirm_title": "Delete Station",
+    "delete_confirm_desc": "Are you sure you want to delete this radio station?"
   },
   "album": {
     "explore_more": "Explore more tracks from {{artist}} in their profile."

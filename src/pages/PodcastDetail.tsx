@@ -75,10 +75,10 @@ export default function PodcastDetail() {
     if (id) {
       const { openDialog } = useDialogStore.getState();
       const confirmed = await openDialog({
-        title: t('common.confirm_title') || 'Confirm Deletion',
-        description: t('common.confirm_delete') || 'Are you sure you want to delete this podcast?',
+        title: t('podcasts.delete_confirm_title'),
+        description: t('podcasts.delete_confirm_desc'),
         destructive: true,
-        confirmText: t('common.delete') || 'Delete'
+        confirmText: t('common.delete')
       });
       if (confirmed) {
         await removePodcast(id);

@@ -79,14 +79,14 @@ export default function Podcasts() {
                 />
                 {podcast.isLocal && (
                   <div className="absolute top-2 right-2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
-                    RSS
+                    {t('podcasts.rss_tag')}
                   </div>
                 )}
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold text-sm line-clamp-1" title={podcast.title}>{podcast.title}</span>
                 <span className="text-xs text-muted-foreground line-clamp-1 truncate block">
-                  {podcast.description || (podcast.isLocal ? 'Local RSS Feed' : 'Podcast Channel')}
+                  {podcast.description || (podcast.isLocal ? t('podcasts.local_rss_feed') : t('podcasts.podcast_channel'))}
                 </span>
               </div>
             </div>

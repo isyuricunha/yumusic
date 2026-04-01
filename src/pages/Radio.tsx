@@ -41,8 +41,8 @@ export default function Radio() {
     e.stopPropagation();
     const { openDialog } = useDialogStore.getState();
     const confirmed = await openDialog({
-      title: t('common.confirm_title'),
-      description: t('common.confirm_delete'),
+      title: t('radio.delete_confirm_title'),
+      description: t('radio.delete_confirm_desc'),
       destructive: true,
       confirmText: t('common.delete')
     });
