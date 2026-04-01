@@ -1,3 +1,15 @@
+## [1.10.0](https://github.com/isyuricunha/yumusic/compare/v1.9.2...v1.10.0) (2026-04-01)
+
+### ✨ Features
+
+* **artist:** spotify-style discography with list view and tracklists ([c226807](https://github.com/isyuricunha/yumusic/commit/c22680768392846261e9c543e902fbc6925459c6))
+* **search:** unified spotify-style global search with reactive URL and history ([7f9f08d](https://github.com/isyuricunha/yumusic/commit/7f9f08d8bc6f0fe4011db2bb6cf70f5c364bff56))
+
+### 🐛 Bug Fixes
+
+* **artist:** implement Spotify-style transforming sticky header in ArtistDetail ([ebcb76f](https://github.com/isyuricunha/yumusic/commit/ebcb76f8767678b8a73b0cd6e918b6917f791485))
+* **search:** reorder results (artists first) and complete internationalization ([3d7eaa8](https://github.com/isyuricunha/yumusic/commit/3d7eaa877dc40035386a9f98d25546e6b884029e))
+
 ## [1.9.2](https://github.com/isyuricunha/yumusic/compare/v1.9.1...v1.9.2) (2026-04-01)
 
 ### 🐛 Bug Fixes
