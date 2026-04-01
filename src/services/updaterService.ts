@@ -1,13 +1,21 @@
 import { check, type Update } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
+import { isTauri } from '@tauri-apps/api/core';
 
-const isTauri = !!(typeof window !== 'undefined' && (window as any).__TAURI_INTERNALS__ !== undefined);
+let isCurrentlyChecking = false;
 
 /** Returns an update object if one is available, or null if already up-to-date. Throws on network/parse errors. */
 export async function checkForUpdate(): Promise<Update | null> {
-  if (!isTauri) return null;
-  const update = await check();
-  return update ?? null;
+  if (!isTauri()) return null;
+  if (isCurrentlyChecking) return null;
+  
+  isCurrentlyChecking = true;
+  try {
+    const update = await check();
+    return update ?? null;
+  } finally {
+    isCurrentlyChecking = false;
+  }
 }
 
 /**

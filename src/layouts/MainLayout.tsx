@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
+import { isTauri } from '@tauri-apps/api/core';
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 
 export function MainLayout() {
@@ -28,7 +29,7 @@ export function MainLayout() {
 
   // Update Check Effect
   useEffect(() => {
-    if (!config || settings.updateMode === 'disabled') return;
+    if (!isTauri() || !config || settings.updateMode === 'disabled') return;
 
     const checkUpdates = async () => {
       try {
@@ -62,7 +63,7 @@ export function MainLayout() {
     // Check after a short delay to not block initial render
     const timer = setTimeout(checkUpdates, 5000);
     return () => clearTimeout(timer);
-  }, [config, settings.updateMode, settings, t]);
+  }, [config, settings.updateMode, t]);
 
   if (isLoading) {
     return (
