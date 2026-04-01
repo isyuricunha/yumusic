@@ -138,7 +138,7 @@ export function useSearch(query: string) {
       const res = await fetchSubsonic('search3', config, { query, songCount: '20', albumCount: '10', artistCount: '10' });
       return res?.searchResult3 || { song: [], album: [], artist: [] };
     },
-    enabled: !!config && query.length > 1,
+    enabled: !!config && query.length > 0,
   });
 }
 

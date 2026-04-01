@@ -1,18 +1,17 @@
-import { useState } from 'react';
 import { useSearch, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
-import { Input } from '@/components/ui/input';
-import { Search as SearchIcon, Play, Music, Disc, User } from 'lucide-react';
+import { Play, Music, Disc, User, Search as SearchIcon } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 export default function Search() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('q') || '';
   const { data: results, isLoading } = useSearch(query);
   const getCoverUrl = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
@@ -26,18 +25,15 @@ export default function Search() {
   };
 
   return (
-    <div className="w-full space-y-6 pb-8">
-      <div className="flex flex-col space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight text-primary">{t('common.search')}</h1>
-        <div className="relative max-w-md w-full">
-          <SearchIcon className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-          <Input 
-            value={query}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            className="pl-10 h-11 bg-muted/50 border-transparent rounded-[var(--radius-lg)] focus-visible:ring-1 focus-visible:ring-primary"
-            placeholder={t('search.placeholder')} 
-          />
-        </div>
+    <div className="w-full space-y-6 pb-20 pt-4">
+      {/* Header Info */}
+      <div className="flex flex-col space-y-1">
+        <h1 className="text-4xl font-black tracking-tight text-white">{t('common.search')}</h1>
+        {query && (
+          <p className="text-sm text-muted-foreground font-medium">
+            {t('search.results')} for <span className="text-foreground font-bold">"{query}"</span>
+          </p>
+        )}
       </div>
 
       <div className="mt-8">
