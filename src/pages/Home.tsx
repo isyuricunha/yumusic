@@ -37,10 +37,15 @@ export default function Home() {
   const jumpBackIn = useMemo(() => {
     const artistFavs = (favorites?.artist || []).map((a: SubsonicArtist) => ({ ...a, type: 'artist' as const }));
     const albumFavs = (favorites?.album || []).map((a: any) => ({ ...a, type: 'album' as const }));
-    const mixed = [...artistFavs, ...albumFavs];
-    if (mixed.length === 0) return [];
-    return mixed.sort(() => 0.5 - Math.random()).slice(0, 8);
-  }, [favorites]);
+    const mixedFavs = [...artistFavs, ...albumFavs];
+    
+    if (mixedFavs.length > 0) {
+      return mixedFavs.sort(() => 0.5 - Math.random()).slice(0, 8);
+    }
+    
+    // Fallback if no favorites: use recent albums
+    return (recentAlbums || []).map(a => ({ ...a, type: 'album' as const })).slice(0, 8);
+  }, [favorites, recentAlbums]);
 
   // Simulated Daily Mixes Artwork
   const dailyMixes = useMemo(() => {
@@ -276,12 +281,12 @@ export default function Home() {
       {/* Recently Added */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.recently_added')}</h2>
+          <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-white">{t('home.recently_added')}</h2>
           <button 
-            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
+            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-white transition-colors"
             onClick={() => navigate('/library?tab=recent')}
           >
-            {t('common.see_all')}
+            {t('common.show_all')}
           </button>
         </div>
         
@@ -309,12 +314,12 @@ export default function Home() {
       {/* Most Played */}
       <section>
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold tracking-tight text-primary">{t('home.most_played')}</h2>
+          <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-white">{t('home.most_played')}</h2>
           <button 
-            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors hover:underline underline-offset-4"
+            className="text-xs font-bold text-muted-foreground uppercase tracking-widest hover:text-white transition-colors"
             onClick={() => navigate('/library?tab=frequent')}
           >
-            {t('common.see_all')}
+            {t('common.show_all')}
           </button>
         </div>
         

@@ -55,7 +55,7 @@ export function Sidebar() {
       title: item.title,
       artist: item.artist,
       artistId: item.artistId || 'local',
-      album: item.album || 'Downloaded',
+      album: item.album || t('common.downloaded'),
       albumId: item.albumId || 'local',
       duration: 0, // Not stored currently, but player can handle 0/metadata load
       track: 0,
@@ -211,7 +211,7 @@ export function Sidebar() {
             {filter === 'downloads' && !isCollapsed && Object.keys(downloadedIds).length > 0 && (
                <div className="px-3 pb-2 flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                    {Object.keys(downloadedIds).length} Offline
+                    {Object.keys(downloadedIds).length} {t('common.offline')}
                   </span>
                   <Button 
                     variant="ghost" 
