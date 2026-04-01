@@ -67,7 +67,17 @@
     "logout": "Sair",
     "local": "Local",
     "confirm_title": "Confirmar Exclusão",
-    "confirm_delete": "Tem certeza que deseja excluir?"
+    "confirm_delete": "Tem certeza que deseja excluir?",
+    "playlist_label": "Playlist",
+    "album_label": "Álbum",
+    "errors": {
+      "api_error": "Erro na API Subsonic",
+      "invalid_response": "Resposta inválida do servidor"
+    },
+    "notifications": {
+      "download_complete": "Download Concluído",
+      "download_ready": "{{count}} músicas prontas para ouvir offline!"
+    }
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
@@ -116,6 +126,8 @@
       "en": "English",
       "pt-br": "Português (BR)"
     },
+    "unknown_podcast": "Podcast Desconhecido",
+    "untitled_episode": "Episódio sem Título",
     "appearance_theme_options": {
       "dark": "Escuro Real",
       "catppuccin": "Catppuccin",
@@ -227,7 +239,8 @@
     "rss_url_placeholder": "https://exemplo.com/podcast.xml",
     "subscribe": "Assinar",
     "error_invalid_rss": "Falha ao processar o feed RSS. Certifique-se de que é uma URL XML válida.",
-    "no_podcasts": "Nenhum podcast encontrado. Adicione um via RSS acima!"
+    "no_podcasts": "Nenhum podcast encontrado. Adicione um via RSS acima!",
+    "error_no_audio": "Nenhum arquivo de áudio encontrado neste RSS."
   },
   "radio": {
     "add_station": "Adicionar Estação",

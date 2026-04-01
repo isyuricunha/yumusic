@@ -1,6 +1,7 @@
 import { fetch } from '@tauri-apps/plugin-http';
 import { SubsonicSong } from '@/hooks/useSubsonic';
 import { isTauri } from '@tauri-apps/api/core';
+import i18next from 'i18next';
 
 export interface RSSFeed {
   title: string;
@@ -34,9 +35,9 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
 
   // Basic RSS 2.0 parsing
   const channel = xmlDoc.querySelector('channel');
-  if (!channel) throw new Error('Invalid RSS feed: No channel found');
+  if (!channel) throw new Error(i18next.t('podcasts.error_invalid_rss'));
 
-  const title = channel.querySelector('title')?.textContent || 'Unknown Podcast';
+  const title = channel.querySelector('title')?.textContent || i18next.t('podcasts.unknown_podcast');
   const description = channel.querySelector('description')?.textContent || '';
   const image = channel.querySelector('image > url')?.textContent || 
                 channel.querySelector('itunes\\:image')?.getAttribute('href') || '';
@@ -46,7 +47,7 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
   const itemNodes = xmlDoc.querySelectorAll('item');
 
   itemNodes.forEach((item, index) => {
-    const itemTitle = item.querySelector('title')?.textContent || 'Untitled Episode';
+    const itemTitle = item.querySelector('title')?.textContent || i18next.t('podcasts.untitled_episode');
     const enclosure = item.querySelector('enclosure');
     const streamUrl = enclosure?.getAttribute('url');
     
@@ -86,7 +87,7 @@ export const fetchRSS = async (url: string): Promise<RSSFeed> => {
   });
 
   if (items.length === 0) {
-    throw new Error('Failed to parse RSS feed. No audio files found (this URL might be a blog, not a podcast).');
+    throw new Error(i18next.t('podcasts.error_no_audio'));
   }
 
   return {

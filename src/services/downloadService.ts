@@ -8,6 +8,7 @@ import { useDownloadStore } from '@/store/downloadStore';
 import { SubsonicSong } from '@/hooks/useSubsonic';
 import { useConfigStore } from '@/store/configStore';
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
+import i18next from 'i18next';
 
 export async function downloadSong(song: SubsonicSong) {
   const { settings } = useAppSettingsStore.getState();
@@ -118,8 +119,8 @@ async function notifyBatchComplete(count: number) {
     }
     if (permission) {
       sendNotification({
-        title: 'Download Concluído',
-        body: `${count} músicas prontas para ouvir offline!`,
+        title: i18next.t('common.notifications.download_complete'),
+        body: i18next.t('common.notifications.download_ready', { count }),
       });
     }
   } catch (e) {

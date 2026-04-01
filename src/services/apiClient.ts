@@ -1,4 +1,5 @@
 import md5 from 'md5';
+import i18next from 'i18next';
 
 export const generateSubsonicAuth = (username: string, password: string) => {
   const salt = Math.random().toString(36).substring(2, 15);
@@ -35,7 +36,7 @@ export const fetchSubsonic = async (
 
   const response = await fetch(restUrl);
   if (!response.ok) {
-    throw new Error(`[${response.status}] Subsonic API error: ${response.statusText}`);
+    throw new Error(`[${response.status}] ${i18next.t('common.errors.api_error')}: ${response.statusText}`);
   }
 
   const text = await response.text();
@@ -43,13 +44,13 @@ export const fetchSubsonic = async (
     const data = JSON.parse(text);
     const res = data['subsonic-response'];
     if (res && res.status === 'failed') {
-      throw new Error(res.error?.message || 'Unknown Subsonic API Error');
+      throw new Error(res.error?.message || i18next.t('common.errors.api_error'));
     }
     return res;
   } catch (e) {
     console.error(`[YuMusic] JSON Parse Error for endpoint "${endpoint}" at URL: ${restUrl}`);
     console.error('Server returned:', text.substring(0, 300));
-    throw new Error(`Server returned an invalid response (likely HTML). Check your server URL.`);
+    throw new Error(i18next.t('common.errors.invalid_response'));
   }
 };
 

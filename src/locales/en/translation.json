@@ -67,7 +67,17 @@
     "logout": "Logout",
     "local": "Local",
     "confirm_title": "Confirm Deletion",
-    "confirm_delete": "Are you sure you want to delete?"
+    "confirm_delete": "Are you sure you want to delete?",
+    "playlist_label": "Playlist",
+    "album_label": "Album",
+    "errors": {
+      "api_error": "Subsonic API error",
+      "invalid_response": "Invalid server response"
+    },
+    "notifications": {
+      "download_complete": "Download Complete",
+      "download_ready": "{{count}} songs ready for offline listening!"
+    }
   },
   "home": {
     "recently_added": "Recently Added",
@@ -116,6 +126,8 @@
       "en": "English",
       "pt-br": "Português (BR)"
     },
+    "unknown_podcast": "Unknown Podcast",
+    "untitled_episode": "Untitled Episode",
     "appearance_theme_options": {
       "dark": "True Dark",
       "catppuccin": "Catppuccin",
@@ -227,7 +239,8 @@
     "rss_url_placeholder": "https://example.com/podcast.xml",
     "subscribe": "Subscribe",
     "error_invalid_rss": "Failed to process RSS feed. Please ensure it's a valid XML URL.",
-    "no_podcasts": "No podcasts found. Add one via RSS above!"
+    "no_podcasts": "No podcasts found. Add one via RSS above!",
+    "error_no_audio": "No audio files found in this RSS."
   },
   "radio": {
     "add_station": "Add Station",

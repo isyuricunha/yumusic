@@ -179,7 +179,7 @@ export function Sidebar() {
                       </div>
                       <div className="flex flex-col min-w-0">
                         <span className="font-semibold truncate leading-tight transition-colors group-hover:text-primary">{playlist.name}</span>
-                        <span className="text-xs opacity-70">Playlist • {playlist.owner || 'YuMusic'}</span>
+                        <span className="text-xs opacity-70">{t('common.playlist_label')} • {playlist.owner || t('login.app_title')}</span>
                       </div>
                     </NavLink>
                   ))
@@ -205,7 +205,7 @@ export function Sidebar() {
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className="font-semibold truncate leading-tight transition-colors group-hover:text-primary">{album.name}</span>
-                    <span className="text-xs opacity-70">Álbum • {album.artist}</span>
+                    <span className="text-xs opacity-70">{t('common.album_label')} • {album.artist}</span>
                   </div>
                 </NavLink>
               ))
