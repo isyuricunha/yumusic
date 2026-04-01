@@ -1,8 +1,11 @@
 import { check, type Update } from '@tauri-apps/plugin-updater';
 import { relaunch } from '@tauri-apps/plugin-process';
 
+const isTauri = !!(typeof window !== 'undefined' && (window as any).__TAURI_INTERNALS__ !== undefined);
+
 /** Returns an update object if one is available, or null if already up-to-date. Throws on network/parse errors. */
 export async function checkForUpdate(): Promise<Update | null> {
+  if (!isTauri) return null;
   const update = await check();
   return update ?? null;
 }
@@ -15,6 +18,7 @@ export async function downloadAndInstall(
   update: Update,
   onProgress?: (downloaded: number, total: number | null) => void,
 ): Promise<void> {
+  if (!isTauri) return;
   let downloaded = 0;
   await update.downloadAndInstall((event) => {
     if (event.event === 'Started') {

@@ -3,7 +3,10 @@ import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
-import { useCoverArtUrl } from '@/hooks/useSubsonic';
+import { useAppSettingsStore } from '@/store/appSettingsStore';
+import { useDownloadStore } from '@/store/downloadStore';
+import { downloadSong } from '@/services/downloadService';
+import { useCoverArtUrl, useStarMutation, useFavorites } from '@/hooks/useSubsonic';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -31,12 +34,30 @@ export function PlayerBar() {
     toggleQueue
   } = usePlayerStore();
   const config = useConfigStore((state) => state.config);
+  const { settings } = useAppSettingsStore();
+  const { downloadedIds } = useDownloadStore();
   const getCoverArt = useCoverArtUrl();
+  const { data: favorites } = useFavorites();
+  const starMutation = useStarMutation();
+  
+  const isStarred = currentSong ? favorites?.song?.some((s: any) => s.id === currentSong.id) : false;
 
   const handleRepeatToggle = () => {
     if (repeatMode === 'none') setRepeatMode('all');
     else if (repeatMode === 'all') setRepeatMode('one');
     else setRepeatMode('none');
+  };
+
+  const handleToggleStar = async () => {
+    if (currentSong && config) {
+      const newStarred = !isStarred;
+      await starMutation.mutateAsync({ id: currentSong.id, type: 'song', star: newStarred });
+      
+      // Auto-download if enabled and now starred
+      if (newStarred && settings.autoDownloadLiked && !downloadedIds[currentSong.id]) {
+        downloadSong(currentSong);
+      }
+    }
   };
 
   const formatTime = (time: number) => {
@@ -91,8 +112,18 @@ export function PlayerBar() {
           </div>
         </div>
         {currentSong && (
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary transition-colors">
-            <Heart className="h-4 w-4" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className={cn(
+              "h-8 w-8 transition-all hover:scale-110",
+              isStarred ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            )}
+            onClick={handleToggleStar}
+            disabled={starMutation.isPending}
+            title={isStarred ? t('common.unstar') : t('common.star')}
+          >
+            <Heart className={cn("h-4 w-4", isStarred && "fill-current")} />
           </Button>
         )}
       </div>

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Play, Clock, Trash2, Check, Loader2, ArrowDownToLine } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
+import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
@@ -22,6 +23,7 @@ export default function PlaylistDetail() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
+  const { settings } = useAppSettingsStore();
   const openDialog = useDialogStore((state) => state.openDialog);
 
   const playlistCoverUrl = playlist?.coverArt ? getCoverUrl(playlist.coverArt) : undefined;
@@ -47,6 +49,14 @@ export default function PlaylistDetail() {
     if (config && playlist?.entry) {
       setQueue(playlist.entry);
       setSong(song, config);
+
+      // Auto-download if enabled
+      if (settings.downloadPlaylists) {
+        const songsToDownload = playlist.entry.filter(s => !downloadedIds[s.id]);
+        if (songsToDownload.length > 0) {
+          songsToDownload.forEach(s => downloadSong(s));
+        }
+      }
     }
   };
 
@@ -54,6 +64,14 @@ export default function PlaylistDetail() {
     if (config && playlist?.entry && playlist.entry.length > 0) {
       setQueue(playlist.entry);
       setSong(playlist.entry[0], config);
+
+      // Auto-download if enabled
+      if (settings.downloadPlaylists) {
+        const songsToDownload = playlist.entry.filter(s => !downloadedIds[s.id]);
+        if (songsToDownload.length > 0) {
+          songsToDownload.forEach(s => downloadSong(s));
+        }
+      }
     }
   };
 

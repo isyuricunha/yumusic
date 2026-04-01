@@ -54,7 +54,7 @@ export function Sidebar() {
 
   return (
     <div className={cn(
-      "hidden md:flex flex-col h-full gap-2 transition-all duration-300 select-none overflow-hidden",
+      "hidden md:flex flex-col h-full gap-2 transition-all duration-300 select-none overflow-hidden flex-shrink-0",
       isCollapsed ? "w-[84px]" : "w-72"
     )}>
       

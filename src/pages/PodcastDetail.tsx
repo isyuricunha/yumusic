@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Play, ArrowLeft, Clock, Trash2, Loader2, Check } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
+import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { usePodcastStore } from '@/store/podcastStore';
 import { useDialogStore } from '@/store/dialogStore';
 import { fetchRSS } from '@/services/rssService';
@@ -28,6 +29,7 @@ export default function PodcastDetail() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
+  const { settings } = useAppSettingsStore();
 
   const [localPodcastData, setLocalPodcastData] = useState<SubsonicPodcast | null>(null);
   const [loadingLocal, setLoadingLocal] = useState(false);
@@ -60,10 +62,15 @@ export default function PodcastDetail() {
   const episodes = podcast?.episode || [];
   const visibleEpisodes = useMemo(() => episodes.slice(0, visibleCount), [episodes, visibleCount]);
 
-  const handlePlayEpisode = (episode: SubsonicSong) => {
+  const handlePlayEpisode = async (episode: SubsonicSong) => {
     if (config || podcast?.isLocal) {
       setQueue(episodes);
       setSong(episode, config!);
+
+      // Auto-download if enabled
+      if (settings.downloadPodcasts && !downloadedIds[episode.id]) {
+        downloadSong(episode);
+      }
     }
   };
 

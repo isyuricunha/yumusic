@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Play, Pause, Clock, Check, Loader2, MoreHorizontal, Shuffle, PlusCircle, ArrowDownCircle, CheckCircle2 } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
+import { useAppSettingsStore } from '@/store/appSettingsStore';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { AddToPlaylistDropdown } from '@/components/player/AddToPlaylistDropdown';
@@ -34,6 +35,7 @@ export default function AlbumDetail() {
   const config = useConfigStore((state) => state.config);
   const { setSong, setQueue, currentSong, addSongsToQueue, toggleShuffle, isShuffle, isPlaying, togglePlay } = usePlayerStore();
   const { downloadedIds, downloadingIds } = useDownloadStore();
+  const { settings } = useAppSettingsStore();
   const [isHeaderSticky, setIsHeaderSticky] = useState(false);
   const [showAddedToQueue, setShowAddedToQueue] = useState(false);
   
@@ -63,6 +65,14 @@ export default function AlbumDetail() {
     if (config && album?.song) {
       setQueue(album.song);
       setSong(song, config);
+      
+      // Auto-download if enabled
+      if (settings.downloadAlbums) {
+        const songsToDownload = album.song.filter(s => !downloadedIds[s.id]);
+        if (songsToDownload.length > 0) {
+          songsToDownload.forEach(s => downloadSong(s));
+        }
+      }
     }
   };
 
@@ -70,6 +80,14 @@ export default function AlbumDetail() {
     if (config && album?.song && album.song.length > 0) {
       setQueue(album.song);
       setSong(album.song[0], config);
+
+      // Auto-download if enabled
+      if (settings.downloadAlbums) {
+        const songsToDownload = album.song.filter(s => !downloadedIds[s.id]);
+        if (songsToDownload.length > 0) {
+          songsToDownload.forEach(s => downloadSong(s));
+        }
+      }
     }
   };
 

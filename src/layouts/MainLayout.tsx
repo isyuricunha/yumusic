@@ -8,15 +8,61 @@ import { Settings as SettingsIcon, ChevronLeft, ChevronRight, Search, User } fro
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { useAppSettingsStore } from '@/store/appSettingsStore';
+import { checkForUpdate, downloadAndInstall } from '@/services/updaterService';
+import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 
 export function MainLayout() {
   const { t } = useTranslation();
   const { config, isLoading, initializeConfig } = useConfigStore();
+  const { settings, init: initializeSettings } = useAppSettingsStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    initializeConfig();
-  }, [initializeConfig]);
+    const init = async () => {
+      await initializeConfig();
+      await initializeSettings();
+    };
+    init();
+  }, [initializeConfig, initializeSettings]);
+
+  // Update Check Effect
+  useEffect(() => {
+    if (!config || settings.updateMode === 'disabled') return;
+
+    const checkUpdates = async () => {
+      try {
+        const update = await checkForUpdate();
+        if (!update) return;
+
+        if (settings.updateMode === 'auto') {
+          console.log('[updater] Auto-installing update:', update.version);
+          await downloadAndInstall(update);
+        } else if (settings.updateMode === 'notify') {
+          console.log('[updater] Update available:', update.version);
+          
+          let permissionGranted = await isPermissionGranted();
+          if (!permissionGranted) {
+            const permission = await requestPermission();
+            permissionGranted = permission === 'granted';
+          }
+
+          if (permissionGranted) {
+            sendNotification({
+              title: t('settings.updates.title'),
+              body: t('settings.updates.version_available', { version: update.version }),
+            });
+          }
+        }
+      } catch (err) {
+        console.warn('[updater] Background check failed:', err);
+      }
+    };
+
+    // Check after a short delay to not block initial render
+    const timer = setTimeout(checkUpdates, 5000);
+    return () => clearTimeout(timer);
+  }, [config, settings.updateMode, settings, t]);
 
   if (isLoading) {
     return (
@@ -38,9 +84,7 @@ export function MainLayout() {
       {/* Top: Sidebar and Main Content Section */}
       <div className="flex flex-1 min-h-0 min-w-0 gap-2 overflow-hidden">
         {/* Sidebar - Left Panel */}
-        <div className="w-72 flex-shrink-0 h-full">
-          <Sidebar />
-        </div>
+        <Sidebar />
         
         {/* Main Content Area - Right Panel */}
         <div className="flex-1 flex flex-col min-w-0 bg-card rounded-xl overflow-hidden relative shadow-lg">
