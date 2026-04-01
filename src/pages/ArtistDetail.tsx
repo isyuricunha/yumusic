@@ -230,10 +230,7 @@ export default function ArtistDetail() {
                 }
             />
             <DropdownMenuContent className="bg-zinc-900 border-white/10 text-white w-48">
-                <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
-                    {t('common.report_issue')}
-                </DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold">
+                <DropdownMenuItem className="hover:bg-white/10 transition-colors cursor-pointer font-bold" onClick={() => navigate(`/artist/${id}`)}>
                     {t('common.go_to_artist')}
                 </DropdownMenuItem>
             </DropdownMenuContent>
