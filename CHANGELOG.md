@@ -1,3 +1,16 @@
+## [1.11.0](https://github.com/isyuricunha/yumusic/compare/v1.10.0...v1.11.0) (2026-04-01)
+
+### ✨ Features
+
+* **home:** complete Spotify-style 'Made For You' and 'Jump Back In' sections ([dc72de0](https://github.com/isyuricunha/yumusic/commit/dc72de06b800f17ac94c71011d96a8fb636f8738))
+* **home:** final Spotify-style refinement with horizontal scroll and premium artwork ([1e50fb1](https://github.com/isyuricunha/yumusic/commit/1e50fb1815ff349089f7350200f6e2d4601bbae4))
+* **home:** implement dynamic 'Made For You' and 'Jump Back In' discovery sections ([88b754c](https://github.com/isyuricunha/yumusic/commit/88b754c734717a4bd1994cf587ba88e222e37a1b))
+* **home:** resolve i18n regressions and add Jump Back In fallback ([69400f5](https://github.com/isyuricunha/yumusic/commit/69400f5fd21093003f5de80a008ea38a1b950bef))
+
+### 🐛 Bug Fixes
+
+* **artist:** sort albums by year descending in detail and discography ([127ff6e](https://github.com/isyuricunha/yumusic/commit/127ff6e3b4319788323ef4effd119f442e09c91e))
+
 ## [1.10.0](https://github.com/isyuricunha/yumusic/compare/v1.9.2...v1.10.0) (2026-04-01)
 
 ### ✨ Features
