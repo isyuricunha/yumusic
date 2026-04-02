@@ -50,24 +50,6 @@ export default function Home() {
 
   // Simulated Daily Mixes Artwork
   const dailyMixes = useMemo(() => {
-    const gradients = [
-      'from-emerald-500 to-emerald-900',
-      'from-blue-500 to-blue-900',
-      'from-rose-500 to-rose-900',
-      'from-amber-500 to-amber-900',
-      'from-purple-500 to-purple-900',
-      'from-cyan-500 to-cyan-900'
-    ];
-    
-    const objectPositions = [
-      '0% 0%',   // Top Left
-      '50% 0%',  // Top Center
-      '100% 0%', // Top Right
-      '0% 100%',  // Bottom Left
-      '50% 100%', // Bottom Center
-      '100% 100%' // Bottom Right
-    ];
-    
     return [1, 2, 3, 4, 5, 6].map((num, i) => {
       // Give each mix its own pool of ~30 songs from the 180 fetched
       const start = i * 30;
@@ -77,10 +59,9 @@ export default function Home() {
       return {
         id: `mix-${num}`,
         name: `Daily Mix ${num}`,
-        gradient: gradients[i % gradients.length],
-        position: objectPositions[i],
-        description: t('home.made_for_you_desc'),
-        songs: mixSongs
+        description: t(`home.daily_mix_${num}_desc`),
+        songs: mixSongs,
+        image: `/daily_mix_${num}.png`
       };
     });
   }, [t, randomSongs]);
@@ -169,9 +150,9 @@ export default function Home() {
                 "aspect-square rounded-md shadow-2xl relative overflow-hidden bg-muted transition-all duration-500 group-hover:translate-y-[-4px]"
               )}>
                 <img 
-                  src="/spotify_mix_covers_1775080663126.png" 
+                  src={mix.image} 
+                  alt={mix.name}
                   className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700" 
-                  style={{ objectPosition: mix.position }}
                 />
                 
                 <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
@@ -185,7 +166,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-white line-clamp-1 truncate uppercase tracking-tighter">{mix.name}</span>
-                <span className="text-xs text-muted-foreground line-clamp-2 leading-snug">{t('home.made_for_you_desc')}</span>
+                <span className="text-xs text-muted-foreground line-clamp-2 leading-snug">{mix.description}</span>
               </div>
             </div>
           ))}
