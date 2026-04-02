@@ -61,7 +61,7 @@ export default function Radio() {
       </div>
       
       {isLoading ? (
-        <div className="animate-pulse text-muted-foreground">{t('common.loading')}...</div>
+        <div className="p-8 animate-pulse text-muted-foreground uppercase tracking-widest font-black text-xs">{t('common.loading')}...</div>
       ) : (
         <div className="space-y-8">
           {localRadios.length > 0 && (

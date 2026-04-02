@@ -97,7 +97,9 @@
     "units": {
       "mb": "MB",
       "gb": "GB"
-    }
+    },
+    "number": "#",
+    "not_available": "N/D"
   },
   "home": {
     "recently_added": "Adicionados Recentemente",
@@ -117,7 +119,8 @@
     "daily_mix_6_desc": "Batidas hipnóticas para acompanhar a lua. Onde a música e o mistério se encontram.",
     "jump_back_in": "Ouvir novamente",
     "shuffle_play": "Ordem aleatória",
-    "daily_mix_title": "Mix Diário {{num}}"
+    "daily_mix_title": "Mix Diário {{num}}",
+    "mix_number_label": "Mix {{num}}"
   },
   "sidebar": {
     "menu": "Menu",

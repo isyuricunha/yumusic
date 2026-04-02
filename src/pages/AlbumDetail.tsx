@@ -126,15 +126,8 @@ export default function AlbumDetail() {
   }, []);
 
   if (isLoading) return (
-    <div className="p-8 flex flex-col space-y-8 animate-pulse">
-      <div className="flex space-x-8 items-end">
-        <div className="w-52 h-52 bg-muted rounded-lg" />
-        <div className="flex-1 space-y-4">
-          <div className="h-4 bg-muted w-24 rounded" />
-          <div className="h-20 bg-muted w-3/4 rounded" />
-          <div className="h-4 bg-muted w-48 rounded" />
-        </div>
-      </div>
+    <div className="p-8 flex flex-col space-y-8 animate-pulse text-muted-foreground uppercase tracking-widest font-black text-xs">
+       {t('common.loading')}...
     </div>
   );
   
@@ -309,7 +302,7 @@ export default function AlbumDetail() {
 
         <div className="w-full">
           <div className="grid grid-cols-[auto_1fr_auto] gap-4 px-4 py-2 border-b border-white/10 text-xs font-bold text-muted-foreground uppercase tracking-widest mb-4">
-            <span className="w-8 text-center ml-2">#</span>
+            <span className="w-8 text-center ml-2">{t('common.number')}</span>
             <span>{t('common.title')}</span>
             <Clock className="h-4 w-4 mr-10" />
           </div>

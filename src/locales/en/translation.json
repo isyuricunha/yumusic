@@ -97,7 +97,9 @@
     "units": {
       "mb": "MB",
       "gb": "GB"
-    }
+    },
+    "number": "#",
+    "not_available": "N/A"
   },
   "home": {
     "recently_added": "Recently Added",
@@ -117,7 +119,8 @@
     "daily_mix_6_desc": "Hypnotic beats to accompany the moon. Where music and mystery meet.",
     "jump_back_in": "Jump back in",
     "shuffle_play": "Shuffle play",
-    "daily_mix_title": "Daily Mix {{num}}"
+    "daily_mix_title": "Daily Mix {{num}}",
+    "mix_number_label": "Mix {{num}}"
   },
   "sidebar": {
     "menu": "Menu",

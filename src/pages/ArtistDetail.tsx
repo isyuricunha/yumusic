@@ -90,7 +90,7 @@ export default function ArtistDetail() {
     return `${min}:${sec.toString().padStart(2, '0')}`;
   };
 
-  if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground">{t('common.loading')}...</div>;
+  if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground uppercase tracking-widest font-black text-xs">{t('common.loading')}...</div>;
   if (!artist) return <div className="p-8 text-muted-foreground">{t('common.not_found')}</div>;
 
   const handlePlayArtist = async () => {

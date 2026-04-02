@@ -95,7 +95,7 @@ export default function PlaylistDetail() {
     await removeTracksFromPlaylist.mutateAsync({ playlistId: id, indices: [index] });
   };
 
-  if (isLoading) return <div className="animate-pulse text-muted-foreground p-8">{t('common.loading')}...</div>;
+  if (isLoading) return <div className="p-8 animate-pulse text-muted-foreground uppercase tracking-widest font-black text-xs">{t('common.loading')}...</div>;
   if (!playlist) return <div className="p-8">{t('common.not_found')}</div>;
 
   return (
@@ -194,7 +194,7 @@ export default function PlaylistDetail() {
       <div className="px-8 space-y-2">
         {/* Table Header */}
         <div className="grid grid-cols-[16px_4fr_3fr_2fr_minmax(120px,1fr)] gap-4 px-4 py-2 border-b border-white/5 text-[11px] font-black uppercase tracking-widest text-muted-foreground mb-4 items-center">
-          <span className="text-center font-bold">#</span>
+          <span className="text-center font-bold">{t('common.number')}</span>
           <span>{t('common.title')}</span>
           <span className="hidden md:inline">{t('common.album')}</span>
           <span className="hidden lg:inline">{t('playlist.added_at')}</span>
@@ -260,7 +260,7 @@ export default function PlaylistDetail() {
 
               {/* Date (Simulated as we don't have per-track add date easily in basic Subsonic, using playlist creation as proxy if available or just empty) */}
               <span className="hidden lg:block text-xs text-muted-foreground truncate">
-                {playlist.created ? new Date(playlist.created).toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' }) : '-'}
+                {playlist.created ? new Date(playlist.created).toLocaleDateString(i18n.language, { month: 'short', day: 'numeric', year: 'numeric' }) : t('common.not_available')}
               </span>
 
               {/* Duration & Actions */}

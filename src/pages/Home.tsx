@@ -157,7 +157,7 @@ export default function Home() {
                 
                 <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                     <div className="w-8 h-1 bg-primary rounded-full mb-2" />
-                    <h3 className="text-xl font-black text-white leading-none uppercase tracking-tighter">Mix {mix.id.split('-')[1]}</h3>
+                    <h3 className="text-xl font-black text-white leading-none uppercase tracking-tighter">{t('home.mix_number_label', { num: mix.id.split('-')[1] })}</h3>
                 </div>
 
                 <div className="absolute bottom-3 right-3 w-10 h-10 bg-primary rounded-full shadow-2xl flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">

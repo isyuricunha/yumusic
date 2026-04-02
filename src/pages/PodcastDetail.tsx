@@ -96,7 +96,7 @@ export default function PodcastDetail() {
 
   if ((isLocalId ? loadingLocal : loadingServer)) {
     return (
-      <div className="w-full flex flex-col items-center justify-center py-20 animate-pulse text-muted-foreground">
+      <div className="w-full flex flex-col items-center justify-center py-20 animate-pulse text-muted-foreground uppercase tracking-widest font-black text-xs">
         <Loader2 className="h-8 w-8 animate-spin mb-4" />
         {t('common.loading')}...
       </div>
