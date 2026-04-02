@@ -1,5 +1,6 @@
 import React from 'react';
 import { Play } from 'lucide-react';
+import { ArtistLinks } from './ArtistLinks';
 
 interface AlbumCardProps {
   album: {
@@ -47,13 +48,22 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({ album, subtitle, getCoverA
         >
           {album.name}
         </span>
-        <span 
-          className="text-xs text-muted-foreground truncate hover:underline cursor-pointer mt-1 leading-tight hover:text-foreground transition-colors" 
-          title={subtitle || album.artist}
-          onClick={() => navigate(`/artist/${album.artistId || ''}`)}
-        >
-          {subtitle || album.artist}
-        </span>
+        {subtitle ? (
+          <span 
+            className="text-xs text-muted-foreground truncate hover:underline cursor-pointer mt-1 leading-tight hover:text-foreground transition-colors" 
+            title={subtitle}
+            onClick={() => navigate(`/album/${album.id}`)}
+          >
+            {subtitle}
+          </span>
+        ) : (
+          <ArtistLinks 
+            artist={album.artist} 
+            artistId={album.artistId} 
+            className="text-xs mt-1"
+            linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline font-medium"
+          />
+        )}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import { downloadSong } from '@/services/downloadService';
 import { AlbumCard } from '@/components/AlbumCard';
 import { Footer } from '@/components/layout/Footer';
 import { useImageColor } from '@/hooks/useImageColor';
+import { ArtistLinks } from '@/components/ArtistLinks';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -183,15 +184,22 @@ export default function AlbumDetail() {
              {album.name}
           </h1>
           <div className="flex items-center space-x-1.5 text-sm flex-wrap">
-            <span 
-              className="hover:underline cursor-pointer flex items-center gap-2 font-bold"
-              onClick={() => navigate(`/artist/${album.artistId}`)}
+            <div 
+              className="flex items-center gap-2 font-bold"
             >
-              <div className="w-6 h-6 rounded-full bg-muted overflow-hidden shadow-md">
+              <div 
+                className="w-6 h-6 rounded-full bg-muted overflow-hidden shadow-md cursor-pointer hover:scale-105 transition-transform shrink-0"
+                onClick={() => navigate(`/artist/${album.artistId}`)}
+              >
                 <img src={getCoverUrl(album.artistId || album.id)} className="w-full h-full object-cover" />
               </div>
-              {album.artist}
-            </span>
+              <ArtistLinks 
+                artist={album.artist} 
+                artistId={album.artistId} 
+                className="text-sm"
+                linkClassName="hover:underline font-bold" 
+              />
+            </div>
             <span className="text-white/70 font-black">•</span>
             <span className="text-white/70 font-medium">{album.year}</span>
             <span className="text-white/70 font-black">•</span>
@@ -343,15 +351,12 @@ export default function AlbumDetail() {
                     {downloadedIds[song.id] && (
                         <Check className="h-3 w-3 text-[var(--success)] stroke-[3px]" />
                     )}
-                    <span 
-                      className="text-xs font-medium text-muted-foreground hover:underline hover:text-foreground truncate transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/artist/${song.artistId}`);
-                      }}
-                    >
-                      {song.artist}
-                    </span>
+                    <ArtistLinks 
+                      artist={song.artist} 
+                      artistId={song.artistId} 
+                      className="text-xs"
+                      linkClassName="font-medium text-muted-foreground hover:text-foreground no-underline hover:underline"
+                    />
                   </div>
                 </div>
 

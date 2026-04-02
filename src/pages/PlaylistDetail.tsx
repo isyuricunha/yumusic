@@ -12,6 +12,7 @@ import { useDownloadStore } from '@/store/downloadStore';
 import { downloadSong } from '@/services/downloadService';
 import { useDialogStore } from '@/store/dialogStore';
 import { useImageColor } from '@/hooks/useImageColor';
+import { ArtistLinks } from '@/components/ArtistLinks';
 
 export default function PlaylistDetail() {
   const { t, i18n } = useTranslation();
@@ -241,10 +242,12 @@ export default function PlaylistDetail() {
                     "text-sm font-bold truncate transition-colors",
                     currentSong?.id === song.id ? "text-primary" : "text-white"
                   )}>{song.title}</span>
-                  <span className="text-xs text-muted-foreground truncate hover:text-white transition-colors" 
-                        onClick={(e) => { e.stopPropagation(); navigate(`/artist/${song.artistId}`); }}>
-                    {song.artist}
-                  </span>
+                  <ArtistLinks 
+                    artist={song.artist} 
+                    artistId={song.artistId} 
+                    className="text-xs"
+                    linkClassName="text-muted-foreground hover:text-white no-underline hover:underline font-medium"
+                  />
                 </div>
               </div>
 

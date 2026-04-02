@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 import { useNavigate } from 'react-router';
+import { ArtistLinks } from '@/components/ArtistLinks';
 
 export function PlayerBar() {
   const { t } = useTranslation();
@@ -104,12 +105,12 @@ export function PlayerBar() {
           >
             {currentSong ? currentSong.title : t('player.not_playing')}
           </div>
-          <div 
-            className="text-[11px] text-muted-foreground hover:underline hover:text-foreground cursor-pointer truncate mt-0.5 transition-colors"
-            onClick={() => currentSong && navigate(`/artist/${currentSong.artistId || ''}`)}
-          >
-            {currentSong ? currentSong.artist : t('login.app_title')}
-          </div>
+          <ArtistLinks 
+            artist={currentSong ? currentSong.artist : t('login.app_title')} 
+            artistId={currentSong?.artistId} 
+            className="text-[11px] h-4"
+            linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline truncate"
+          />
         </div>
         {currentSong && (
           <Button 

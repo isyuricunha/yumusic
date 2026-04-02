@@ -1,4 +1,5 @@
 import { useSearch, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { ArtistLinks } from '@/components/ArtistLinks';
 import { Play, Music, Disc, User, Search as SearchIcon } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
@@ -110,15 +111,12 @@ export default function Search() {
                           currentSong?.id === song.id ? "text-primary" : "text-foreground"
                         )}>{song.title}</span>
                         <div className="text-xs text-muted-foreground truncate space-x-1">
-                          <span 
-                            className="hover:underline cursor-pointer"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/artist/${song.artistId}`);
-                            }}
-                          >
-                            {song.artist}
-                          </span>
+                          <ArtistLinks 
+                            artist={song.artist} 
+                            artistId={song.artistId} 
+                            className="inline-flex"
+                            linkClassName="hover:underline cursor-pointer"
+                          />
                           <span>-</span>
                           <span 
                             className="hover:underline cursor-pointer"
@@ -162,15 +160,12 @@ export default function Search() {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-semibold text-sm truncate hover:underline">{album.name}</span>
-                        <span 
-                          className="text-xs text-muted-foreground truncate hover:underline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/artist/${album.artistId || ''}`);
-                          }}
-                        >
-                          {album.artist}
-                        </span>
+                        <ArtistLinks 
+                          artist={album.artist} 
+                          artistId={album.artistId} 
+                          className="text-xs"
+                          linkClassName="text-muted-foreground hover:underline"
+                        />
                       </div>
                     </div>
                   ))}

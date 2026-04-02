@@ -1,4 +1,5 @@
 import { useFavorites, useCoverArtUrl, SubsonicSong } from '@/hooks/useSubsonic';
+import { ArtistLinks } from '@/components/ArtistLinks';
 import { usePlayerStore } from '@/store/playerStore';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
@@ -76,7 +77,16 @@ export default function Favorites() {
                             </div>
                           )}
                         </span>
-                        <span className="text-xs text-muted-foreground truncate">{song.artist} - {song.album}</span>
+                        <div className="text-xs text-muted-foreground truncate flex items-center gap-1">
+                          <ArtistLinks 
+                            artist={song.artist} 
+                            artistId={song.artistId} 
+                            className="inline-flex"
+                            linkClassName="hover:underline cursor-pointer"
+                          />
+                          <span>-</span>
+                          <span className="truncate">{song.album}</span>
+                        </div>
                       </div>
 
                       {downloadingIds.has(song.id) ? (
@@ -125,7 +135,12 @@ export default function Favorites() {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-semibold text-sm truncate" title={album.name}>{album.name}</span>
-                        <span className="text-xs text-muted-foreground truncate" title={album.artist}>{album.artist}</span>
+                        <ArtistLinks 
+                          artist={album.artist} 
+                          artistId={album.artistId} 
+                          className="text-xs"
+                          linkClassName="text-muted-foreground hover:underline"
+                        />
                       </div>
                     </div>
                   ))}

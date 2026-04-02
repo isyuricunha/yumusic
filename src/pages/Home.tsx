@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { Play, User } from 'lucide-react';
 import { usePlayerStore } from '@/store/playerStore';
 import { AlbumCard } from '@/components/AlbumCard';
+import { ArtistLinks } from '@/components/ArtistLinks';
 import { useConfigStore } from '@/store/configStore';
 import { cn } from '@/lib/utils';
 export default function Home() {
@@ -228,9 +229,18 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-bold text-white line-clamp-1 truncate">{item.name}</span>
-                  <span className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-0.5">
-                    {item.type === 'artist' ? t('common.artist') : t('common.album')}
-                  </span>
+                  {item.type === 'artist' ? (
+                    <span className="text-xs text-muted-foreground uppercase tracking-widest font-bold mt-0.5">
+                      {t('common.artist')}
+                    </span>
+                  ) : (
+                    <ArtistLinks 
+                      artist={item.artist || ''} 
+                      artistId={item.artistId} 
+                      className="text-xs mt-0.5"
+                      linkClassName="text-muted-foreground hover:text-white no-underline hover:underline font-bold uppercase tracking-widest"
+                    />
+                  )}
                 </div>
               </div>
             ))}

@@ -4,6 +4,7 @@ import { useCoverArtUrl } from '@/hooks/useSubsonic';
 import { cn } from '@/lib/utils';
 import { X, Play, Music, Trash2, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ArtistLinks } from '@/components/ArtistLinks';
 import { useTranslation } from 'react-i18next';
 
 export function QueueDrawer() {
@@ -124,9 +125,12 @@ export function QueueDrawer() {
                       <span className="text-sm font-bold truncate group-hover:text-primary transition-colors pr-2">
                         {song.title}
                       </span>
-                      <span className="text-[11px] text-muted-foreground truncate font-medium">
-                        {song.artist}
-                      </span>
+                      <ArtistLinks 
+                        artist={song.artist} 
+                        artistId={song.artistId} 
+                        className="text-[11px]"
+                        linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline font-medium"
+                      />
                     </div>
 
                     <div className="items-center gap-2 hidden group-hover:flex pr-1 transition-all">
