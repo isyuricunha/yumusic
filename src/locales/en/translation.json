@@ -90,6 +90,13 @@
     "notifications": {
       "download_complete": "Download Complete",
       "download_ready": "{{count}} songs ready for offline listening!"
+    },
+    "you": "You",
+    "offline_songs_one": "1 offline song",
+    "offline_songs_other": "{{count}} offline songs",
+    "units": {
+      "mb": "MB",
+      "gb": "GB"
     }
   },
   "home": {
@@ -109,7 +116,8 @@
     "daily_mix_5_desc": "New musical horizons. Music for those who love discovering the unexpected.",
     "daily_mix_6_desc": "Hypnotic beats to accompany the moon. Where music and mystery meet.",
     "jump_back_in": "Jump back in",
-    "shuffle_play": "Shuffle play"
+    "shuffle_play": "Shuffle play",
+    "daily_mix_title": "Daily Mix {{num}}"
   },
   "sidebar": {
     "menu": "Menu",
@@ -240,7 +248,8 @@
     "songs_in_queue_other": "{{count}} songs in queue",
     "lyrics": "Lyrics",
     "lyrics_not_found": "Lyrics not found.",
-    "lyrics_loading": "Loading lyrics..."
+    "lyrics_loading": "Loading lyrics...",
+    "immersive_experience": "YuMusic Immersive Audio Experience"
   },
   "library": {
     "all_artists": "All Artists",

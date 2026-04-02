@@ -44,9 +44,9 @@ export default function Settings() {
 
   useEffect(() => {
     calculateTotalDownloadSize().then(size => {
-      if (size === 0) setTotalDiskUsage('0 MB');
-      else if (size < 1024 * 1024 * 1024) setTotalDiskUsage(`${(size / (1024 * 1024)).toFixed(1)} MB`);
-      else setTotalDiskUsage(`${(size / (1024 * 1024 * 1024)).toFixed(1)} GB`);
+      if (size === 0) setTotalDiskUsage(`0 ${t('common.units.mb')}`);
+      else if (size < 1024 * 1024 * 1024) setTotalDiskUsage(`${(size / (1024 * 1024)).toFixed(1)} ${t('common.units.mb')}`);
+      else setTotalDiskUsage(`${(size / (1024 * 1024 * 1024)).toFixed(1)} ${t('common.units.gb')}`);
     });
     getVersion().then(v => setAppVersion(v)).catch(() => {});
   }, []);

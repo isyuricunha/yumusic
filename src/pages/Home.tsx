@@ -58,7 +58,7 @@ export default function Home() {
       
       return {
         id: `mix-${num}`,
-        name: `Daily Mix ${num}`,
+        name: t('home.daily_mix_title', { num }),
         description: t(`home.daily_mix_${num}_desc`),
         songs: mixSongs,
         image: `/daily_mix_${num}.png`
@@ -129,7 +129,7 @@ export default function Home() {
         <div className="flex items-end justify-between mb-2">
           <div className="flex flex-col">
             <span className="text-[10px] uppercase tracking-[0.1em] font-bold text-muted-foreground leading-none">{t('home.made_for')}</span>
-            <h2 className="text-3xl font-black tracking-tight text-white mt-1">{config?.username || 'You'}</h2>
+            <h2 className="text-3xl font-black tracking-tight text-white mt-1">{config?.username || t('common.you')}</h2>
           </div>
           <button className="text-xs font-bold text-muted-foreground hover:text-white transition-colors mb-1">{t('common.show_all')}</button>
         </div>

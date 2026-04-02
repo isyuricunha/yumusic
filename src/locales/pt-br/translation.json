@@ -90,6 +90,13 @@
     "notifications": {
       "download_complete": "Download Concluído",
       "download_ready": "{{count}} músicas prontas para ouvir offline!"
+    },
+    "you": "Você",
+    "offline_songs_one": "1 música offline",
+    "offline_songs_other": "{{count}} músicas offline",
+    "units": {
+      "mb": "MB",
+      "gb": "GB"
     }
   },
   "home": {
@@ -109,7 +116,8 @@
     "daily_mix_5_desc": "Novos horizontes musicais. Música para quem gosta de descobrir o inesperado.",
     "daily_mix_6_desc": "Batidas hipnóticas para acompanhar a lua. Onde a música e o mistério se encontram.",
     "jump_back_in": "Ouvir novamente",
-    "shuffle_play": "Ordem aleatória"
+    "shuffle_play": "Ordem aleatória",
+    "daily_mix_title": "Mix Diário {{num}}"
   },
   "sidebar": {
     "menu": "Menu",
@@ -240,7 +248,8 @@
     "songs_in_queue_other": "{{count}} músicas na fila",
     "lyrics": "Letras",
     "lyrics_not_found": "Letras não encontradas.",
-    "lyrics_loading": "Buscando letras..."
+    "lyrics_loading": "Buscando letras...",
+    "immersive_experience": "Experiência de Áudio Imersiva YuMusic"
   },
   "library": {
     "all_artists": "Todos os Artistas",

@@ -211,7 +211,7 @@ export function Sidebar() {
             {filter === 'downloads' && !isCollapsed && Object.keys(downloadedIds).length > 0 && (
                <div className="px-3 pb-2 flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                    {Object.keys(downloadedIds).length} {t('common.offline')}
+                    {t('common.offline_songs', { count: Object.keys(downloadedIds).length })}
                   </span>
                   <Button 
                     variant="ghost" 

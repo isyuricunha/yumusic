@@ -113,7 +113,7 @@ export function LyricsOverlay({ song, isOpen, onClose }: LyricsOverlayProps) {
       {/* Footer Info */}
       <div className="absolute bottom-0 inset-x-0 p-8 flex justify-center pointer-events-none">
          <p className="text-white/20 text-[10px] uppercase tracking-widest font-bold">
-            YuMusic Immersive Audio Experience
+            {t('player.immersive_experience')}
          </p>
       </div>
     </div>
