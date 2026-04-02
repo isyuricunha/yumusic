@@ -376,7 +376,16 @@ export default function AlbumDetail() {
 
           <div className="mt-12 px-4 opacity-40 hover:opacity-100 transition-opacity">
             <p className="text-xs font-bold">{album.year}</p>
-            <p className="text-[10px] mt-1 uppercase tracking-tighter">© {album.artist} • {t('common.distributed_by')} {t('login.app_title')}</p>
+            <p className="text-[10px] mt-1 uppercase tracking-tighter">
+              © {album.artist} • {t('common.distributed_by')} {
+                album.publisher || 
+                album.label || 
+                album.song?.[0]?.publisher || 
+                album.song?.[0]?.label || 
+                album.song?.[0]?.encodedBy || 
+                t('login.app_title')
+              }
+            </p>
           </div>
 
           {albumInfo?.notes && (

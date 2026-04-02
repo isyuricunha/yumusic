@@ -22,6 +22,8 @@ export interface SubsonicAlbum {
   duration: number;
   year?: number;
   artists?: { id: string; name: string }[];
+  publisher?: string;
+  label?: string;
 }
 
 export interface SubsonicSong {
@@ -39,6 +41,9 @@ export interface SubsonicSong {
   type?: string; // For distinguishing Podcasts/Radio
   streamUrl?: string; // For external sources (RSS, Direct Links)
   artists?: { id: string; name: string }[];
+  publisher?: string;
+  label?: string;
+  encodedBy?: string;
 }
 
 export interface SubsonicPodcast {
