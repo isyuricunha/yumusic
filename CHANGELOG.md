@@ -1,3 +1,10 @@
+## [1.14.0](https://github.com/isyuricunha/yumusic/compare/v1.13.0...v1.14.0) (2026-04-02)
+
+### ✨ Features
+
+* implement internationalization support and add new UI components for album details, lyrics, and player controls ([0e930af](https://github.com/isyuricunha/yumusic/commit/0e930aff816df02da393538d217ac369181e9132))
+* **ui:** implement dynamic distributor/label metadata in album detail ([19d7733](https://github.com/isyuricunha/yumusic/commit/19d7733d7369aaec583fb5c0e6e4407467a9ffca))
+
 ## [1.13.0](https://github.com/isyuricunha/yumusic/compare/v1.12.0...v1.13.0) (2026-04-02)
 
 ### ✨ Features
