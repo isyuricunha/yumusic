@@ -1,3 +1,18 @@
+## [1.12.0](https://github.com/isyuricunha/yumusic/compare/v1.11.0...v1.12.0) (2026-04-02)
+
+### ✨ Features
+
+* **home:** increase Daily Mix pool to 180 songs (30 per mix) ([6aeda1b](https://github.com/isyuricunha/yumusic/commit/6aeda1b4bf64c115d0915ba315a423a321c79ded))
+* **ui:** implement multi-artist splitting and navigation using ArtistLinks component ([65845ef](https://github.com/isyuricunha/yumusic/commit/65845efdb0a0a7ac15022649b0d4704a75af6897))
+
+### 🐛 Bug Fixes
+
+* **player:** resolve QueueDrawer scrolling issue and fix i18n pluralization ([c678417](https://github.com/isyuricunha/yumusic/commit/c678417485ce6f8990dd12a60098c00014bbdd68))
+* **ui:** eliminate navigation loop by proactively cleaning up search parameters ([8e1292e](https://github.com/isyuricunha/yumusic/commit/8e1292e2d1413b0d65d7b815bb23da8e089029c7))
+* **ui:** prevent search parameter from sticking to non-search routes and fix navigation history ([f6dddbc](https://github.com/isyuricunha/yumusic/commit/f6dddbc747ed73e06bf057b08a3a1dea018b2896))
+* **ui:** resolve search navigation reset and enhance multi-artist support using direct IDs ([ab3a345](https://github.com/isyuricunha/yumusic/commit/ab3a34557e357554c209c299fcae9c1916d7e271))
+* **ui:** stabilize search logic v3 and history cleanup ([ed0e94d](https://github.com/isyuricunha/yumusic/commit/ed0e94d68150ff303081c885526ddfb88d9e2e77))
+
 ## [1.11.0](https://github.com/isyuricunha/yumusic/compare/v1.10.0...v1.11.0) (2026-04-01)
 
 ### ✨ Features
