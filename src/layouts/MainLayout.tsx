@@ -34,15 +34,16 @@ export function MainLayout() {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-  // Sync searchQuery with URL params ONLY on /search page
+  // Sync searchQuery with URL params ONLY on /search page AND only if 'q' is present.
+  // This prevents the search bar from being wiped when first navigating to /search.
   useEffect(() => {
     if (location.pathname !== '/search') return;
     
-    const q = searchParams.get('q') || '';
-    if (q !== searchQuery) {
+    const q = searchParams.get('q');
+    if (q !== null && q !== searchQuery) {
       setSearchQuery(q);
     }
-  }, [searchParams, location.pathname, searchQuery]);
+  }, [searchParams, location.pathname]);
 
   // Proactive URL Cleanup: Remove any ?q= from non-search routes using replace: true
   // This cleans up old dirty history entries without adding new ones.
@@ -52,21 +53,24 @@ export function MainLayout() {
     }
   }, [location.pathname, searchParams, setSearchParams]);
 
-  // Update URL ONLY when on the search page
+  // Update URL ONLY when on the search page and debounced query has changed
   useEffect(() => {
     if (location.pathname !== '/search') return;
     
     const currentParam = searchParams.get('q') || '';
     
-    if (debouncedSearchQuery && debouncedSearchQuery !== currentParam) {
-      setSearchParams({ q: debouncedSearchQuery }, { replace: true });
-      if (debouncedSearchQuery.length > 2) {
-        addRecentSearch(debouncedSearchQuery);
+    if (debouncedSearchQuery !== currentParam) {
+      if (debouncedSearchQuery) {
+        setSearchParams({ q: debouncedSearchQuery }, { replace: true });
+        if (debouncedSearchQuery.length > 2) {
+          addRecentSearch(debouncedSearchQuery);
+        }
+      } else if (currentParam) {
+        // If search was cleared manually
+        setSearchParams({}, { replace: true });
       }
-    } else if (!searchQuery && currentParam) {
-      setSearchParams({}, { replace: true });
     }
-  }, [debouncedSearchQuery, setSearchParams, location.pathname, addRecentSearch, searchParams, searchQuery]);
+  }, [debouncedSearchQuery, setSearchParams, location.pathname, addRecentSearch]);
 
   // Keyboard Shortcuts
   useEffect(() => {
