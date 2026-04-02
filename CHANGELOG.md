@@ -1,3 +1,9 @@
+## [1.13.0](https://github.com/isyuricunha/yumusic/compare/v1.12.0...v1.13.0) (2026-04-02)
+
+### ✨ Features
+
+* **ui:** personalize Daily Mixes with unique artwork and fun descriptions ([eba2779](https://github.com/isyuricunha/yumusic/commit/eba277934569c0e355f91f85cae6d20f0e794d7a))
+
 ## [1.12.0](https://github.com/isyuricunha/yumusic/compare/v1.11.0...v1.12.0) (2026-04-02)
 
 ### ✨ Features
