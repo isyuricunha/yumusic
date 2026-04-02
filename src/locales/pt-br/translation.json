@@ -237,7 +237,10 @@
     "queue_empty": "Sua fila está vazia",
     "queue_empty_desc": "Adicione músicas de álbuns ou playlists para ouvir sem parar.",
     "songs_in_queue_one": "1 música na fila",
-    "songs_in_queue_other": "{{count}} músicas na fila"
+    "songs_in_queue_other": "{{count}} músicas na fila",
+    "lyrics": "Letras",
+    "lyrics_not_found": "Letras não encontradas.",
+    "lyrics_loading": "Buscando letras..."
   },
   "library": {
     "all_artists": "Todos os Artistas",

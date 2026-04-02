@@ -237,7 +237,10 @@
     "queue_empty": "Your queue is empty",
     "queue_empty_desc": "Add songs from albums or playlists to listen without stopping.",
     "songs_in_queue_one": "1 song in queue",
-    "songs_in_queue_other": "{{count}} songs in queue"
+    "songs_in_queue_other": "{{count}} songs in queue",
+    "lyrics": "Lyrics",
+    "lyrics_not_found": "Lyrics not found.",
+    "lyrics_loading": "Loading lyrics..."
   },
   "library": {
     "all_artists": "All Artists",

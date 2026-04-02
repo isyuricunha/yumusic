@@ -24,6 +24,7 @@ export interface SubsonicAlbum {
   artists?: { id: string; name: string }[];
   publisher?: string;
   label?: string;
+  recordLabels?: string[];
 }
 
 export interface SubsonicSong {
@@ -59,6 +60,31 @@ export interface SubsonicRadioStation {
   id: string;
   name: string;
   streamUrl: string;
+}
+
+export interface SubsonicLyrics {
+  artist?: string;
+  title?: string;
+  value?: string;
+}
+
+export function useLyrics(artist?: string, title?: string) {
+  const config = useConfigStore((state) => state.config);
+  return useQuery({
+    queryKey: ['lyrics', artist, title, config?.serverUrl],
+    queryFn: async () => {
+      if (!config || !artist || !title) return null;
+      try {
+        const res = await fetchSubsonic('getLyrics', config, { artist, title });
+        return (res?.lyrics || null) as SubsonicLyrics;
+      } catch (e) {
+        console.warn('Lyrics not found or failed', e);
+        return null;
+      }
+    },
+    enabled: !!config && !!artist && !!title,
+    staleTime: 1000 * 60 * 60, // Cache lyrics for 1 hour
+  });
 }
 
 export interface SubsonicPlaylist {

@@ -1,4 +1,6 @@
-import { Play, Pause, SkipBack, SkipForward, Volume2, Maximize, Repeat, Shuffle, Music, Heart, ListMusic } from 'lucide-react';
+import { useState } from 'react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, Maximize, Repeat, Shuffle, Music, Heart, ListMusic, Mic2 } from 'lucide-react';
+import { LyricsOverlay } from './LyricsOverlay';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/store/playerStore';
@@ -14,6 +16,7 @@ import { useNavigate } from 'react-router';
 import { ArtistLinks } from '@/components/ArtistLinks';
 
 export function PlayerBar() {
+  const [isLyricsVisible, setIsLyricsVisible] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { 
@@ -225,6 +228,19 @@ export function PlayerBar() {
         >
            <ListMusic className="h-4 w-4" />
         </Button>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className={cn(
+            "h-8 w-8 transition-all",
+            isLyricsVisible ? "text-primary" : "text-muted-foreground hover:text-foreground opacity-70 hover:opacity-100"
+          )}
+          onClick={() => setIsLyricsVisible(!isLyricsVisible)}
+          title={t('player.lyrics')}
+          disabled={!currentSong}
+        >
+           <Mic2 className="h-4 w-4" />
+        </Button>
         <div className="flex items-center space-x-2 group">
           <Volume2 className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
           <div className="w-24">
@@ -240,6 +256,11 @@ export function PlayerBar() {
         <MaxmizeIcon />
       </div>
 
+      <LyricsOverlay 
+        song={currentSong} 
+        isOpen={isLyricsVisible} 
+        onClose={() => setIsLyricsVisible(false)} 
+      />
     </div>
   );
 }

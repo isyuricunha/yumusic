@@ -378,6 +378,7 @@ export default function AlbumDetail() {
             <p className="text-xs font-bold">{album.year}</p>
             <p className="text-[10px] mt-1 uppercase tracking-tighter">
               © {album.artist} • {t('common.distributed_by')} {
+                album.recordLabels?.[0] ||
                 album.publisher || 
                 album.label || 
                 album.song?.[0]?.publisher || 
