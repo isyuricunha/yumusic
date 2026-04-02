@@ -4,7 +4,6 @@ import { useCoverArtUrl } from '@/hooks/useSubsonic';
 import { cn } from '@/lib/utils';
 import { X, Play, Music, Trash2, ListMusic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTranslation } from 'react-i18next';
 
 export function QueueDrawer() {
@@ -62,7 +61,7 @@ export function QueueDrawer() {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 px-4 py-6">
+      <div className="flex-1 overflow-y-auto px-4 py-6 custom-scrollbar">
         <div className="space-y-8">
           {/* Now Playing Section */}
           {currentSong && (
@@ -167,12 +166,12 @@ export function QueueDrawer() {
             </div>
           </div>
         </div>
-      </ScrollArea>
+      </div>
       
       {nextUp.length > 0 && (
           <div className="p-4 border-t border-white/10 bg-black/40 text-center">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
-                 {t('player.songs_in_queue', { count: nextUp.length })}
+                 {t('player.songs_in_queue_other', { count: nextUp.length })}
               </span>
           </div>
       )}
