@@ -21,7 +21,7 @@ export default function Home() {
   const { data: recentAlbums, isLoading: loadingRecent } = useAlbumList('newest', 10);
   const { data: frequentAlbums, isLoading: loadingFrequent } = useAlbumList('frequent', 10);
   const { data: allArtists, isLoading: loadingArtists } = useArtists();
-  const { data: randomSongs } = useRandomSongs(12);
+  const { data: randomSongs } = useRandomSongs(180);
   const { data: favorites } = useFavorites();
   const getCoverArt = useCoverArtUrl();
   const config = useConfigStore((state) => state.config);
@@ -67,14 +67,22 @@ export default function Home() {
       '100% 100%' // Bottom Right
     ];
     
-    return [1, 2, 3, 4, 5, 6].map((num, i) => ({
-      id: `mix-${num}`,
-      name: `Daily Mix ${num}`,
-      gradient: gradients[i % gradients.length],
-      position: objectPositions[i],
-      description: t('home.made_for_you_desc')
-    }));
-  }, [t]);
+    return [1, 2, 3, 4, 5, 6].map((num, i) => {
+      // Give each mix its own pool of ~30 songs from the 180 fetched
+      const start = i * 30;
+      const end = start + 30;
+      const mixSongs = randomSongs?.slice(start, end) || [];
+      
+      return {
+        id: `mix-${num}`,
+        name: `Daily Mix ${num}`,
+        gradient: gradients[i % gradients.length],
+        position: objectPositions[i],
+        description: t('home.made_for_you_desc'),
+        songs: mixSongs
+      };
+    });
+  }, [t, randomSongs]);
 
   const handleQuickPlay = async (albumId: string) => {
     if (!config) return;
@@ -150,9 +158,9 @@ export default function Home() {
               key={mix.id}
               className="group flex flex-col space-y-3 cursor-pointer shrink-0 w-40 md:w-48"
               onClick={() => {
-                if (randomSongs && config) {
-                  setQueue(randomSongs);
-                  setSong(randomSongs[Math.floor(Math.random() * randomSongs.length)], config);
+                if (mix.songs.length > 0 && config) {
+                  setQueue(mix.songs);
+                  setSong(mix.songs[Math.floor(Math.random() * mix.songs.length)], config);
                 }
               }}
             >
