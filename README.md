@@ -99,6 +99,10 @@ AGPL-3.0
 ---
 
 <img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/38b2c892-3e53-4285-a2e3-6af1e5d75576" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/4db3620f-ea90-4a3c-a2e5-77b4da9aaa11" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/97969baa-ab62-4669-be64-df6e0523b36c" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/735fe727-fc39-4aca-b898-e722382ec330" />
+<img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/554f3b39-04ef-4867-9f26-524b944c6b7f" />
 <img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/9829884f-5fb8-4459-a54a-8e3d9c8fa5c5" />
 <img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/fc4c21a4-609d-4eed-89cb-5d4c6ff5e2fa" />
 <img width="512" height="512" alt="image" src="https://github.com/user-attachments/assets/8ba92779-752a-4b07-85ce-c9183c49a0e3" />
