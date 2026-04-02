@@ -44,17 +44,19 @@ export function MainLayout() {
 
   // Update URL when debounced query changes
   useEffect(() => {
-    // Only update if the query is different from the current URL,
-    // to avoid overwriting external navigations (like ArtistLinks)
+    // Only update searchParams if we are already on the search page.
+    // If you type from another page, the onChange already navigates you to /search.
+    if (location.pathname !== '/search') return;
+    
     const currentParam = searchParams.get('q') || '';
     
     if (debouncedSearchQuery && debouncedSearchQuery !== currentParam) {
-      setSearchParams({ q: debouncedSearchQuery }, { replace: location.pathname === '/search' });
+      setSearchParams({ q: debouncedSearchQuery }, { replace: true });
       // Add to recent searches if it's more than a single char and seems like a deliberate search
       if (debouncedSearchQuery.length > 2) {
         addRecentSearch(debouncedSearchQuery);
       }
-    } else if (location.pathname === '/search' && !searchQuery && currentParam) {
+    } else if (!searchQuery && currentParam) {
       setSearchParams({}, { replace: true });
     }
   }, [debouncedSearchQuery, setSearchParams, location.pathname, addRecentSearch, searchParams, searchQuery]);
