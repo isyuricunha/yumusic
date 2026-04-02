@@ -34,25 +34,32 @@ export function MainLayout() {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-  // Sync searchQuery with URL params when they change externally (e.g. back button)
+  // Sync searchQuery with URL params ONLY on /search page
   useEffect(() => {
+    if (location.pathname !== '/search') return;
+    
     const q = searchParams.get('q') || '';
     if (q !== searchQuery) {
       setSearchQuery(q);
     }
-  }, [searchParams]);
+  }, [searchParams, location.pathname, searchQuery]);
 
-  // Update URL when debounced query changes
+  // Proactive URL Cleanup: Remove any ?q= from non-search routes using replace: true
+  // This cleans up old dirty history entries without adding new ones.
   useEffect(() => {
-    // Only update searchParams if we are already on the search page.
-    // If you type from another page, the onChange already navigates you to /search.
+    if (location.pathname !== '/search' && searchParams.has('q')) {
+      setSearchParams({}, { replace: true });
+    }
+  }, [location.pathname, searchParams, setSearchParams]);
+
+  // Update URL ONLY when on the search page
+  useEffect(() => {
     if (location.pathname !== '/search') return;
     
     const currentParam = searchParams.get('q') || '';
     
     if (debouncedSearchQuery && debouncedSearchQuery !== currentParam) {
       setSearchParams({ q: debouncedSearchQuery }, { replace: true });
-      // Add to recent searches if it's more than a single char and seems like a deliberate search
       if (debouncedSearchQuery.length > 2) {
         addRecentSearch(debouncedSearchQuery);
       }
