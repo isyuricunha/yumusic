@@ -10,6 +10,7 @@ interface AlbumCardProps {
     artistId?: string;
     coverArt?: string;
     year?: number;
+    artists?: { id: string; name: string }[];
   };
   subtitle?: string;
   getCoverArt: (id: string) => string | undefined;
@@ -60,6 +61,7 @@ export const AlbumCard: React.FC<AlbumCardProps> = ({ album, subtitle, getCoverA
           <ArtistLinks 
             artist={album.artist} 
             artistId={album.artistId} 
+            artists={album.artists}
             className="text-xs mt-1"
             linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline font-medium"
           />

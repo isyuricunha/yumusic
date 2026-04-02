@@ -237,6 +237,7 @@ export default function Home() {
                     <ArtistLinks 
                       artist={item.artist || ''} 
                       artistId={item.artistId} 
+                      artists={item.artists}
                       className="text-xs mt-0.5"
                       linkClassName="text-muted-foreground hover:text-white no-underline hover:underline font-bold uppercase tracking-widest"
                     />

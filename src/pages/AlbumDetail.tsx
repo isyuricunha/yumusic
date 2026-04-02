@@ -196,6 +196,7 @@ export default function AlbumDetail() {
               <ArtistLinks 
                 artist={album.artist} 
                 artistId={album.artistId} 
+                artists={album.artists}
                 className="text-sm"
                 linkClassName="hover:underline font-bold" 
               />
@@ -354,6 +355,7 @@ export default function AlbumDetail() {
                     <ArtistLinks 
                       artist={song.artist} 
                       artistId={song.artistId} 
+                      artists={song.artists}
                       className="text-xs"
                       linkClassName="font-medium text-muted-foreground hover:text-foreground no-underline hover:underline"
                     />

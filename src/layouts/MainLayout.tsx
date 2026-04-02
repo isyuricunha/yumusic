@@ -44,16 +44,20 @@ export function MainLayout() {
 
   // Update URL when debounced query changes
   useEffect(() => {
-    if (debouncedSearchQuery) {
+    // Only update if the query is different from the current URL,
+    // to avoid overwriting external navigations (like ArtistLinks)
+    const currentParam = searchParams.get('q') || '';
+    
+    if (debouncedSearchQuery && debouncedSearchQuery !== currentParam) {
       setSearchParams({ q: debouncedSearchQuery }, { replace: location.pathname === '/search' });
       // Add to recent searches if it's more than a single char and seems like a deliberate search
       if (debouncedSearchQuery.length > 2) {
         addRecentSearch(debouncedSearchQuery);
       }
-    } else if (location.pathname === '/search' && !searchQuery) {
+    } else if (location.pathname === '/search' && !searchQuery && currentParam) {
       setSearchParams({}, { replace: true });
     }
-  }, [debouncedSearchQuery, setSearchParams, location.pathname, addRecentSearch]);
+  }, [debouncedSearchQuery, setSearchParams, location.pathname, addRecentSearch, searchParams, searchQuery]);
 
   // Keyboard Shortcuts
   useEffect(() => {

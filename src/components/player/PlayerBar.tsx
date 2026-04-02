@@ -108,6 +108,7 @@ export function PlayerBar() {
           <ArtistLinks 
             artist={currentSong ? currentSong.artist : t('login.app_title')} 
             artistId={currentSong?.artistId} 
+            artists={currentSong?.artists}
             className="text-[11px] h-4"
             linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline truncate"
           />

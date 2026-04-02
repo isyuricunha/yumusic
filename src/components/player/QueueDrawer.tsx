@@ -128,6 +128,7 @@ export function QueueDrawer() {
                       <ArtistLinks 
                         artist={song.artist} 
                         artistId={song.artistId} 
+                        artists={song.artists}
                         className="text-[11px]"
                         linkClassName="text-muted-foreground hover:text-foreground no-underline hover:underline font-medium"
                       />

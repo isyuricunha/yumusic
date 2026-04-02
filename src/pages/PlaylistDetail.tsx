@@ -245,6 +245,7 @@ export default function PlaylistDetail() {
                   <ArtistLinks 
                     artist={song.artist} 
                     artistId={song.artistId} 
+                    artists={song.artists}
                     className="text-xs"
                     linkClassName="text-muted-foreground hover:text-white no-underline hover:underline font-medium"
                   />

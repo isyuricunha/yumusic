@@ -114,6 +114,7 @@ export default function Search() {
                           <ArtistLinks 
                             artist={song.artist} 
                             artistId={song.artistId} 
+                            artists={song.artists}
                             className="inline-flex"
                             linkClassName="hover:underline cursor-pointer"
                           />
@@ -163,6 +164,7 @@ export default function Search() {
                         <ArtistLinks 
                           artist={album.artist} 
                           artistId={album.artistId} 
+                          artists={album.artists}
                           className="text-xs"
                           linkClassName="text-muted-foreground hover:underline"
                         />
