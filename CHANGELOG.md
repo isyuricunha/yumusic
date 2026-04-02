@@ -1,3 +1,10 @@
+## [1.15.0](https://github.com/isyuricunha/yumusic/compare/v1.14.0...v1.15.0) (2026-04-02)
+
+### ✨ Features
+
+* **i18n:** centralize and translate missing keys ([a9bb474](https://github.com/isyuricunha/yumusic/commit/a9bb474ed68f4113189d085a85330ce407538570))
+* **i18n:** round 2 of localizing visual strings and standardizing loading states ([3957c17](https://github.com/isyuricunha/yumusic/commit/3957c17eeffe81af26e942b19c1a3a90afa3f7e0))
+
 ## [1.14.0](https://github.com/isyuricunha/yumusic/compare/v1.13.0...v1.14.0) (2026-04-02)
 
 ### ✨ Features
